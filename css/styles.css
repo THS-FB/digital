@@ -7,6 +7,7 @@
   --white: #ffffff;
   --gray-100: #f4f4f4;
   --gray-200: #e4e4e4;
+  --gray-300: #d2d2d2;
   --gray-400: #aaaaaa;
   --gray-700: #4a4a4a;
   --gray-900: #222222;
@@ -102,6 +103,44 @@ nav a:hover {
   opacity: 0.9;
 }
 
+.home-content {
+  padding: 36px 20px 48px;
+}
+
+.welcome-card {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 32px;
+  background: var(--white);
+  border: 1px solid var(--gray-300);
+  border-top: 5px solid var(--tunstall-red);
+  border-radius: 8px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  padding: 0;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--tunstall-red);
+}
+
+.welcome-card h2 {
+  margin: 0 0 14px;
+  font-size: 2rem;
+  color: var(--gray-900);
+}
+
+.welcome-card p {
+  margin: 0;
+  padding: 0;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--gray-700);
+}
+
 @media (max-width: 600px) {
   .site-header {
     padding: 28px 16px 22px;
@@ -131,5 +170,17 @@ nav a:hover {
   nav a {
     width: 100%;
     text-align: center;
+  }
+
+  .home-content {
+    padding: 24px 16px 36px;
+  }
+
+  .welcome-card {
+    padding: 24px 20px;
+  }
+
+  .welcome-card h2 {
+    font-size: 1.65rem;
   }
 }
