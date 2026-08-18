@@ -1,3 +1,35 @@
+const menuToggle = document.getElementById("menu-toggle");
+const siteMenu = document.getElementById("site-menu");
+
+if (menuToggle && siteMenu) {
+  menuToggle.addEventListener("click", () => {
+    const isOpen = siteMenu.classList.toggle("is-open");
+
+    menuToggle.setAttribute(
+      "aria-expanded",
+      isOpen ? "true" : "false"
+    );
+  });
+
+  siteMenu.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      siteMenu.classList.remove("is-open");
+      menuToggle.setAttribute("aria-expanded", "false");
+    });
+  });
+
+  document.addEventListener("click", (event) => {
+    if (
+      siteMenu.classList.contains("is-open") &&
+      !siteMenu.contains(event.target) &&
+      !menuToggle.contains(event.target)
+    ) {
+      siteMenu.classList.remove("is-open");
+      menuToggle.setAttribute("aria-expanded", "false");
+    }
+  });
+}
+
 const shareScheduleButton = document.getElementById("share-schedule");
 
 if (shareScheduleButton) {
