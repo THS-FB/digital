@@ -9,25 +9,35 @@
   <link rel="stylesheet" href="../css/styles.css">
 
   <style>
+    /* =========================
+       ROSTER PAGE
+       MOBILE FIRST
+       ========================= */
+
     .roster-page {
       background: #f4f4f4;
-      padding: 36px 18px 60px;
+      padding: 32px 14px 56px;
     }
 
     .roster-container {
-      width: min(1180px, 100%);
+      width: 100%;
+      max-width: 1180px;
       margin: 0 auto;
     }
 
+    /* =========================
+       PAGE TITLE
+       ========================= */
+
     .roster-intro {
       text-align: center;
-      margin-bottom: 36px;
+      margin-bottom: 40px;
     }
 
     .roster-eyebrow {
       margin: 0 0 6px;
       color: #6d6e71;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       font-weight: 800;
       letter-spacing: 0.12em;
       text-transform: uppercase;
@@ -36,29 +46,25 @@
     .roster-title {
       margin: 0;
       color: #c8102e;
-      font-size: clamp(2.4rem, 7vw, 4.6rem);
+      font-size: clamp(2.35rem, 12vw, 4.6rem);
       font-weight: 900;
       line-height: 0.95;
       text-transform: uppercase;
     }
 
-    .roster-subtitle {
-      max-width: 700px;
-      margin: 16px auto 0;
-      color: #555;
-      font-size: 1rem;
-      line-height: 1.6;
-    }
+    /* =========================
+       TEAM SECTIONS
+       ========================= */
 
     .team-section {
-      margin-top: 46px;
+      margin-top: 44px;
     }
 
     .team-heading {
       display: flex;
       align-items: center;
-      gap: 14px;
-      margin-bottom: 22px;
+      gap: 10px;
+      margin-bottom: 16px;
     }
 
     .team-heading::before,
@@ -71,79 +77,157 @@
 
     .team-heading h2 {
       margin: 0;
-      color: #333;
-      font-size: clamp(1.55rem, 4vw, 2.4rem);
+      color: #333333;
+      font-size: clamp(1.55rem, 7vw, 2.4rem);
       font-weight: 900;
+      line-height: 1;
       text-align: center;
       text-transform: uppercase;
       white-space: nowrap;
     }
 
-    .team-description {
-      max-width: 700px;
-      margin: -8px auto 24px;
-      color: #666;
-      text-align: center;
-      font-size: 0.92rem;
-      line-height: 1.5;
+    /* =========================
+       VIEW CONTROLS
+       ========================= */
+
+    .roster-view-controls {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      margin: 0 auto 20px;
     }
+
+    .view-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+
+      min-width: 122px;
+      padding: 10px 14px;
+
+      background: #ffffff;
+      border: 1px solid #cccccc;
+
+      color: #666666;
+
+      font: inherit;
+      font-size: 0.82rem;
+      font-weight: 800;
+
+      cursor: pointer;
+
+      transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .view-button:first-child {
+      border-radius: 7px 0 0 7px;
+    }
+
+    .view-button:last-child {
+      border-radius: 0 7px 7px 0;
+      border-left: 0;
+    }
+
+    .view-button.active {
+      background: #c8102e;
+      border-color: #c8102e;
+      color: #ffffff;
+    }
+
+    .view-icon {
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    /* =========================
+       CARD VIEW
+       ========================= */
 
     .roster-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
+      gap: 10px;
     }
 
     .player-card {
       position: relative;
-      min-height: 160px;
-      padding: 20px 12px 18px;
-      background: #fff;
-      border: 1px solid #ddd;
+
+      min-width: 0;
+      min-height: 150px;
+
+      padding: 18px 8px 16px;
+
+      background: #ffffff;
+
+      border: 1px solid #dddddd;
       border-top: 4px solid #c8102e;
       border-radius: 8px;
+
       box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+
       text-align: center;
     }
 
     .player-number {
       margin-bottom: 7px;
+
       color: #c8102e;
-      font-size: 2.4rem;
+
+      font-size: 2.25rem;
       font-weight: 900;
       line-height: 1;
     }
 
     .player-name {
       margin: 0;
+
       color: #252525;
-      font-size: 1.02rem;
+
+      font-size: 0.92rem;
       font-weight: 900;
-      line-height: 1.18;
+      line-height: 1.15;
+
       text-transform: uppercase;
+      overflow-wrap: anywhere;
     }
 
     .player-position {
-      margin-top: 9px;
-      color: #666;
-      font-size: 0.8rem;
+      margin-top: 8px;
+
+      color: #666666;
+
+      font-size: 0.75rem;
       font-weight: 700;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.03em;
+
       text-transform: uppercase;
     }
 
     .player-grade {
       display: inline-block;
-      margin-top: 9px;
+
+      margin-top: 8px;
       padding: 4px 8px;
+
       background: #e6e6e8;
       border-radius: 4px;
-      color: #555;
-      font-size: 0.7rem;
+
+      color: #555555;
+
+      font-size: 0.66rem;
       font-weight: 900;
       letter-spacing: 0.08em;
+
       text-transform: uppercase;
     }
+
+    /* =========================
+       SENIOR TREATMENT
+       ========================= */
 
     .player-card.senior {
       background:
@@ -152,67 +236,141 @@
           rgba(200, 16, 46, 0.08),
           #ffffff 58%
         );
-      border-top-color: #c8102e;
     }
 
     .player-card.senior .player-grade {
       background: #c8102e;
-      color: #fff;
+      color: #ffffff;
     }
+
+    /* =========================
+       LIST VIEW
+       ========================= */
+
+    .roster-grid.list-view {
+      display: block;
+    }
+
+    .roster-grid.list-view .player-card {
+      display: grid;
+
+      grid-template-columns: 52px minmax(0, 1fr) auto;
+      grid-template-areas:
+        "number name grade"
+        "number position grade";
+
+      align-items: center;
+
+      min-height: 0;
+
+      margin-bottom: 8px;
+      padding: 12px 12px;
+
+      border-top: 1px solid #dddddd;
+      border-left: 4px solid #c8102e;
+
+      text-align: left;
+    }
+
+    .roster-grid.list-view .player-number {
+      grid-area: number;
+
+      margin: 0;
+
+      font-size: 1.75rem;
+      text-align: center;
+    }
+
+    .roster-grid.list-view .player-name {
+      grid-area: name;
+
+      padding-left: 10px;
+
+      font-size: 0.88rem;
+    }
+
+    .roster-grid.list-view .player-position {
+      grid-area: position;
+
+      margin: 3px 0 0;
+      padding-left: 10px;
+
+      font-size: 0.7rem;
+    }
+
+    .roster-grid.list-view .player-grade {
+      grid-area: grade;
+
+      margin: 0 0 0 10px;
+
+      white-space: nowrap;
+    }
+
+    /* =========================
+       NOTE
+       ========================= */
 
     .roster-note {
       margin-top: 38px;
-      padding: 18px 20px;
-      background: #fff;
+      padding: 16px;
+
+      background: #ffffff;
+
       border-left: 4px solid #c8102e;
       border-radius: 6px;
-      color: #555;
-      font-size: 0.88rem;
-      line-height: 1.6;
+
+      color: #555555;
+
+      font-size: 0.85rem;
+      line-height: 1.55;
     }
 
-    @media (max-width: 760px) {
-      .roster-page {
-        padding: 20px 12px 36px;
-      }
-
-      .roster-intro {
-        margin-bottom: 24px;
-      }
-
-      .roster-eyebrow {
-        font-size: 0.74rem;
-      }
-
-      .roster-title {
-        font-size: 2.15rem;
-      }
-
-      .roster-subtitle {
-        margin-top: 10px;
-        font-size: 0.92rem;
-      }
-
-      .team-section {
-        margin-top: 32px;
-      }
-    }
+    /* =========================
+       TABLET
+       ========================= */
 
     @media (min-width: 700px) {
       .roster-page {
-        padding: 52px 28px 72px;
+        padding: 48px 28px 70px;
       }
 
       .roster-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 16px;
+        gap: 15px;
       }
 
       .player-card {
-        min-height: 175px;
-        padding: 24px 18px;
+        min-height: 170px;
+        padding: 22px 16px;
+      }
+
+      .player-name {
+        font-size: 1rem;
+      }
+
+      .roster-grid.list-view .player-card {
+        grid-template-columns: 70px minmax(0, 1fr) 130px 70px;
+        grid-template-areas:
+          "number name position grade";
+
+        padding: 14px 18px;
+      }
+
+      .roster-grid.list-view .player-position {
+        margin: 0;
+        padding-left: 0;
+        text-align: center;
+      }
+
+      .roster-grid.list-view .player-grade {
+        margin: 0;
+        justify-self: end;
       }
     }
+
+    /* =========================
+       DESKTOP
+       ========================= */
 
     @media (min-width: 1000px) {
       .roster-grid {
@@ -252,51 +410,16 @@
 
   </header>
 
-  <nav class="site-nav" aria-label="Primary navigation">
 
-    <div class="mobile-nav-row">
-
-      <button
-        type="button"
-        class="menu-toggle"
-        id="menu-toggle"
-        aria-expanded="false"
-        aria-controls="site-menu"
-      >
-        <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M4 6h16"></path>
-          <path d="M4 12h16"></path>
-          <path d="M4 18h16"></path>
-        </svg>
-
-        <span>Menu</span>
-      </button>
-
-      <span class="mobile-current-link" aria-label="Roster">
-        <svg
-          class="mobile-current-icon"
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-        >
-          <circle cx="9" cy="8" r="3"></circle>
-          <circle cx="17" cy="9" r="2"></circle>
-          <path d="M3 20c0-4 2.7-6 6-6s6 2 6 6"></path>
-          <path d="M14 15c3 0 5 1.7 5 5"></path>
-        </svg>
-      </span>
-
-    </div>
-
-    <div class="nav-links" id="site-menu">
-      <a href="../">Home</a>
-      <a href="../schedule/">Schedule</a>
-      <a href="./" class="active">Roster</a>
-      <a href="../sponsors/">Sponsors</a>
-      <a href="../media/">Media</a>
-      <a href="../program/">Digital Program</a>
-    </div>
-
+  <nav>
+    <a href="../">Home</a>
+    <a href="../schedule/">Schedule</a>
+    <a href="../roster/" class="active">Roster</a>
+    <a href="../sponsors/">Sponsors</a>
+    <a href="../media/">Media</a>
+    <a href="../program/">Digital Program</a>
   </nav>
+
 
   <main class="roster-page">
 
@@ -312,24 +435,47 @@
           Football Roster
         </h2>
 
-        <p class="roster-subtitle">
-          Meet the student-athletes representing Tunstall Football
-          during the 2026 season.
-        </p>
-
       </section>
+
+
+      <!-- ========================= -->
+      <!-- VARSITY                  -->
+      <!-- ========================= -->
 
       <section class="team-section">
 
         <div class="team-heading">
-          <h2>Varsity Football</h2>
+          <h2>Varsity</h2>
         </div>
 
-        <p class="team-description">
-          2026 Tunstall Trojans Varsity Football
-        </p>
+        <div class="roster-view-controls">
 
-        <div class="roster-grid">
+          <button
+            class="view-button active"
+            type="button"
+            data-target="varsity-roster"
+            data-view="card"
+            aria-pressed="true"
+          >
+            <span class="view-icon">▦</span>
+            Card View
+          </button>
+
+          <button
+            class="view-button"
+            type="button"
+            data-target="varsity-roster"
+            data-view="list"
+            aria-pressed="false"
+          >
+            <span class="view-icon">☷</span>
+            List View
+          </button>
+
+        </div>
+
+
+        <div class="roster-grid" id="varsity-roster">
 
           <div class="player-card senior">
             <div class="player-number">0</div>
@@ -601,17 +747,45 @@
 
       </section>
 
+
+      <!-- ========================= -->
+      <!-- JUNIOR VARSITY           -->
+      <!-- ========================= -->
+
       <section class="team-section">
 
         <div class="team-heading">
           <h2>Junior Varsity</h2>
         </div>
 
-        <p class="team-description">
-          2026 Tunstall Trojans Junior Varsity Football
-        </p>
+        <div class="roster-view-controls">
 
-        <div class="roster-grid">
+          <button
+            class="view-button active"
+            type="button"
+            data-target="jv-roster"
+            data-view="card"
+            aria-pressed="true"
+          >
+            <span class="view-icon">▦</span>
+            Card View
+          </button>
+
+          <button
+            class="view-button"
+            type="button"
+            data-target="jv-roster"
+            data-view="list"
+            aria-pressed="false"
+          >
+            <span class="view-icon">☷</span>
+            List View
+          </button>
+
+        </div>
+
+
+        <div class="roster-grid" id="jv-roster">
 
           <div class="player-card">
             <div class="player-number">1</div>
@@ -841,6 +1015,7 @@
 
       </section>
 
+
       <div class="roster-note">
         Rosters are subject to change during the season. Player photos
         and expanded senior profiles may be added as they become available.
@@ -850,21 +1025,48 @@
 
   </main>
 
-  <footer class="site-footer">
 
-    <div class="footer-motto">
-      <span></span>
-      <p>One Team. One Town. All Trojan.</p>
-      <span></span>
-    </div>
+  <footer>
 
-    <p class="footer-copyright">
-      &copy; 2026 Tunstall High School Football
-    </p>
+    <p>ONE TEAM. ONE TOWN. ALL TROJAN.</p>
+
+    <p>&copy; 2026 Tunstall High School Football</p>
 
   </footer>
 
-  <script src="../js/app.js"></script>
+
+  <script>
+    const viewButtons = document.querySelectorAll(".view-button");
+
+    viewButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+
+        const targetId = button.dataset.target;
+        const requestedView = button.dataset.view;
+
+        const roster = document.getElementById(targetId);
+
+        const relatedButtons = document.querySelectorAll(
+          `.view-button[data-target="${targetId}"]`
+        );
+
+        relatedButtons.forEach((relatedButton) => {
+          relatedButton.classList.remove("active");
+          relatedButton.setAttribute("aria-pressed", "false");
+        });
+
+        button.classList.add("active");
+        button.setAttribute("aria-pressed", "true");
+
+        if (requestedView === "list") {
+          roster.classList.add("list-view");
+        } else {
+          roster.classList.remove("list-view");
+        }
+
+      });
+    });
+  </script>
 
 </body>
 </html>
