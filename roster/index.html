@@ -3,14 +3,307 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>2026 Roster | Tunstall Trojan Football</title>
+
   <link rel="stylesheet" href="../css/styles.css">
+
+  <style>
+    .roster-page {
+      background: #f4f4f4;
+      padding: 36px 18px 60px;
+    }
+
+    .roster-container {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+    }
+
+    .roster-intro {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .roster-eyebrow {
+      margin: 0 0 4px;
+      color: #6d6e71;
+      font-size: 0.9rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .roster-title {
+      margin: 0;
+      color: #c8102e;
+      font-size: clamp(2.3rem, 7vw, 4.5rem);
+      font-weight: 900;
+      line-height: 0.95;
+      text-transform: uppercase;
+    }
+
+    .roster-subtitle {
+      max-width: 680px;
+      margin: 16px auto 0;
+      color: #555;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .team-section {
+      margin-top: 42px;
+    }
+
+    .team-heading {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .team-heading::before,
+    .team-heading::after {
+      content: "";
+      height: 2px;
+      background: #c8102e;
+      flex: 1;
+    }
+
+    .team-heading h2 {
+      margin: 0;
+      color: #333;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 900;
+      text-align: center;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .roster-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .player-card {
+      position: relative;
+      min-height: 165px;
+      padding: 20px 14px 18px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-top: 4px solid #c8102e;
+      border-radius: 8px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+      text-align: center;
+    }
+
+    .player-number {
+      margin-bottom: 6px;
+      color: #c8102e;
+      font-size: 2.3rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .player-name {
+      margin: 0;
+      color: #252525;
+      font-size: 1.05rem;
+      font-weight: 900;
+      line-height: 1.15;
+      text-transform: uppercase;
+    }
+
+    .player-position {
+      margin-top: 8px;
+      color: #666;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .player-grade {
+      display: inline-block;
+      margin-top: 9px;
+      padding: 4px 8px;
+      background: #e6e6e8;
+      border-radius: 4px;
+      color: #555;
+      font-size: 0.7rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .player-card.senior {
+      background:
+        linear-gradient(
+          135deg,
+          rgba(200,16,46,0.06),
+          rgba(255,255,255,1) 55%
+        );
+    }
+
+    .player-card.senior .player-grade {
+      background: #c8102e;
+      color: #fff;
+    }
+
+    .roster-note {
+      margin-top: 28px;
+      padding: 18px;
+      background: #fff;
+      border-left: 4px solid #c8102e;
+      border-radius: 6px;
+      color: #555;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    @media (min-width: 700px) {
+      .roster-page {
+        padding: 52px 28px 72px;
+      }
+
+      .roster-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .player-card {
+        min-height: 180px;
+        padding: 24px 18px;
+      }
+    }
+
+    @media (min-width: 1000px) {
+      .roster-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+  </style>
 </head>
 
 <body>
-  <h1>2026 Tunstall Trojan Football Roster</h1>
-  <p>Roster coming soon.</p>
 
-  <script src="../js/app.js"></script>
+  <header class="site-header">
+
+    <img
+      src="../assets/logos/ths-trojan-head.png"
+      alt="Tunstall Trojan"
+      class="trojan-head-logo"
+    >
+
+    <h1>Tunstall Trojan Football</h1>
+
+    <p class="team-motto">
+      One Team. One Town. All Trojan.
+    </p>
+
+    <div class="brand-divider">
+      <span></span>
+
+      <img
+        src="../assets/logos/ths-tt-logo.png"
+        alt="Tunstall TT"
+        class="tt-logo"
+      >
+
+      <span></span>
+    </div>
+
+  </header>
+
+
+  <nav>
+    <a href="../schedule/">Schedule</a>
+    <a href="../roster/" class="active">Roster</a>
+    <a href="../sponsors/">Sponsors</a>
+    <a href="../media/">Media</a>
+    <a href="../program/">Digital Program</a>
+  </nav>
+
+
+  <main class="roster-page">
+
+    <div class="roster-container">
+
+      <section class="roster-intro">
+
+        <p class="roster-eyebrow">
+          2026 Tunstall Trojans
+        </p>
+
+        <h2 class="roster-title">
+          Football Roster
+        </h2>
+
+        <p class="roster-subtitle">
+          Meet the student-athletes representing Tunstall Football
+          during the 2026 season.
+        </p>
+
+      </section>
+
+
+      <!-- ========================= -->
+      <!-- VARSITY ROSTER            -->
+      <!-- ========================= -->
+
+      <section class="team-section">
+
+        <div class="team-heading">
+          <h2>Varsity Football</h2>
+        </div>
+
+        <div class="roster-grid" id="varsity-roster">
+
+          <!-- OFFICIAL VARSITY PLAYER CARDS GO HERE -->
+
+        </div>
+
+      </section>
+
+
+      <!-- ========================= -->
+      <!-- JUNIOR VARSITY ROSTER     -->
+      <!-- ========================= -->
+
+      <section class="team-section">
+
+        <div class="team-heading">
+          <h2>Junior Varsity</h2>
+        </div>
+
+        <div class="roster-grid" id="jv-roster">
+
+          <!-- OFFICIAL JV PLAYER CARDS GO HERE -->
+
+        </div>
+
+      </section>
+
+
+      <div class="roster-note">
+        Player photos and expanded player profiles can be added later
+        without changing the basic roster structure.
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <footer>
+
+    <p>ONE TEAM. ONE TOWN. ALL TROJAN.</p>
+
+    <p>
+      &copy; 2026 Tunstall High School Football
+    </p>
+
+  </footer>
+
 </body>
 </html>
