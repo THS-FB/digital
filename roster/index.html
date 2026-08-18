@@ -171,6 +171,33 @@
       line-height: 1.6;
     }
 
+    @media (max-width: 760px) {
+      .roster-page {
+        padding: 20px 12px 36px;
+      }
+
+      .roster-intro {
+        margin-bottom: 24px;
+      }
+
+      .roster-eyebrow {
+        font-size: 0.74rem;
+      }
+
+      .roster-title {
+        font-size: 2.15rem;
+      }
+
+      .roster-subtitle {
+        margin-top: 10px;
+        font-size: 0.92rem;
+      }
+
+      .team-section {
+        margin-top: 32px;
+      }
+    }
+
     @media (min-width: 700px) {
       .roster-page {
         padding: 52px 28px 72px;
@@ -225,16 +252,51 @@
 
   </header>
 
+  <nav class="site-nav" aria-label="Primary navigation">
 
-  <nav>
-    <a href="../">Home</a>
-    <a href="../schedule/">Schedule</a>
-    <a href="../roster/" class="active">Roster</a>
-    <a href="../sponsors/">Sponsors</a>
-    <a href="../media/">Media</a>
-    <a href="../program/">Digital Program</a>
+    <div class="mobile-nav-row">
+
+      <button
+        type="button"
+        class="menu-toggle"
+        id="menu-toggle"
+        aria-expanded="false"
+        aria-controls="site-menu"
+      >
+        <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 6h16"></path>
+          <path d="M4 12h16"></path>
+          <path d="M4 18h16"></path>
+        </svg>
+
+        <span>Menu</span>
+      </button>
+
+      <span class="mobile-current-link" aria-label="Roster">
+        <svg
+          class="mobile-current-icon"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <circle cx="9" cy="8" r="3"></circle>
+          <circle cx="17" cy="9" r="2"></circle>
+          <path d="M3 20c0-4 2.7-6 6-6s6 2 6 6"></path>
+          <path d="M14 15c3 0 5 1.7 5 5"></path>
+        </svg>
+      </span>
+
+    </div>
+
+    <div class="nav-links" id="site-menu">
+      <a href="../">Home</a>
+      <a href="../schedule/">Schedule</a>
+      <a href="./" class="active">Roster</a>
+      <a href="../sponsors/">Sponsors</a>
+      <a href="../media/">Media</a>
+      <a href="../program/">Digital Program</a>
+    </div>
+
   </nav>
-
 
   <main class="roster-page">
 
@@ -256,11 +318,6 @@
         </p>
 
       </section>
-
-
-      <!-- ========================= -->
-      <!-- VARSITY ROSTER            -->
-      <!-- ========================= -->
 
       <section class="team-section">
 
@@ -544,11 +601,6 @@
 
       </section>
 
-
-      <!-- ========================= -->
-      <!-- JUNIOR VARSITY ROSTER     -->
-      <!-- ========================= -->
-
       <section class="team-section">
 
         <div class="team-heading">
@@ -789,7 +841,6 @@
 
       </section>
 
-
       <div class="roster-note">
         Rosters are subject to change during the season. Player photos
         and expanded senior profiles may be added as they become available.
@@ -799,14 +850,21 @@
 
   </main>
 
+  <footer class="site-footer">
 
-  <footer>
+    <div class="footer-motto">
+      <span></span>
+      <p>One Team. One Town. All Trojan.</p>
+      <span></span>
+    </div>
 
-    <p>ONE TEAM. ONE TOWN. ALL TROJAN.</p>
-
-    <p>&copy; 2026 Tunstall High School Football</p>
+    <p class="footer-copyright">
+      &copy; 2026 Tunstall High School Football
+    </p>
 
   </footer>
+
+  <script src="../js/app.js"></script>
 
 </body>
 </html>
