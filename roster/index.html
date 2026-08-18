@@ -21,11 +21,11 @@
 
     .roster-intro {
       text-align: center;
-      margin-bottom: 32px;
+      margin-bottom: 36px;
     }
 
     .roster-eyebrow {
-      margin: 0 0 4px;
+      margin: 0 0 6px;
       color: #6d6e71;
       font-size: 0.9rem;
       font-weight: 800;
@@ -36,14 +36,14 @@
     .roster-title {
       margin: 0;
       color: #c8102e;
-      font-size: clamp(2.3rem, 7vw, 4.5rem);
+      font-size: clamp(2.4rem, 7vw, 4.6rem);
       font-weight: 900;
       line-height: 0.95;
       text-transform: uppercase;
     }
 
     .roster-subtitle {
-      max-width: 680px;
+      max-width: 700px;
       margin: 16px auto 0;
       color: #555;
       font-size: 1rem;
@@ -51,7 +51,7 @@
     }
 
     .team-section {
-      margin-top: 42px;
+      margin-top: 46px;
     }
 
     .team-heading {
@@ -72,11 +72,20 @@
     .team-heading h2 {
       margin: 0;
       color: #333;
-      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-size: clamp(1.55rem, 4vw, 2.4rem);
       font-weight: 900;
       text-align: center;
       text-transform: uppercase;
       white-space: nowrap;
+    }
+
+    .team-description {
+      max-width: 700px;
+      margin: -8px auto 24px;
+      color: #666;
+      text-align: center;
+      font-size: 0.92rem;
+      line-height: 1.5;
     }
 
     .roster-grid {
@@ -87,20 +96,20 @@
 
     .player-card {
       position: relative;
-      min-height: 165px;
-      padding: 20px 14px 18px;
+      min-height: 160px;
+      padding: 20px 12px 18px;
       background: #fff;
       border: 1px solid #ddd;
       border-top: 4px solid #c8102e;
       border-radius: 8px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
       text-align: center;
     }
 
     .player-number {
-      margin-bottom: 6px;
+      margin-bottom: 7px;
       color: #c8102e;
-      font-size: 2.3rem;
+      font-size: 2.4rem;
       font-weight: 900;
       line-height: 1;
     }
@@ -108,16 +117,16 @@
     .player-name {
       margin: 0;
       color: #252525;
-      font-size: 1.05rem;
+      font-size: 1.02rem;
       font-weight: 900;
-      line-height: 1.15;
+      line-height: 1.18;
       text-transform: uppercase;
     }
 
     .player-position {
-      margin-top: 8px;
+      margin-top: 9px;
       color: #666;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: 700;
       letter-spacing: 0.04em;
       text-transform: uppercase;
@@ -140,9 +149,10 @@
       background:
         linear-gradient(
           135deg,
-          rgba(200,16,46,0.06),
-          rgba(255,255,255,1) 55%
+          rgba(200, 16, 46, 0.08),
+          #ffffff 58%
         );
+      border-top-color: #c8102e;
     }
 
     .player-card.senior .player-grade {
@@ -151,13 +161,13 @@
     }
 
     .roster-note {
-      margin-top: 28px;
-      padding: 18px;
+      margin-top: 38px;
+      padding: 18px 20px;
       background: #fff;
       border-left: 4px solid #c8102e;
       border-radius: 6px;
       color: #555;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       line-height: 1.6;
     }
 
@@ -172,7 +182,7 @@
       }
 
       .player-card {
-        min-height: 180px;
+        min-height: 175px;
         padding: 24px 18px;
       }
     }
@@ -217,6 +227,7 @@
 
 
   <nav>
+    <a href="../">Home</a>
     <a href="../schedule/">Schedule</a>
     <a href="../roster/" class="active">Roster</a>
     <a href="../sponsors/">Sponsors</a>
@@ -257,9 +268,277 @@
           <h2>Varsity Football</h2>
         </div>
 
-        <div class="roster-grid" id="varsity-roster">
+        <p class="team-description">
+          2026 Tunstall Trojans Varsity Football
+        </p>
 
-          <!-- OFFICIAL VARSITY PLAYER CARDS GO HERE -->
+        <div class="roster-grid">
+
+          <div class="player-card senior">
+            <div class="player-number">0</div>
+            <h3 class="player-name">Levi Swift</h3>
+            <div class="player-position">SAF</div>
+            <span class="player-grade">SR</span>
+          </div>
+
+          <div class="player-card senior">
+            <div class="player-number">1</div>
+            <h3 class="player-name">Shamus Ryan</h3>
+            <div class="player-position">QB / SAF</div>
+            <span class="player-grade">SR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">2</div>
+            <h3 class="player-name">Kameron Gatewood</h3>
+            <div class="player-position">RB</div>
+            <span class="player-grade">JR</span>
+          </div>
+
+          <div class="player-card senior">
+            <div class="player-number">3</div>
+            <h3 class="player-name">Thomas Hairston</h3>
+            <div class="player-position">RB / LB</div>
+            <span class="player-grade">SR</span>
+          </div>
+
+          <div class="player-card senior">
+            <div class="player-number">4</div>
+            <h3 class="player-name">Dakaden Pritchett</h3>
+            <div class="player-position">WR / CB</div>
+            <span class="player-grade">SR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">5</div>
+            <h3 class="player-name">Jayden Holliness</h3>
+            <div class="player-position">TE / DE</div>
+            <span class="player-grade">JR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">6</div>
+            <h3 class="player-name">Aaron Harvey, Jr.</h3>
+            <div class="player-position">CB</div>
+            <span class="player-grade">SO</span>
+          </div>
+
+          <div class="player-card senior">
+            <div class="player-number">7</div>
+            <h3 class="player-name">Daniel Flores</h3>
+            <div class="player-position">LB</div>
+            <span class="player-grade">SR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">8</div>
+            <h3 class="player-name">Rylan Allen</h3>
+            <div class="player-position">TE / QB</div>
+            <span class="player-grade">JR</span>
+          </div>
+
+          <div class="player-card senior">
+            <div class="player-number">9</div>
+            <h3 class="player-name">Toby Vang</h3>
+            <div class="player-position">WR / CB</div>
+            <span class="player-grade">SR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">10</div>
+            <h3 class="player-name">Easton Stoler</h3>
+            <div class="player-position">QB</div>
+            <span class="player-grade">SO</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">11</div>
+            <h3 class="player-name">Ryland Francis</h3>
+            <div class="player-position">WR / CB</div>
+            <span class="player-grade">FR</span>
+          </div>
+
+          <div class="player-card senior">
+            <div class="player-number">12</div>
+            <h3 class="player-name">Caleb Collins</h3>
+            <div class="player-position">TE</div>
+            <span class="player-grade">SR</span>
+          </div>
+
+          <div class="player-card senior">
+            <div class="player-number">14</div>
+            <h3 class="player-name">Aiden Totten</h3>
+            <div class="player-position">WR / LB</div>
+            <span class="player-grade">SR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">15</div>
+            <h3 class="player-name">Carter Thompson</h3>
+            <div class="player-position">WR / SAF</div>
+            <span class="player-grade">JR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">18</div>
+            <h3 class="player-name">Pierre Pettiford</h3>
+            <div class="player-position">WR / CB</div>
+            <span class="player-grade">SO</span>
+          </div>
+
+          <div class="player-card senior">
+            <div class="player-number">20</div>
+            <h3 class="player-name">Martin Pauley, Jr.</h3>
+            <div class="player-position">LB</div>
+            <span class="player-grade">SR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">21</div>
+            <h3 class="player-name">Ethan Crawford</h3>
+            <div class="player-position">RB / SAF</div>
+            <span class="player-grade">JR</span>
+          </div>
+
+          <div class="player-card senior">
+            <div class="player-number">22</div>
+            <h3 class="player-name">Jamison Dishman</h3>
+            <div class="player-position">SAF</div>
+            <span class="player-grade">SR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">23</div>
+            <h3 class="player-name">A.J. Warren</h3>
+            <div class="player-position">SAF</div>
+            <span class="player-grade">JR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">24</div>
+            <h3 class="player-name">Peyton Davis</h3>
+            <div class="player-position">LB</div>
+            <span class="player-grade">JR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">25</div>
+            <h3 class="player-name">Owen Kitzmiller</h3>
+            <div class="player-position">WR / SAF</div>
+            <span class="player-grade">SO</span>
+          </div>
+
+          <div class="player-card senior">
+            <div class="player-number">28</div>
+            <h3 class="player-name">Aiden Edwards</h3>
+            <div class="player-position">RB / DE</div>
+            <span class="player-grade">SR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">30</div>
+            <h3 class="player-name">Zion Cunningham</h3>
+            <div class="player-position">RB / LB</div>
+            <span class="player-grade">FR</span>
+          </div>
+
+          <div class="player-card senior">
+            <div class="player-number">50</div>
+            <h3 class="player-name">Zion Murphy</h3>
+            <div class="player-position">DT / OL</div>
+            <span class="player-grade">SR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">52</div>
+            <h3 class="player-name">Bintley Short</h3>
+            <div class="player-position">OL / LB</div>
+            <span class="player-grade">SO</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">53</div>
+            <h3 class="player-name">Temarr Adkins</h3>
+            <div class="player-position">OL / DE</div>
+            <span class="player-grade">JR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">54</div>
+            <h3 class="player-name">Tyler Grey</h3>
+            <div class="player-position">OL</div>
+            <span class="player-grade">JR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">56</div>
+            <h3 class="player-name">Chris Hood</h3>
+            <div class="player-position">OL / DT</div>
+            <span class="player-grade">JR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">60</div>
+            <h3 class="player-name">Jamari Hubbard</h3>
+            <div class="player-position">DT / OL</div>
+            <span class="player-grade">SO</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">62</div>
+            <h3 class="player-name">Chance Touchstone</h3>
+            <div class="player-position">OL / DE</div>
+            <span class="player-grade">FR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">63</div>
+            <h3 class="player-name">Kyan Jones</h3>
+            <div class="player-position">OL / DE</div>
+            <span class="player-grade">FR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">64</div>
+            <h3 class="player-name">Jace Bryant</h3>
+            <div class="player-position">OL</div>
+            <span class="player-grade">SO</span>
+          </div>
+
+          <div class="player-card senior">
+            <div class="player-number">66</div>
+            <h3 class="player-name">CaDarius Keen</h3>
+            <div class="player-position">DT</div>
+            <span class="player-grade">SR</span>
+          </div>
+
+          <div class="player-card senior">
+            <div class="player-number">72</div>
+            <h3 class="player-name">Tre Mills</h3>
+            <div class="player-position">OL</div>
+            <span class="player-grade">SR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">75</div>
+            <h3 class="player-name">Dontae Hairston, Jr.</h3>
+            <div class="player-position">OL / DT</div>
+            <span class="player-grade">JR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">77</div>
+            <h3 class="player-name">Holden Caldwell</h3>
+            <div class="player-position">OL</div>
+            <span class="player-grade">SO</span>
+          </div>
+
+          <div class="player-card senior">
+            <div class="player-number">99</div>
+            <h3 class="player-name">Preston Tucker</h3>
+            <div class="player-position">DE</div>
+            <span class="player-grade">SR</span>
+          </div>
 
         </div>
 
@@ -276,9 +555,235 @@
           <h2>Junior Varsity</h2>
         </div>
 
-        <div class="roster-grid" id="jv-roster">
+        <p class="team-description">
+          2026 Tunstall Trojans Junior Varsity Football
+        </p>
 
-          <!-- OFFICIAL JV PLAYER CARDS GO HERE -->
+        <div class="roster-grid">
+
+          <div class="player-card">
+            <div class="player-number">1</div>
+            <h3 class="player-name">Ryland Francis</h3>
+            <div class="player-position">WR / CB</div>
+            <span class="player-grade">FR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">2</div>
+            <h3 class="player-name">Owen Kitzmiller</h3>
+            <div class="player-position">WR / SAF</div>
+            <span class="player-grade">SO</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">3</div>
+            <h3 class="player-name">Leland Scearce</h3>
+            <div class="player-position">RB / LB</div>
+            <span class="player-grade">FR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">5</div>
+            <h3 class="player-name">Mehki Jefferson</h3>
+            <div class="player-position">WR</div>
+            <span class="player-grade">FR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">6</div>
+            <h3 class="player-name">Brayden Blackstock</h3>
+            <div class="player-position">RB / CB</div>
+            <span class="player-grade">8TH</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">7</div>
+            <h3 class="player-name">Jameson Lewis</h3>
+            <div class="player-position">QB / DE</div>
+            <span class="player-grade">8TH</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">10</div>
+            <h3 class="player-name">Easton Stoler</h3>
+            <div class="player-position">QB</div>
+            <span class="player-grade">SO</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">11</div>
+            <h3 class="player-name">Bryce Blackstock</h3>
+            <div class="player-position">RB / LB</div>
+            <span class="player-grade">8TH</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">12</div>
+            <h3 class="player-name">Conner Hammock</h3>
+            <div class="player-position">LB</div>
+            <span class="player-grade">FR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">20</div>
+            <h3 class="player-name">Dalton Curtis</h3>
+            <div class="player-position">WR</div>
+            <span class="player-grade">FR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">21</div>
+            <h3 class="player-name">Taylen Gatewood</h3>
+            <div class="player-position">CB</div>
+            <span class="player-grade">FR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">22</div>
+            <h3 class="player-name">Jeremiah Nelson</h3>
+            <div class="player-position">TE / DE</div>
+            <span class="player-grade">FR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">23</div>
+            <h3 class="player-name">Breon Blackstock</h3>
+            <div class="player-position">CB</div>
+            <span class="player-grade">8TH</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">24</div>
+            <h3 class="player-name">Nolan Collins</h3>
+            <div class="player-position">CB</div>
+            <span class="player-grade">FR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">30</div>
+            <h3 class="player-name">Zion Cunningham</h3>
+            <div class="player-position">RB / LB</div>
+            <span class="player-grade">FR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">31</div>
+            <h3 class="player-name">Avin Gonzalez</h3>
+            <div class="player-position">SAF</div>
+            <span class="player-grade">FR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">40</div>
+            <h3 class="player-name">Christian Dillard</h3>
+            <div class="player-position">DE</div>
+            <span class="player-grade">8TH</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">50</div>
+            <h3 class="player-name">Justin Mills</h3>
+            <div class="player-position">OL</div>
+            <span class="player-grade">8TH</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">51</div>
+            <h3 class="player-name">Jamir Pritchett</h3>
+            <div class="player-position">OL</div>
+            <span class="player-grade">FR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">60</div>
+            <h3 class="player-name">Chance Touchstone</h3>
+            <div class="player-position">OL / DE</div>
+            <span class="player-grade">FR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">61</div>
+            <h3 class="player-name">Pedro Jaimes</h3>
+            <div class="player-position">OL / DE</div>
+            <span class="player-grade">FR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">62</div>
+            <h3 class="player-name">Dallas Carter</h3>
+            <div class="player-position">DT / OL</div>
+            <span class="player-grade">SO</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">63</div>
+            <h3 class="player-name">Alex Davis</h3>
+            <div class="player-position">OL</div>
+            <span class="player-grade">SO</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">64</div>
+            <h3 class="player-name">Kyan Jones</h3>
+            <div class="player-position">OL / DE</div>
+            <span class="player-grade">FR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">65</div>
+            <h3 class="player-name">Zachary Nosse</h3>
+            <div class="player-position">OL</div>
+            <span class="player-grade">8TH</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">66</div>
+            <h3 class="player-name">Noah Pauley</h3>
+            <div class="player-position">OL / DT</div>
+            <span class="player-grade">8TH</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">75</div>
+            <h3 class="player-name">Ethan Jones</h3>
+            <div class="player-position">OL / DT</div>
+            <span class="player-grade">8TH</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">76</div>
+            <h3 class="player-name">Keegan Jeffares</h3>
+            <div class="player-position">OL</div>
+            <span class="player-grade">FR</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">77</div>
+            <h3 class="player-name">Holden Caldwell</h3>
+            <div class="player-position">OL</div>
+            <span class="player-grade">SO</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">78</div>
+            <h3 class="player-name">Jackson Carter</h3>
+            <div class="player-position">DT / OL</div>
+            <span class="player-grade">SO</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">83</div>
+            <h3 class="player-name">Mikah Smith</h3>
+            <div class="player-position">CB</div>
+            <span class="player-grade">SO</span>
+          </div>
+
+          <div class="player-card">
+            <div class="player-number">84</div>
+            <h3 class="player-name">Anthony Doino</h3>
+            <div class="player-position">TE / DE</div>
+            <span class="player-grade">FR</span>
+          </div>
 
         </div>
 
@@ -286,8 +791,8 @@
 
 
       <div class="roster-note">
-        Player photos and expanded player profiles can be added later
-        without changing the basic roster structure.
+        Rosters are subject to change during the season. Player photos
+        and expanded senior profiles may be added as they become available.
       </div>
 
     </div>
@@ -299,9 +804,7 @@
 
     <p>ONE TEAM. ONE TOWN. ALL TROJAN.</p>
 
-    <p>
-      &copy; 2026 Tunstall High School Football
-    </p>
+    <p>&copy; 2026 Tunstall High School Football</p>
 
   </footer>
 
