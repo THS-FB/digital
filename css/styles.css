@@ -314,6 +314,69 @@ nav a:hover {
   border-radius: 6px;
 }
 
+/* SCHEDULE ACTIONS */
+
+.schedule-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.schedule-action {
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 12px 14px;
+  border-radius: 6px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.92rem;
+  font-weight: 800;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    opacity 0.2s ease,
+    background 0.2s ease;
+}
+
+.schedule-action-icon {
+  width: 21px;
+  height: 21px;
+  flex: 0 0 21px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.schedule-share {
+  border: 2px solid var(--tunstall-red);
+  background: var(--tunstall-red);
+  color: var(--white);
+}
+
+.schedule-download {
+  border: 2px solid var(--gray-300);
+  background: var(--white);
+  color: var(--gray-700);
+}
+
+.schedule-action:hover {
+  opacity: 0.88;
+}
+
+.schedule-action:focus-visible {
+  outline: 3px solid var(--gray-400);
+  outline-offset: 3px;
+}
+
+/* LEGACY SCHEDULE LINK */
+
 .schedule-poster-link {
   display: block;
   margin-top: 14px;
@@ -449,6 +512,17 @@ nav a:hover {
   .schedule-location {
     grid-column: 2;
     justify-self: start;
+  }
+
+  .schedule-actions {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .schedule-action {
+    width: 100%;
+    min-height: 52px;
+    font-size: 1rem;
   }
 
   .site-footer {
