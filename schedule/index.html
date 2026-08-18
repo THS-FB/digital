@@ -125,13 +125,45 @@
           alt="Official 2026 Tunstall football schedule graphic"
         >
 
-        <button
-          type="button"
-          class="schedule-poster-link"
-          id="share-schedule"
-        >
-          Share or Save Schedule
-        </button>
+        <div class="schedule-actions">
+
+          <button
+            type="button"
+            class="schedule-action schedule-share"
+            id="share-schedule"
+          >
+            <svg
+              class="schedule-action-icon"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M12 16V3"></path>
+              <path d="M7 8l5-5 5 5"></path>
+              <path d="M5 11H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2h-1"></path>
+            </svg>
+
+            <span>Share Schedule</span>
+          </button>
+
+          <a
+            href="../assets/images/tunstall-2026-football-schedule-web.jpg"
+            class="schedule-action schedule-download"
+            download="tunstall-football-2026-schedule.jpg"
+          >
+            <svg
+              class="schedule-action-icon"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M12 3v13"></path>
+              <path d="M7 11l5 5 5-5"></path>
+              <path d="M4 21h16"></path>
+            </svg>
+
+            <span>Download</span>
+          </a>
+
+        </div>
       </aside>
     </section>
   </main>
