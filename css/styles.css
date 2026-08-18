@@ -258,25 +258,76 @@ h1 {
 /* SCHEDULE PAGE */
 
 .schedule-page {
-  padding: 42px 20px 56px;
+  padding: 36px 20px 56px;
 }
 
 .schedule-intro {
   max-width: 1100px;
-  margin: 0 auto 26px;
+  margin: 0 auto 22px;
 }
 
 .schedule-intro h2 {
-  margin: 0 0 10px;
-  font-size: 2.35rem;
-  line-height: 1.1;
+  margin: 0;
+  font-size: 2.45rem;
+  line-height: 1.05;
   color: var(--gray-900);
 }
 
-.schedule-intro > p:last-child {
-  margin: 0;
+.schedule-intro h2::after {
+  content: "";
+  display: block;
+  width: 58px;
+  height: 4px;
+  margin-top: 12px;
+  background: var(--tunstall-red);
+  border-radius: 999px;
+}
+
+.schedule-subtitle {
+  margin: 14px 0 0;
   color: var(--gray-700);
   font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+/* SEASON RECORD */
+
+.season-record {
+  display: inline-flex;
+  align-items: stretch;
+  margin-top: 18px;
+  overflow: hidden;
+  background: var(--white);
+  border: 1px solid var(--gray-300);
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+}
+
+.season-record-item {
+  min-width: 120px;
+  padding: 10px 18px;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 9px;
+}
+
+.season-record-label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--gray-500);
+}
+
+.season-record-item strong {
+  font-size: 1.25rem;
+  color: var(--gray-900);
+}
+
+.season-record-divider {
+  width: 1px;
+  background: var(--gray-300);
 }
 
 .schedule-layout {
@@ -397,9 +448,6 @@ h1 {
   text-align: center;
   text-decoration: none;
   cursor: pointer;
-  transition:
-    opacity 0.2s ease,
-    background 0.2s ease;
 }
 
 .schedule-action-icon {
@@ -425,19 +473,9 @@ h1 {
   color: var(--gray-700);
 }
 
-.schedule-action:hover {
-  opacity: 0.88;
-}
-
-.schedule-action:focus-visible {
-  outline: 3px solid var(--gray-400);
-  outline-offset: 3px;
-}
-
 /* FOOTER */
 
 .site-footer {
-  margin-top: 0;
   padding: 30px 20px 26px;
   text-align: center;
   background: var(--gray-800);
@@ -461,7 +499,6 @@ h1 {
 
 .footer-motto p {
   margin: 0;
-  padding: 0;
   white-space: nowrap;
   font-family: Impact, "Arial Narrow", Arial, sans-serif;
   font-size: 1rem;
@@ -472,7 +509,6 @@ h1 {
 
 .footer-copyright {
   margin: 0;
-  padding: 0;
   font-size: 0.9rem;
   color: var(--gray-300);
 }
@@ -518,8 +554,6 @@ h1 {
   .tt-logo {
     width: 34px;
   }
-
-  /* MOBILE STICKY MENU BAR */
 
   .site-nav {
     position: sticky;
@@ -580,17 +614,13 @@ h1 {
     background: var(--white);
     color: var(--gray-900);
     border: 1px solid var(--gray-200);
-    border-radius: 6px;
   }
 
   .nav-links a.active {
     background: var(--tunstall-red);
     color: var(--white);
     border-color: var(--tunstall-red);
-    box-shadow: none;
   }
-
-  /* MOBILE HOMEPAGE */
 
   .home-content,
   .schedule-page {
@@ -601,7 +631,6 @@ h1 {
     display: flex;
     flex-direction: column;
     min-height: 0;
-    border-radius: 8px;
   }
 
   .welcome-copy {
@@ -620,14 +649,35 @@ h1 {
     display: none;
   }
 
-  /* MOBILE SCHEDULE */
-
   .schedule-intro {
     margin-bottom: 16px;
   }
 
   .schedule-intro h2 {
-    font-size: 1.9rem;
+    font-size: 2rem;
+  }
+
+  .schedule-intro h2::after {
+    width: 48px;
+    height: 3px;
+    margin-top: 10px;
+  }
+
+  .season-record {
+    display: flex;
+    width: 100%;
+    margin-top: 14px;
+  }
+
+  .season-record-item {
+    flex: 1;
+    min-width: 0;
+    padding: 9px 12px;
+  }
+
+  .schedule-subtitle {
+    margin-top: 12px;
+    font-size: 0.98rem;
   }
 
   .schedule-layout {
@@ -649,7 +699,6 @@ h1 {
 
   .schedule-actions {
     grid-template-columns: 1fr;
-    gap: 10px;
   }
 
   .schedule-action {
@@ -658,14 +707,8 @@ h1 {
     font-size: 1rem;
   }
 
-  /* MOBILE FOOTER */
-
   .site-footer {
     padding: 24px 16px 20px;
-  }
-
-  .footer-motto {
-    gap: 10px;
   }
 
   .footer-motto span {
