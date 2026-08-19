@@ -35,9 +35,9 @@
     }
 
     .roster-eyebrow {
-      margin: 0 0 5px;
+      margin: 0 0 7px;
       color: #6d6e71;
-      font-size: 0.74rem;
+      font-size: 0.9rem;
       font-weight: 800;
       letter-spacing: 0.12em;
       text-transform: uppercase;
@@ -46,9 +46,9 @@
     .roster-title {
       margin: 0;
       color: #c8102e;
-      font-size: clamp(2.15rem, 11vw, 4.6rem);
+      font-size: clamp(2rem, 8vw, 3.6rem);
       font-weight: 900;
-      line-height: 0.95;
+      line-height: 0.98;
       text-transform: uppercase;
     }
 
@@ -260,14 +260,14 @@
       width: 100%;
       max-width: 820px;
 
-      margin: 0 auto 5px;
-      padding: 0 8px 7px;
+      margin: 0 auto 6px;
+      padding: 0 8px 8px;
 
-      color: #6d6e71;
+      color: #555555;
 
-      font-size: 0.56rem;
+      font-size: 0.7rem;
       font-weight: 900;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.05em;
 
       text-transform: uppercase;
     }
@@ -322,7 +322,7 @@
     .roster-grid.list-view .player-number {
       margin: 0;
 
-      font-size: 1.4rem;
+      font-size: 1.45rem;
       line-height: 1;
 
       text-align: center;
@@ -332,7 +332,7 @@
       margin: 0;
       padding: 0;
 
-      font-size: 0.72rem;
+      font-size: 0.78rem;
       line-height: 1.08;
     }
 
@@ -340,8 +340,9 @@
       margin: 0;
       padding: 0;
 
-      font-size: 0.6rem;
-      line-height: 1.1;
+      font-size: 0.78rem;
+      line-height: 1.08;
+      font-weight: 800;
 
       text-align: center;
       white-space: nowrap;
@@ -351,9 +352,10 @@
       justify-self: center;
 
       margin: 0;
-      padding: 4px 5px;
+      padding: 4px 6px;
 
-      font-size: 0.55rem;
+      font-size: 0.76rem;
+      line-height: 1;
 
       white-space: nowrap;
     }
@@ -391,6 +393,10 @@
         margin-bottom: 38px;
       }
 
+      .roster-eyebrow {
+        font-size: 1rem;
+      }
+
       .team-section {
         margin-top: 42px;
       }
@@ -421,8 +427,8 @@
       }
 
       .roster-list-header.show {
-        padding: 0 12px 7px;
-        font-size: 0.64rem;
+        padding: 0 12px 8px;
+        font-size: 0.78rem;
       }
 
       .roster-grid.list-view .player-card {
@@ -434,16 +440,13 @@
         font-size: 1.55rem;
       }
 
-      .roster-grid.list-view .player-name {
-        font-size: 0.82rem;
-      }
-
+      .roster-grid.list-view .player-name,
       .roster-grid.list-view .player-position {
-        font-size: 0.68rem;
+        font-size: 0.86rem;
       }
 
       .roster-grid.list-view .player-grade {
-        font-size: 0.6rem;
+        font-size: 0.82rem;
       }
     }
 
@@ -452,6 +455,10 @@
        ===================================================== */
 
     @media (min-width: 1000px) {
+
+      .roster-eyebrow {
+        font-size: 1.05rem;
+      }
 
       .roster-grid:not(.list-view) {
         grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -473,13 +480,26 @@
         column-gap: 10px;
       }
 
+      .roster-list-header.show {
+        font-size: 0.8rem;
+      }
+
       .roster-grid.list-view .player-card {
         min-height: 52px;
         padding-top: 6px;
         padding-bottom: 6px;
       }
 
-      .roster-grid.list-view .player-name {
+      .roster-grid.list-view .player-number {
+        font-size: 1.6rem;
+      }
+
+      .roster-grid.list-view .player-name,
+      .roster-grid.list-view .player-position {
+        font-size: 0.88rem;
+      }
+
+      .roster-grid.list-view .player-grade {
         font-size: 0.84rem;
       }
     }
@@ -487,10 +507,6 @@
 </head>
 
 <body>
-
-  <!-- =====================================================
-       SHARED SITE HEADER
-       ===================================================== -->
 
   <header class="site-header">
 
@@ -507,7 +523,6 @@
     </p>
 
     <div class="brand-divider">
-
       <span></span>
 
       <img
@@ -517,15 +532,10 @@
       >
 
       <span></span>
-
     </div>
 
   </header>
 
-
-  <!-- =====================================================
-       SHARED SITE NAVIGATION
-       ===================================================== -->
 
   <nav class="site-nav" aria-label="Primary navigation">
 
@@ -538,27 +548,16 @@
         aria-expanded="false"
         aria-controls="site-menu"
       >
-
-        <svg
-          class="menu-icon"
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-        >
+        <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M4 6h16"></path>
           <path d="M4 12h16"></path>
           <path d="M4 18h16"></path>
         </svg>
 
         <span>Menu</span>
-
       </button>
 
-
-      <span
-        class="mobile-current-link"
-        aria-label="Roster"
-      >
-
+      <span class="mobile-current-link" aria-label="Roster">
         <svg
           class="mobile-current-icon"
           viewBox="0 0 24 24"
@@ -569,56 +568,25 @@
           <path d="M3 20c0-4 2.7-6 6-6s6 2 6 6"></path>
           <path d="M14 15c3 0 5 1.7 5 5"></path>
         </svg>
-
       </span>
 
     </div>
 
-
     <div class="nav-links" id="site-menu">
-
       <a href="../">Home</a>
-
-      <a href="../schedule/">
-        Schedule
-      </a>
-
-      <a
-        href="./"
-        class="active"
-      >
-        Roster
-      </a>
-
-      <a href="../sponsors/">
-        Sponsors
-      </a>
-
-      <a href="../media/">
-        Media
-      </a>
-
-      <a href="../program/">
-        Digital Program
-      </a>
-
+      <a href="../schedule/">Schedule</a>
+      <a href="./" class="active">Roster</a>
+      <a href="../sponsors/">Sponsors</a>
+      <a href="../media/">Media</a>
+      <a href="../program/">Digital Program</a>
     </div>
 
   </nav>
 
 
-  <!-- =====================================================
-       ROSTER PAGE
-       ===================================================== -->
-
   <main class="roster-page">
 
     <div class="roster-container">
-
-
-      <!-- =================================================
-           PAGE TITLE
-           ================================================= -->
 
       <section class="roster-intro">
 
@@ -633,16 +601,11 @@
       </section>
 
 
-      <!-- =================================================
-           VARSITY
-           ================================================= -->
-
       <section class="team-section">
 
         <div class="team-heading">
           <h2>Varsity</h2>
         </div>
-
 
         <div class="roster-view-controls">
 
@@ -672,34 +635,18 @@
 
         </div>
 
-
         <div
           class="roster-list-header"
           id="varsity-list-header"
           aria-hidden="true"
         >
-          <span class="list-heading-number">
-            Number
-          </span>
-
-          <span>
-            Name
-          </span>
-
-          <span class="list-heading-position">
-            Position
-          </span>
-
-          <span class="list-heading-grade">
-            Grade
-          </span>
+          <span class="list-heading-number">Number</span>
+          <span>Name</span>
+          <span class="list-heading-position">Position</span>
+          <span class="list-heading-grade">Grade</span>
         </div>
 
-
-        <div
-          class="roster-grid"
-          id="varsity-roster"
-        >
+        <div class="roster-grid" id="varsity-roster">
 
           <div class="player-card senior">
             <div class="player-number">0</div>
@@ -972,16 +919,11 @@
       </section>
 
 
-      <!-- =================================================
-           JUNIOR VARSITY
-           ================================================= -->
-
       <section class="team-section">
 
         <div class="team-heading">
           <h2>Junior Varsity</h2>
         </div>
-
 
         <div class="roster-view-controls">
 
@@ -1011,34 +953,18 @@
 
         </div>
 
-
         <div
           class="roster-list-header"
           id="jv-list-header"
           aria-hidden="true"
         >
-          <span class="list-heading-number">
-            Number
-          </span>
-
-          <span>
-            Name
-          </span>
-
-          <span class="list-heading-position">
-            Position
-          </span>
-
-          <span class="list-heading-grade">
-            Grade
-          </span>
+          <span class="list-heading-number">Number</span>
+          <span>Name</span>
+          <span class="list-heading-position">Position</span>
+          <span class="list-heading-grade">Grade</span>
         </div>
 
-
-        <div
-          class="roster-grid"
-          id="jv-roster"
-        >
+        <div class="roster-grid" id="jv-roster">
 
           <div class="player-card">
             <div class="player-number">1</div>
@@ -1274,28 +1200,17 @@
         and expanded senior profiles may be added as they become available.
       </div>
 
-
     </div>
 
   </main>
 
 
-  <!-- =====================================================
-       SHARED SITE FOOTER
-       ===================================================== -->
-
   <footer class="site-footer">
 
     <div class="footer-motto">
-
       <span></span>
-
-      <p>
-        One Team. One Town. All Trojan.
-      </p>
-
+      <p>One Team. One Town. All Trojan.</p>
       <span></span>
-
     </div>
 
     <p class="footer-copyright">
@@ -1305,17 +1220,7 @@
   </footer>
 
 
-  <!-- =====================================================
-       SHARED SITE JAVASCRIPT
-       Controls mobile navigation
-       ===================================================== -->
-
   <script src="../js/app.js"></script>
-
-
-  <!-- =====================================================
-       ROSTER VIEW TOGGLE
-       ===================================================== -->
 
   <script>
     const rosterViewButtons =
@@ -1325,14 +1230,9 @@
 
       button.addEventListener("click", () => {
 
-        const targetId =
-          button.dataset.target;
-
-        const headerId =
-          button.dataset.header;
-
-        const requestedView =
-          button.dataset.view;
+        const targetId = button.dataset.target;
+        const headerId = button.dataset.header;
+        const requestedView = button.dataset.view;
 
         const roster =
           document.getElementById(targetId);
@@ -1346,45 +1246,26 @@
           );
 
         relatedButtons.forEach((relatedButton) => {
-
           relatedButton.classList.remove("active");
-
-          relatedButton.setAttribute(
-            "aria-pressed",
-            "false"
-          );
-
+          relatedButton.setAttribute("aria-pressed", "false");
         });
 
         button.classList.add("active");
-
-        button.setAttribute(
-          "aria-pressed",
-          "true"
-        );
-
+        button.setAttribute("aria-pressed", "true");
 
         if (requestedView === "list") {
 
           roster.classList.add("list-view");
 
           listHeader.classList.add("show");
-
-          listHeader.setAttribute(
-            "aria-hidden",
-            "false"
-          );
+          listHeader.setAttribute("aria-hidden", "false");
 
         } else {
 
           roster.classList.remove("list-view");
 
           listHeader.classList.remove("show");
-
-          listHeader.setAttribute(
-            "aria-hidden",
-            "true"
-          );
+          listHeader.setAttribute("aria-hidden", "true");
 
         }
 
