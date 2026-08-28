@@ -3,12 +3,463 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sponsors | Tunstall Trojan Football</title>
+
+  <title>Partners | Tunstall Trojan Football</title>
+
+  <meta
+    name="description"
+    content="Meet the community partners supporting Tunstall Trojan Football."
+  >
+
   <link rel="stylesheet" href="../css/styles.css">
+
+  <style>
+    /* =========================================================
+       PROGRAM PARTNERS PAGE
+       ========================================================= */
+
+    .partners-page {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 2rem 0 4rem;
+    }
+
+    .partners-intro {
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .partners-intro h2 {
+      margin: 0;
+      font-size: clamp(2rem, 8vw, 3.25rem);
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .partners-intro p {
+      max-width: 620px;
+      margin: 0.75rem auto 0;
+      color: #62676b;
+      line-height: 1.5;
+    }
+
+
+    /* Partner link notice */
+
+    .partner-link-notice {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+
+      width: fit-content;
+      max-width: 100%;
+      margin: 0 auto 2rem;
+      padding: 0.6rem 1rem;
+
+      border: 1px solid #dedede;
+      border-radius: 999px;
+
+      background: #ffffff;
+
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .partner-link-notice strong {
+      padding: 0.25rem 0.7rem;
+
+      border-radius: 999px;
+
+      background: #c8102e;
+      color: #ffffff;
+    }
+
+    .partner-link-arrow {
+      color: #c8102e;
+      font-size: 1.1rem;
+    }
+
+
+    /* =========================================================
+       PREMIER PARTNER
+       ========================================================= */
+
+    .premier-partner-section {
+      margin-bottom: 2.75rem;
+    }
+
+    .premier-partner-card {
+      position: relative;
+
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+
+      overflow: hidden;
+
+      border: 1px solid #dadde0;
+      border-radius: 18px;
+
+      background: #ffffff;
+      color: #252525;
+      text-decoration: none;
+
+      box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
+
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        border-color 0.18s ease;
+    }
+
+    .premier-partner-card:hover {
+      transform: translateY(-2px);
+      border-color: #c8102e;
+
+      box-shadow: 0 9px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .premier-partner-card:focus-visible {
+      outline: 3px solid rgba(200, 16, 46, 0.3);
+      outline-offset: 4px;
+    }
+
+    .premier-label {
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      z-index: 2;
+
+      transform: translateX(-50%);
+
+      padding: 0.35rem 1rem;
+
+      border-radius: 999px;
+
+      background: #c8102e;
+      color: #ffffff;
+
+      font-size: 0.76rem;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .premier-logo-area {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      min-height: 245px;
+      padding: 4rem 1.5rem 1.5rem;
+    }
+
+    .premier-logo {
+      display: block;
+
+      width: 100%;
+      max-width: 330px;
+      max-height: 215px;
+
+      object-fit: contain;
+    }
+
+    .premier-details {
+      padding: 1.5rem;
+
+      border-top: 1px solid #e0e0e0;
+
+      text-align: center;
+    }
+
+    .premier-details-label {
+      display: block;
+
+      margin-bottom: 0.35rem;
+
+      color: #c8102e;
+
+      font-size: 0.85rem;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .premier-details h3 {
+      margin: 0 0 0.8rem;
+
+      font-size: 1.2rem;
+    }
+
+    .premier-address {
+      margin: 0;
+
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .premier-phone {
+      margin: 0.75rem 0 0;
+
+      color: #c8102e;
+
+      font-size: 1.1rem;
+      font-weight: 900;
+    }
+
+    .premier-offer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      padding: 1.5rem;
+
+      border-top: 1px solid #e0e0e0;
+
+      text-align: center;
+    }
+
+    .premier-offer strong {
+      color: #c8102e;
+
+      font-size: 1.5rem;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .premier-offer span {
+      margin-top: 0.75rem;
+
+      color: #555555;
+
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .premier-offer b {
+      color: #222222;
+    }
+
+
+    /* =========================================================
+       SUPPORTING PARTNERS
+       ========================================================= */
+
+    .supporters-heading {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 0.7rem;
+
+      margin-bottom: 1.5rem;
+    }
+
+    .supporters-heading::before,
+    .supporters-heading::after {
+      content: "";
+
+      height: 2px;
+
+      background: #c8102e;
+    }
+
+    .supporters-heading h3 {
+      margin: 0;
+      padding: 0.55rem 0.9rem;
+
+      border-radius: 999px;
+
+      background: #c8102e;
+      color: #ffffff;
+
+      font-size: clamp(0.72rem, 3.5vw, 1rem);
+      line-height: 1.1;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .supporters-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .supporter-card {
+      position: relative;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      min-height: 175px;
+      padding: 1.35rem;
+
+      border: 1px solid #dadde0;
+      border-radius: 16px;
+
+      background: #ffffff;
+      color: #222222;
+      text-decoration: none;
+
+      box-shadow: 0 3px 13px rgba(0, 0, 0, 0.045);
+
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        border-color 0.18s ease;
+    }
+
+    .supporter-card:hover {
+      transform: translateY(-2px);
+      border-color: #c8102e;
+
+      box-shadow: 0 7px 20px rgba(0, 0, 0, 0.09);
+    }
+
+    .supporter-card:focus-visible {
+      outline: 3px solid rgba(200, 16, 46, 0.3);
+      outline-offset: 4px;
+    }
+
+    .supporter-logo {
+      display: block;
+
+      width: 100%;
+      max-width: 300px;
+      max-height: 125px;
+
+      object-fit: contain;
+    }
+
+
+    /* Toasted Yolk offer card */
+
+    .supporter-card-with-offer {
+      display: grid;
+      grid-template-columns: 1fr;
+      padding: 0;
+
+      overflow: hidden;
+    }
+
+    .supporter-logo-area {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      min-height: 160px;
+      padding: 1.25rem;
+    }
+
+    .supporter-offer {
+      padding: 1rem 1.25rem;
+
+      border-top: 1px solid #dddddd;
+
+      text-align: center;
+    }
+
+    .supporter-offer strong {
+      display: block;
+
+      color: #c8102e;
+
+      font-size: 1.1rem;
+      line-height: 1.15;
+      text-transform: uppercase;
+    }
+
+    .supporter-offer span {
+      display: block;
+
+      margin-top: 0.45rem;
+
+      color: #555555;
+
+      font-size: 0.82rem;
+      line-height: 1.4;
+    }
+
+    .supporter-offer b {
+      color: #222222;
+    }
+
+
+    /* =========================================================
+       TABLET / DESKTOP
+       ========================================================= */
+
+    @media (min-width: 700px) {
+
+      .partners-page {
+        padding-top: 3rem;
+      }
+
+      .premier-partner-card {
+        grid-template-columns:
+          minmax(0, 1.2fr)
+          minmax(0, 0.9fr)
+          minmax(190px, 0.72fr);
+      }
+
+      .premier-logo-area {
+        padding: 4rem 2rem 2rem;
+      }
+
+      .premier-details {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        padding: 2rem;
+
+        border-top: 0;
+        border-left: 1px solid #e0e0e0;
+        border-right: 1px solid #e0e0e0;
+
+        text-align: left;
+      }
+
+      .premier-offer {
+        border-top: 0;
+      }
+
+      .supporters-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .supporter-card {
+        min-height: 190px;
+      }
+
+      .supporter-card-with-offer {
+        grid-template-columns: 1.25fr 0.75fr;
+      }
+
+      .supporter-offer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        border-top: 0;
+        border-left: 1px solid #dddddd;
+      }
+
+    }
+  </style>
 </head>
 
+
 <body>
+
   <header class="site-header">
+
     <img
       src="../assets/logos/ths-trojan-head.png"
       alt="Tunstall Trojan"
@@ -32,10 +483,14 @@
 
       <span></span>
     </div>
+
   </header>
 
+
   <nav class="site-nav" aria-label="Primary navigation">
+
     <div class="mobile-nav-row">
+
       <button
         type="button"
         class="menu-toggle"
@@ -43,53 +498,342 @@
         aria-expanded="false"
         aria-controls="site-menu"
       >
-        <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true">
+
+        <svg
+          class="menu-icon"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
           <path d="M4 6h16"></path>
           <path d="M4 12h16"></path>
           <path d="M4 18h16"></path>
         </svg>
 
         <span>Menu</span>
+
       </button>
 
-      <span class="mobile-current-link" aria-label="Sponsors">
-        <svg class="mobile-current-icon" viewBox="0 0 24 24" aria-hidden="true">
+
+      <span
+        class="mobile-current-link"
+        aria-label="Sponsors"
+      >
+
+        <svg
+          class="mobile-current-icon"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
           <path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10Z"></path>
         </svg>
+
       </span>
+
     </div>
 
+
     <div class="nav-links" id="site-menu">
+
       <a href="../">Home</a>
       <a href="../schedule/">Schedule</a>
       <a href="../roster/">Roster</a>
       <a href="./" class="active">Sponsors</a>
       <a href="../media/">Media</a>
       <a href="../program/">Digital Program</a>
+
     </div>
+
   </nav>
 
-  <main class="schedule-page">
-    <section class="schedule-intro">
-      <h2>Our Partners</h2>
-      <p class="schedule-subtitle">
-        Proud supporters of Tunstall Trojan Football.
+
+  <main class="partners-page">
+
+
+    <!-- PAGE INTRO -->
+
+    <section class="partners-intro">
+
+      <h2>Our Program Partners</h2>
+
+      <p>
+        Thank you to our partners for supporting
+        Tunstall Trojan Football.
       </p>
+
     </section>
+
+
+    <div class="partner-link-notice">
+
+      <strong>Tap</strong>
+
+      <span>
+        a partner below to visit their website
+      </span>
+
+      <span
+        class="partner-link-arrow"
+        aria-hidden="true"
+      >
+        &#8599;
+      </span>
+
+    </div>
+
+
+    <!-- =====================================================
+         PREMIER PARTNER
+         ===================================================== -->
+
+    <section
+      class="premier-partner-section"
+      aria-label="Premier Partner"
+    >
+
+      <a
+        class="premier-partner-card"
+        href="https://www.danvillepaintandsupply.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+
+        <span class="premier-label">
+          Premier Partner
+        </span>
+
+
+        <div class="premier-logo-area">
+
+          <img
+            src="../assets/logos/partners/danville-paint-supply.png"
+            alt="Danville Paint & Supply"
+            class="premier-logo"
+          >
+
+        </div>
+
+
+        <div class="premier-details">
+
+          <span class="premier-details-label">
+            We've Moved!
+          </span>
+
+          <h3>New Location</h3>
+
+          <p class="premier-address">
+            874 Cahill Court<br>
+            Danville, VA 24541
+          </p>
+
+          <p class="premier-phone">
+            434-792-8521
+          </p>
+
+        </div>
+
+
+        <div class="premier-offer">
+
+          <strong>
+            Get $5 Off<br>
+            of $25
+          </strong>
+
+          <span>
+            Mention:<br>
+            <b>THS Football</b>
+          </span>
+
+        </div>
+
+      </a>
+
+    </section>
+
+
+    <!-- =====================================================
+         PROUD SUPPORTERS
+         ===================================================== -->
+
+    <section
+      class="supporters-section"
+      aria-labelledby="supporters-heading"
+    >
+
+      <div class="supporters-heading">
+
+        <h3 id="supporters-heading">
+          Proud Supporters of Trojan Football
+        </h3>
+
+      </div>
+
+
+      <div class="supporters-grid">
+
+
+        <!-- BUFFALO WILD WINGS -->
+
+        <a
+          class="supporter-card"
+          href="https://www.buffalowildwings.com/locations/us/va/danville/3415-riverside-drive/sports-bar-493/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Visit Buffalo Wild Wings Danville"
+        >
+
+          <img
+            src="../assets/logos/partners/buffalo-wild-wings.png"
+            alt="Buffalo Wild Wings"
+            class="supporter-logo"
+          >
+
+        </a>
+
+
+        <!-- FIREHOUSE SUBS -->
+
+        <a
+          class="supporter-card"
+          href="https://www.firehousesubs.com/locations"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Visit Firehouse Subs"
+        >
+
+          <img
+            src="../assets/logos/partners/firehouse-subs.png"
+            alt="Firehouse Subs"
+            class="supporter-logo"
+          >
+
+        </a>
+
+
+        <!-- BRIAN JONES MOTORSPORTS -->
+
+        <a
+          class="supporter-card"
+          href="https://www.brianjonesmotorsports.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Visit Brian Jones Motorsports"
+        >
+
+          <img
+            src="../assets/logos/partners/brian-jones-motorsports.png"
+            alt="Brian Jones Motorsports"
+            class="supporter-logo"
+          >
+
+        </a>
+
+
+        <!-- THE TOASTED YOLK -->
+
+        <a
+          class="supporter-card supporter-card-with-offer"
+          href="https://thetoastedyolk.com/locations/danville-va/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Visit The Toasted Yolk Danville"
+        >
+
+          <div class="supporter-logo-area">
+
+            <img
+              src="../assets/logos/partners/the-toasted-yolk.png"
+              alt="The Toasted Yolk Cafe"
+              class="supporter-logo"
+            >
+
+          </div>
+
+
+          <div class="supporter-offer">
+
+            <strong>
+              Get $5 Off<br>
+              of $25
+            </strong>
+
+            <span>
+              Mention:<br>
+              <b>THS Football</b>
+            </span>
+
+          </div>
+
+        </a>
+
+
+        <!-- DOMINION HARDWARE -->
+
+        <a
+          class="supporter-card"
+          href="https://share.google/qud8JZe8GFWMt64Pi"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Visit Dominion Hardware"
+        >
+
+          <img
+            src="../assets/logos/partners/dominion-hardware.png"
+            alt="Dominion Hardware"
+            class="supporter-logo"
+          >
+
+        </a>
+
+
+        <!-- ELIZABETH WARE REALTORS -->
+
+        <a
+          class="supporter-card"
+          href="https://www.elizabethwarerealtors.com/?utm_source=RADIO&amp;utm_campaign=Tunstall+Football&amp;mdv=3&amp;mpv=99&amp;utm_medium=referral"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Visit Elizabeth Ware Realtors"
+        >
+
+          <img
+            src="../assets/logos/partners/elizabeth-ware-realtors.png"
+            alt="Elizabeth Ware Realtors"
+            class="supporter-logo"
+          >
+
+        </a>
+
+      </div>
+
+    </section>
+
   </main>
 
+
   <footer class="site-footer">
+
     <div class="footer-motto">
+
       <span></span>
-      <p>One Team. One Town. All Trojan.</p>
+
+      <p>
+        One Team. One Town. All Trojan.
+      </p>
+
       <span></span>
+
     </div>
 
     <p class="footer-copyright">
       &copy; 2026 Tunstall High School Football
     </p>
+
   </footer>
 
+
   <script src="../js/app.js"></script>
+
 </body>
 </html>
