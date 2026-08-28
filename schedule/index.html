@@ -91,28 +91,105 @@
     <section class="schedule-intro">
       <h2>2026 Schedule</h2>
 
-      <div class="season-record" aria-label="2026 season record">
-        <div class="season-record-item">
-          <span class="season-record-label">Overall</span>
-          <strong>0–0</strong>
-        </div>
+      <div
+        class="schedule-team-toggle"
+        aria-label="Choose football schedule"
+      >
+        <button
+          type="button"
+          class="schedule-team-tab is-active"
+          data-schedule-team="varsity"
+          aria-pressed="true"
+          aria-controls="varsity-summary varsity-schedule"
+        >
+          Varsity
+        </button>
 
-        <div class="season-record-divider"></div>
-
-        <div class="season-record-item">
-          <span class="season-record-label">District</span>
-          <strong>0–0</strong>
-        </div>
+        <button
+          type="button"
+          class="schedule-team-tab"
+          data-schedule-team="jv"
+          aria-pressed="false"
+          aria-controls="jv-summary jv-schedule"
+        >
+          JV
+        </button>
       </div>
 
-      <p class="schedule-subtitle">
-        Follow the Trojans through the 2026 season.
-      </p>
+
+      <!-- VARSITY RECORD -->
+
+      <div
+        class="schedule-team-summary"
+        id="varsity-summary"
+        data-schedule-summary="varsity"
+      >
+        <div
+          class="season-record"
+          aria-label="2026 varsity season record"
+        >
+          <div class="season-record-item">
+            <span class="season-record-label">Overall</span>
+            <strong>0–0</strong>
+          </div>
+
+          <div class="season-record-divider"></div>
+
+          <div class="season-record-item">
+            <span class="season-record-label">District</span>
+            <strong>0–0</strong>
+          </div>
+        </div>
+
+        <p class="schedule-subtitle">
+          Varsity • Fridays at 7:00 PM
+        </p>
+      </div>
+
+
+      <!-- JV RECORD -->
+
+      <div
+        class="schedule-team-summary"
+        id="jv-summary"
+        data-schedule-summary="jv"
+        hidden
+      >
+        <div
+          class="season-record"
+          aria-label="2026 junior varsity season record"
+        >
+          <div class="season-record-item">
+            <span class="season-record-label">Overall</span>
+            <strong>1–0</strong>
+          </div>
+
+          <div class="season-record-divider"></div>
+
+          <div class="season-record-item">
+            <span class="season-record-label">District</span>
+            <strong>0–0</strong>
+          </div>
+        </div>
+
+        <p class="schedule-subtitle">
+          JV • Thursdays at 6:00 PM
+        </p>
+      </div>
+
     </section>
+
 
     <section class="schedule-layout">
 
-      <div class="schedule-list">
+
+      <!-- VARSITY SCHEDULE -->
+
+      <div
+        class="schedule-list schedule-panel"
+        id="varsity-schedule"
+        data-schedule-panel="varsity"
+      >
 
         <div class="schedule-row">
           <div class="schedule-date">8/28/26</div>
@@ -182,6 +259,92 @@
 
       </div>
 
+
+      <!-- JV SCHEDULE -->
+
+      <div
+        class="schedule-list schedule-panel"
+        id="jv-schedule"
+        data-schedule-panel="jv"
+        hidden
+      >
+
+        <div class="schedule-row">
+          <div class="schedule-date">8/27/26</div>
+
+          <div class="schedule-opponent">
+            Dan River
+            <span class="schedule-result-win">W 34–0</span>
+          </div>
+
+          <div class="schedule-location home">Home</div>
+        </div>
+
+        <div class="schedule-row">
+          <div class="schedule-date">9/3/26</div>
+          <div class="schedule-opponent">Chatham</div>
+          <div class="schedule-location away">Away</div>
+        </div>
+
+        <div class="schedule-row">
+          <div class="schedule-date">9/10/26</div>
+          <div class="schedule-opponent">Gretna</div>
+          <div class="schedule-location home">Home</div>
+        </div>
+
+        <div class="schedule-row">
+          <div class="schedule-date">9/17/26</div>
+          <div class="schedule-opponent">Cave Spring</div>
+          <div class="schedule-location away">Away</div>
+        </div>
+
+        <div class="schedule-row">
+          <div class="schedule-date">9/24/26</div>
+          <div class="schedule-opponent">Halifax</div>
+          <div class="schedule-location home">Home</div>
+        </div>
+
+        <div class="schedule-row">
+          <div class="schedule-date">10/1/26</div>
+          <div class="schedule-opponent">Bassett</div>
+          <div class="schedule-location away">Away</div>
+        </div>
+
+        <div class="schedule-row bye-row">
+          <div class="schedule-date">10/8/26</div>
+          <div class="schedule-opponent">BYE</div>
+          <div class="schedule-location bye">Bye</div>
+        </div>
+
+        <div class="schedule-row">
+          <div class="schedule-date">10/15/26</div>
+          <div class="schedule-opponent">Martinsville</div>
+          <div class="schedule-location home">Home</div>
+        </div>
+
+        <div class="schedule-row">
+          <div class="schedule-date">10/22/26</div>
+          <div class="schedule-opponent">Magna Vista</div>
+          <div class="schedule-location away">Away</div>
+        </div>
+
+        <div class="schedule-row">
+          <div class="schedule-date">10/29/26</div>
+          <div class="schedule-opponent">GW Danville</div>
+          <div class="schedule-location home">Home</div>
+        </div>
+
+        <div class="schedule-row">
+          <div class="schedule-date">11/5/26</div>
+          <div class="schedule-opponent">Mecklenburg</div>
+          <div class="schedule-location away">Away</div>
+        </div>
+
+      </div>
+
+
+      <!-- SHARED SCHEDULE GRAPHIC -->
+
       <aside class="schedule-poster-card">
 
         <img
@@ -233,6 +396,7 @@
     </section>
   </main>
 
+
   <footer class="site-footer">
     <div class="footer-motto">
       <span></span>
@@ -245,6 +409,62 @@
     </p>
   </footer>
 
+
   <script src="../js/app.js"></script>
+
+  <script>
+    (() => {
+      const teamButtons =
+        document.querySelectorAll(".schedule-team-tab");
+
+      const summaries =
+        document.querySelectorAll("[data-schedule-summary]");
+
+      const schedulePanels =
+        document.querySelectorAll("[data-schedule-panel]");
+
+      function showSchedule(team) {
+
+        teamButtons.forEach((button) => {
+          const isActive =
+            button.dataset.scheduleTeam === team;
+
+          button.classList.toggle(
+            "is-active",
+            isActive
+          );
+
+          button.setAttribute(
+            "aria-pressed",
+            isActive ? "true" : "false"
+          );
+        });
+
+
+        summaries.forEach((summary) => {
+          summary.hidden =
+            summary.dataset.scheduleSummary !== team;
+        });
+
+
+        schedulePanels.forEach((panel) => {
+          panel.hidden =
+            panel.dataset.schedulePanel !== team;
+        });
+
+      }
+
+
+      teamButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          showSchedule(
+            button.dataset.scheduleTeam
+          );
+        });
+      });
+
+    })();
+  </script>
+
 </body>
 </html>
