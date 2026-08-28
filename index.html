@@ -12,6 +12,166 @@
   >
 
   <link rel="stylesheet" href="css/styles.css">
+
+
+  <!-- HOMEPAGE DIGITAL PROGRAM STRIP -->
+  <style>
+
+    .program-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      width: 100%;
+      min-height: 62px;
+
+      margin: 16px 0 22px;
+      padding: 12px 16px;
+
+      background: #cf0a2c;
+      color: #ffffff;
+
+      border-radius: 12px;
+
+      text-decoration: none;
+
+      box-sizing: border-box;
+
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+    }
+
+
+    .program-strip-left {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-width: 0;
+    }
+
+
+    .program-strip-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      width: 36px;
+      height: 36px;
+
+      flex: 0 0 36px;
+
+      border: 2px solid rgba(255, 255, 255, 0.55);
+      border-radius: 50%;
+    }
+
+
+    .program-strip-icon svg {
+      width: 20px;
+      height: 20px;
+
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+
+    .program-strip-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+
+      min-width: 0;
+    }
+
+
+    .program-strip-label {
+      margin: 0;
+
+      font-size: 0.72rem;
+      font-weight: 700;
+
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+
+      opacity: 0.82;
+    }
+
+
+    .program-strip-title {
+      margin: 0;
+
+      font-size: 0.98rem;
+      font-weight: 800;
+
+      line-height: 1.15;
+    }
+
+
+    .program-strip-action {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+
+      flex: 0 0 auto;
+
+      font-size: 0.76rem;
+      font-weight: 800;
+
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+
+      white-space: nowrap;
+    }
+
+
+    .program-strip-action svg {
+      width: 17px;
+      height: 17px;
+
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+
+    .program-strip:hover {
+      color: #ffffff;
+      text-decoration: none;
+      filter: brightness(0.96);
+    }
+
+
+    .program-strip:focus-visible {
+      outline: 3px solid #ffffff;
+      outline-offset: -5px;
+    }
+
+
+    @media (min-width: 700px) {
+
+      .program-strip {
+        min-height: 66px;
+        padding: 13px 20px;
+      }
+
+
+      .program-strip-title {
+        font-size: 1.05rem;
+      }
+
+
+      .program-strip-action {
+        font-size: 0.82rem;
+      }
+
+    }
+
+  </style>
+
 </head>
 
 <body>
@@ -127,74 +287,68 @@
   <main class="home-content">
 
 
-    <!-- DIGITAL PROGRAM FEATURE -->
+    <!-- COMPACT DIGITAL PROGRAM STRIP -->
 
-    <section
-      class="program-feature"
-      aria-labelledby="program-feature-title"
+    <a
+      href="program/"
+      class="program-strip"
+      aria-label="View the 2026 Tunstall Trojan Football Digital Program"
     >
 
-      <div class="program-feature-icon" aria-hidden="true">
+      <div class="program-strip-left">
 
-        <svg viewBox="0 0 64 64">
+        <div class="program-strip-icon" aria-hidden="true">
 
-          <path
-            d="M32 14c-7-5-15-7-24-6v38c9-1 17 1 24 6"
-          ></path>
+          <svg viewBox="0 0 24 24">
 
-          <path
-            d="M32 14c7-5 15-7 24-6v38c-9-1-17 1-24 6"
-          ></path>
+            <path
+              d="M4 5.5c3-.5 5.7.2 8 2v11c-2.3-1.8-5-2.5-8-2Z"
+            ></path>
 
-          <path d="M32 14v38"></path>
+            <path
+              d="M20 5.5c-3-.5-5.7.2-8 2v11c2.3-1.8 5-2.5 8-2Z"
+            ></path>
 
+          </svg>
+
+        </div>
+
+
+        <div class="program-strip-text">
+
+          <p class="program-strip-label">
+            2026 Digital Program
+          </p>
+
+          <p class="program-strip-title">
+            Tunstall Football Program
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="program-strip-action">
+
+        <span>
+          View
+        </span>
+
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path d="M5 12h14"></path>
+          <path d="m13 6 6 6-6 6"></path>
         </svg>
 
       </div>
 
-
-      <div class="program-feature-copy">
-
-        <p class="program-feature-label">
-          2026 Digital Program
-        </p>
-
-        <h2 id="program-feature-title">
-          The Trojan Football Program Is Here
-        </h2>
-
-        <p>
-          Flip through the official 2026 Tunstall Trojan Football
-          digital program for team information, schedules, rosters,
-          Trojan seniors, program partners and more.
-        </p>
+    </a>
 
 
-        <a
-          href="program/"
-          class="program-feature-button"
-        >
-
-          <span>
-            View the Digital Program
-          </span>
-
-          <svg
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
-            <path d="M5 12h14"></path>
-            <path d="m13 6 6 6-6 6"></path>
-          </svg>
-
-        </a>
-
-      </div>
-
-    </section>
-
-
-    <!-- EXISTING HOMEPAGE WELCOME CARD -->
+    <!-- HOMEPAGE WELCOME CARD -->
 
     <section class="welcome-card">
 
