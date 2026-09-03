@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
 
@@ -8,18 +9,104 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>Partners | Tunstall Trojan Football</title>
+  <title>
+    Partners | Tunstall Trojan Football
+  </title>
 
   <meta
     name="description"
     content="Meet the community partners supporting Tunstall Trojan Football."
   >
 
-  <link rel="stylesheet" href="../css/styles.css">
+  <link
+    rel="stylesheet"
+    href="../css/styles.css"
+  >
+
+
+  <!-- =====================================================
+       PARTNERS PAGE - PAGE-SPECIFIC STYLES
+       ===================================================== -->
+
+  <style>
+
+    /* =====================================================
+       PREMIER PARTNER - DR. TODD PIERCE
+       ===================================================== */
+
+    .premier-doctor {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      width: 100%;
+    }
+
+    .premier-doctor-photo {
+      width: 118px;
+      height: 138px;
+      object-fit: cover;
+      object-position: center top;
+      border-radius: 10px;
+      flex-shrink: 0;
+      display: block;
+    }
+
+    .premier-doctor-copy {
+      text-align: left;
+    }
+
+    .premier-doctor-copy h3 {
+      margin: 0 0 10px;
+      font-size: 1.5rem;
+      line-height: 1.1;
+    }
+
+    .premier-specialty {
+      margin: 0 0 14px;
+      font-size: 1rem;
+      line-height: 1.4;
+      font-weight: 600;
+    }
+
+    .premier-doctor-copy .premier-phone {
+      margin: 0;
+    }
+
+
+    /* =====================================================
+       MOBILE PREMIER PARTNER
+       ===================================================== */
+
+    @media (max-width: 700px) {
+
+      .premier-doctor {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .premier-doctor-photo {
+        width: 105px;
+        height: 122px;
+      }
+
+      .premier-doctor-copy {
+        text-align: center;
+      }
+
+      .premier-doctor-copy h3 {
+        font-size: 1.3rem;
+      }
+
+    }
+
+  </style>
+
 </head>
 
 
 <body>
+
 
   <!-- =====================================================
        SITE HEADER
@@ -158,7 +245,9 @@
   <main class="partners-page">
 
 
-    <!-- PAGE INTRO -->
+    <!-- ===================================================
+         PAGE INTRO
+         =================================================== -->
 
     <section class="partners-intro">
 
@@ -167,14 +256,15 @@
       </h2>
 
       <p class="partners-subtitle">
-        Thank you to our partners for supporting
-        Tunstall Trojan Football.
+        Thank you to our partners for supporting Tunstall Trojan Football.
       </p>
 
     </section>
 
 
-    <!-- TAP NOTICE -->
+    <!-- ===================================================
+         TAP NOTICE
+         =================================================== -->
 
     <div class="partner-link-notice">
 
@@ -219,7 +309,9 @@
         </span>
 
 
-        <!-- SOVAH LOGO -->
+        <!-- ===============================================
+             SOVAH LOGO
+             =============================================== -->
 
         <div class="premier-logo-area">
 
@@ -232,31 +324,46 @@
         </div>
 
 
-        <!-- DR. TODD PIERCE -->
+        <!-- ===============================================
+             DR. TODD PIERCE
+             =============================================== -->
 
         <div class="premier-details">
 
-          <span class="premier-details-label">
-            Sovah Orthopedics &amp; Sports Medicine
-          </span>
+          <div class="premier-doctor">
 
-          <h3>
-            Dr. Todd Pierce
-          </h3>
+            <img
+              src="../assets/logos/partners/dr-todd-pierce.png"
+              alt="Dr. Todd Pierce"
+              class="premier-doctor-photo"
+            >
 
-          <p class="premier-address">
-            Specializing in your<br>
-            orthopedic care
-          </p>
 
-          <p class="premier-phone">
-            434-793-4711
-          </p>
+            <div class="premier-doctor-copy">
+
+              <h3>
+                Dr. Todd Pierce
+              </h3>
+
+              <p class="premier-specialty">
+                Specializing in your<br>
+                orthopedic care
+              </p>
+
+              <p class="premier-phone">
+                434-793-4711
+              </p>
+
+            </div>
+
+          </div>
 
         </div>
 
 
-        <!-- LOCATION / CTA -->
+        <!-- ===============================================
+             ACCEPTING NEW PATIENTS / LOCATION
+             =============================================== -->
 
         <div class="premier-offer">
 
@@ -266,14 +373,17 @@
           </strong>
 
           <span>
+
             109 Bridge Street<br>
             Suite 300<br>
             Danville, VA 24541
+
             <br><br>
 
             <b>
               Tap to Learn More
             </b>
+
           </span>
 
         </div>
@@ -458,11 +568,13 @@
             </strong>
 
             <span>
+
               Mention:<br>
 
               <b>
                 THS Football
               </b>
+
             </span>
 
           </div>
@@ -599,7 +711,12 @@
   </footer>
 
 
+  <!-- =====================================================
+       SITE JAVASCRIPT
+       ===================================================== -->
+
   <script src="../js/app.js"></script>
 
 </body>
+
 </html>
