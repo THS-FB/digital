@@ -1,0 +1,298 @@
+{
+  "season": 2026,
+  "teamName": "Tunstall",
+  "timezone": "America/New_York",
+  "estimatedGameDurationMinutes": 150,
+
+  "teams": {
+    "varsity": {
+      "label": "Varsity",
+      "defaultKickoff": "19:00"
+    },
+    "jv": {
+      "label": "JV",
+      "defaultKickoff": "18:00"
+    }
+  },
+
+  "games": [
+    {
+      "id": "varsity-2026-08-28-dan-river",
+      "team": "varsity",
+      "date": "2026-08-28",
+      "kickoff": "19:00",
+      "opponent": "Dan River",
+      "location": "away",
+      "district": false,
+      "status": "final",
+      "result": {
+        "tunstall": 42,
+        "opponent": 28,
+        "highlights": [],
+        "players": []
+      }
+    },
+
+    {
+      "id": "varsity-2026-09-04-chatham",
+      "team": "varsity",
+      "date": "2026-09-04",
+      "kickoff": "19:00",
+      "opponent": "Chatham",
+      "location": "home",
+      "district": false,
+      "status": "scheduled",
+      "result": null
+    },
+
+    {
+      "id": "varsity-2026-09-11-gretna",
+      "team": "varsity",
+      "date": "2026-09-11",
+      "kickoff": "19:00",
+      "opponent": "Gretna",
+      "location": "away",
+      "district": false,
+      "status": "scheduled",
+      "result": null
+    },
+
+    {
+      "id": "varsity-2026-09-18-cave-spring",
+      "team": "varsity",
+      "date": "2026-09-18",
+      "kickoff": "19:00",
+      "opponent": "Cave Spring",
+      "location": "home",
+      "district": false,
+      "status": "scheduled",
+      "result": null
+    },
+
+    {
+      "id": "varsity-2026-09-25-halifax",
+      "team": "varsity",
+      "date": "2026-09-25",
+      "kickoff": "19:00",
+      "opponent": "Halifax",
+      "location": "away",
+      "district": true,
+      "status": "scheduled",
+      "result": null
+    },
+
+    {
+      "id": "varsity-2026-10-02-bassett",
+      "team": "varsity",
+      "date": "2026-10-02",
+      "kickoff": "19:00",
+      "opponent": "Bassett",
+      "location": "home",
+      "district": true,
+      "status": "scheduled",
+      "result": null
+    },
+
+    {
+      "id": "varsity-2026-10-09-bye",
+      "team": "varsity",
+      "date": "2026-10-09",
+      "kickoff": null,
+      "opponent": "BYE",
+      "location": "bye",
+      "district": false,
+      "status": "bye",
+      "result": null
+    },
+
+    {
+      "id": "varsity-2026-10-16-martinsville",
+      "team": "varsity",
+      "date": "2026-10-16",
+      "kickoff": "19:00",
+      "opponent": "Martinsville",
+      "location": "away",
+      "district": false,
+      "status": "scheduled",
+      "result": null
+    },
+
+    {
+      "id": "varsity-2026-10-23-magna-vista",
+      "team": "varsity",
+      "date": "2026-10-23",
+      "kickoff": "19:00",
+      "opponent": "Magna Vista",
+      "location": "home",
+      "district": true,
+      "status": "scheduled",
+      "result": null
+    },
+
+    {
+      "id": "varsity-2026-10-30-gw-danville",
+      "team": "varsity",
+      "date": "2026-10-30",
+      "kickoff": "19:00",
+      "opponent": "GW Danville",
+      "location": "away",
+      "district": true,
+      "status": "scheduled",
+      "result": null
+    },
+
+    {
+      "id": "varsity-2026-11-06-mecklenburg",
+      "team": "varsity",
+      "date": "2026-11-06",
+      "kickoff": "19:00",
+      "opponent": "Mecklenburg",
+      "location": "home",
+      "district": true,
+      "status": "scheduled",
+      "result": null
+    },
+
+    {
+      "id": "jv-2026-08-27-dan-river",
+      "team": "jv",
+      "date": "2026-08-27",
+      "kickoff": "18:00",
+      "opponent": "Dan River",
+      "location": "home",
+      "district": false,
+      "status": "final",
+      "result": {
+        "tunstall": 34,
+        "opponent": 0,
+        "highlights": [],
+        "players": []
+      }
+    },
+
+    {
+      "id": "jv-2026-09-03-chatham",
+      "team": "jv",
+      "date": "2026-09-03",
+      "kickoff": "19:00",
+      "opponent": "Chatham",
+      "location": "away",
+      "district": false,
+      "status": "final",
+      "result": {
+        "tunstall": 50,
+        "opponent": 0,
+        "highlights": [],
+        "players": []
+      }
+    },
+
+    {
+      "id": "jv-2026-09-10-gretna",
+      "team": "jv",
+      "date": "2026-09-10",
+      "kickoff": "18:00",
+      "opponent": "Gretna",
+      "location": "home",
+      "district": false,
+      "status": "scheduled",
+      "result": null
+    },
+
+    {
+      "id": "jv-2026-09-17-cave-spring",
+      "team": "jv",
+      "date": "2026-09-17",
+      "kickoff": "18:00",
+      "opponent": "Cave Spring",
+      "location": "away",
+      "district": false,
+      "status": "scheduled",
+      "result": null
+    },
+
+    {
+      "id": "jv-2026-09-24-halifax",
+      "team": "jv",
+      "date": "2026-09-24",
+      "kickoff": "18:00",
+      "opponent": "Halifax",
+      "location": "home",
+      "district": true,
+      "status": "scheduled",
+      "result": null
+    },
+
+    {
+      "id": "jv-2026-10-01-bassett",
+      "team": "jv",
+      "date": "2026-10-01",
+      "kickoff": "18:00",
+      "opponent": "Bassett",
+      "location": "away",
+      "district": true,
+      "status": "scheduled",
+      "result": null
+    },
+
+    {
+      "id": "jv-2026-10-08-bye",
+      "team": "jv",
+      "date": "2026-10-08",
+      "kickoff": null,
+      "opponent": "BYE",
+      "location": "bye",
+      "district": false,
+      "status": "bye",
+      "result": null
+    },
+
+    {
+      "id": "jv-2026-10-15-martinsville",
+      "team": "jv",
+      "date": "2026-10-15",
+      "kickoff": "18:00",
+      "opponent": "Martinsville",
+      "location": "home",
+      "district": false,
+      "status": "scheduled",
+      "result": null
+    },
+
+    {
+      "id": "jv-2026-10-22-magna-vista",
+      "team": "jv",
+      "date": "2026-10-22",
+      "kickoff": "18:00",
+      "opponent": "Magna Vista",
+      "location": "away",
+      "district": true,
+      "status": "scheduled",
+      "result": null
+    },
+
+    {
+      "id": "jv-2026-10-29-gw-danville",
+      "team": "jv",
+      "date": "2026-10-29",
+      "kickoff": "18:00",
+      "opponent": "GW Danville",
+      "location": "home",
+      "district": true,
+      "status": "scheduled",
+      "result": null
+    },
+
+    {
+      "id": "jv-2026-11-05-mecklenburg",
+      "team": "jv",
+      "date": "2026-11-05",
+      "kickoff": "18:00",
+      "opponent": "Mecklenburg",
+      "location": "away",
+      "district": true,
+      "status": "scheduled",
+      "result": null
+    }
+  ]
+}
