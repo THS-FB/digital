@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    Football Admin | Tunstall Trojan Football
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="../css/styles.css"
+  >
+
+  <style>
+    .admin-page {
+      min-height: 70vh;
+      padding: 32px 18px 60px;
+      background: #f4f4f4;
+    }
+
+    .admin-shell {
+      width: min(100%, 680px);
+      margin: 0 auto;
+    }
+
+    .admin-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .admin-back-link {
+      color: #4a4a4a;
+      font-size: 0.92rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .admin-badge {
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: #222222;
+      color: #ffffff;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .admin-heading {
+      margin-bottom: 22px;
+    }
+
+    .admin-eyebrow {
+      margin: 0 0 7px;
+      color: #c8102e;
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+    }
+
+    .admin-heading h2 {
+      margin: 0;
+      color: #222222;
+      font-size: 2rem;
+      line-height: 1.08;
+    }
+
+    .admin-heading p {
+      margin: 10px 0 0;
+      color: #666666;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .admin-card {
+      margin-bottom: 18px;
+      padding: 22px;
+      background: #ffffff;
+      border: 1px solid #d2d2d2;
+      border-top: 5px solid #c8102e;
+      border-radius: 10px;
+      box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.06);
+    }
+
+    .admin-card[hidden] {
+      display: none;
+    }
+
+    .admin-card-label {
+      margin: 0 0 8px;
+      color: #c8102e;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .admin-card h3 {
+      margin: 0 0 8px;
+      color: #222222;
+      font-size: 1.45rem;
+      line-height: 1.15;
+    }
+
+    .admin-muted {
+      margin: 0;
+      color: #666666;
+      line-height: 1.55;
+    }
+
+    .admin-game-meta {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin: 18px 0;
+    }
+
+    .admin-game-meta-item {
+      padding: 12px;
+      background: #f4f4f4;
+      border-radius: 8px;
+    }
+
+    .admin-game-meta-item span {
+      display: block;
+      margin-bottom: 3px;
+      color: #8a8a8a;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .admin-game-meta-item strong {
+      color: #222222;
+      font-size: 1rem;
+    }
+
+    .admin-button {
+      width: 100%;
+      min-height: 52px;
+      margin-top: 10px;
+      padding: 13px 18px;
+      border: 0;
+      border-radius: 7px;
+      background: #c8102e;
+      color: #ffffff;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .admin-button-secondary {
+      background: #4a4a4a;
+    }
+
+    .admin-button-light {
+      background: #e4e4e4;
+      color: #222222;
+    }
+
+    .admin-form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .admin-field {
+      margin-top: 18px;
+    }
+
+    .admin-field label {
+      display: block;
+      margin-bottom: 7px;
+      color: #222222;
+      font-size: 0.88rem;
+      font-weight: 800;
+    }
+
+    .admin-field input,
+    .admin-field textarea {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid #bfbfbf;
+      border-radius: 7px;
+      background: #ffffff;
+      color: #222222;
+      font: inherit;
+    }
+
+    .admin-field input {
+      min-height: 50px;
+    }
+
+    .admin-score-input {
+      text-align: center;
+      font-size: 1.6rem !important;
+      font-weight: 800 !important;
+    }
+
+    .admin-field textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .admin-step-title {
+      margin-bottom: 4px;
+      color: #8a8a8a;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .admin-review-score {
+      margin: 20px 0;
+      padding: 18px;
+      text-align: center;
+      background: #f4f4f4;
+      border-radius: 9px;
+    }
+
+    .admin-review-score strong {
+      display: block;
+      color: #222222;
+      font-size: 1.65rem;
+      line-height: 1.25;
+    }
+
+    .admin-review-result {
+      margin-top: 6px;
+      color: #c8102e;
+      font-size: 1rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+
+    .admin-review-section {
+      padding: 14px 0;
+      border-top: 1px solid #e4e4e4;
+    }
+
+    .admin-review-section strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #222222;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+    }
+
+    .admin-review-section p {
+      margin: 0;
+      color: #555555;
+      line-height: 1.5;
+    }
+
+    .admin-status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px;
+      background: #f4f4f4;
+      border-radius: 8px;
+    }
+
+    .admin-status-dot {
+      width: 10px;
+      height: 10px;
+      flex: 0 0 10px;
+      border-radius: 50%;
+      background: #c8102e;
+    }
+
+    .admin-error {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-left: 4px solid #c8102e;
+      background: #fff2f4;
+      color: #7b1022;
+      line-height: 1.45;
+    }
+
+    .admin-error[hidden] {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .admin-page {
+        padding: 22px 14px 50px;
+      }
+
+      .admin-heading h2 {
+        font-size: 1.65rem;
+      }
+
+      .admin-card {
+        padding: 18px;
+      }
+
+      .admin-form-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .admin-game-meta {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="site-header">
+    <img
+      src="../assets/logos/ths-trojan-head.png"
+      alt="Tunstall Trojan"
+      class="trojan-head-logo"
+    >
+
+    <h1>Tunstall Trojan Football</h1>
+
+    <p class="team-motto">
+      One Team. One Town. All Trojan.
+    </p>
+
+    <div class="brand-divider">
+      <span></span>
+
+      <img
+        src="../assets/logos/ths-tt-logo.png"
+        alt="Tunstall TT"
+        class="tt-logo"
+      >
+
+      <span></span>
+    </div>
+  </header>
+
+
+  <main class="admin-page">
+
+    <div class="admin-shell">
+
+      <div class="admin-topbar">
+        <a
+          href="../"
+          class="admin-back-link"
+        >
+          ← Back to Website
+        </a>
+
+        <span class="admin-badge">
+          Admin
+        </span>
+      </div>
+
+
+      <section class="admin-heading">
+
+        <p class="admin-eyebrow">
+          THS Football
+        </p>
+
+        <h2>
+          Postgame Update
+        </h2>
+
+        <p>
+          Record a final score and prepare the
+          website update in just a few steps.
+        </p>
+
+      </section>
+
+
+      <!-- LOADING -->
+
+      <section
+        class="admin-card"
+        id="admin-loading"
+      >
+
+        <div class="admin-status">
+
+          <span class="admin-status-dot"></span>
+
+          <strong>
+            Checking the 2026 schedule...
+          </strong>
+
+        </div>
+
+      </section>
+
+
+      <!-- GAME READY -->
+
+      <section
+        class="admin-card"
+        id="game-ready"
+        hidden
+      >
+
+        <p class="admin-card-label">
+          Game Complete
+        </p>
+
+        <h3 id="game-ready-title">
+          Tunstall vs Opponent
+        </h3>
+
+        <p
+          class="admin-muted"
+          id="game-ready-description"
+        >
+          This game appears to have ended and
+          does not have a final score recorded.
+        </p>
+
+
+        <div class="admin-game-meta">
+
+          <div class="admin-game-meta-item">
+            <span>Team</span>
+            <strong id="game-ready-team">
+              Varsity
+            </strong>
+          </div>
+
+          <div class="admin-game-meta-item">
+            <span>Date</span>
+            <strong id="game-ready-date">
+              --
+            </strong>
+          </div>
+
+          <div class="admin-game-meta-item">
+            <span>Location</span>
+            <strong id="game-ready-location">
+              --
+            </strong>
+          </div>
+
+          <div class="admin-game-meta-item">
+            <span>Opponent</span>
+            <strong id="game-ready-opponent">
+              --
+            </strong>
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="admin-button"
+          id="start-result"
+        >
+          Record Result
+        </button>
+
+      </section>
+
+
+      <!-- NO GAME -->
+
+      <section
+        class="admin-card"
+        id="no-game-ready"
+        hidden
+      >
+
+        <p class="admin-card-label">
+          Schedule Current
+        </p>
+
+        <h3>
+          No results need to be entered.
+        </h3>
+
+        <p class="admin-muted">
+          There are no completed games waiting
+          for a final score right now.
+        </p>
+
+      </section>
+
+
+      <!-- STEP 1: SCORE -->
+
+      <section
+        class="admin-card"
+        id="score-step"
+        hidden
+      >
+
+        <p class="admin-step-title">
+          Step 1 of 3
+        </p>
+
+        <h3>
+          Final Score
+        </h3>
+
+        <p
+          class="admin-muted"
+          id="score-game-title"
+        >
+          Tunstall vs Opponent
+        </p>
+
+
+        <div class="admin-form-row">
+
+          <div class="admin-field">
+            <label for="tunstall-score">
+              Tunstall
+            </label>
+
+            <input
+              id="tunstall-score"
+              class="admin-score-input"
+              type="number"
+              inputmode="numeric"
+              min="0"
+              step="1"
+              autocomplete="off"
+            >
+          </div>
+
+
+          <div class="admin-field">
+            <label
+              for="opponent-score"
+              id="opponent-score-label"
+            >
+              Opponent
+            </label>
+
+            <input
+              id="opponent-score"
+              class="admin-score-input"
+              type="number"
+              inputmode="numeric"
+              min="0"
+              step="1"
+              autocomplete="off"
+            >
+          </div>
+
+        </div>
+
+
+        <div
+          class="admin-error"
+          id="score-error"
+          hidden
+        >
+          Enter a valid final score for both teams.
+        </div>
+
+
+        <button
+          type="button"
+          class="admin-button"
+          id="score-continue"
+        >
+          Continue
+        </button>
+
+
+        <button
+          type="button"
+          class="admin-button admin-button-light"
+          id="score-cancel"
+        >
+          Cancel
+        </button>
+
+      </section>
+
+
+      <!-- STEP 2: NOTES -->
+
+      <section
+        class="admin-card"
+        id="notes-step"
+        hidden
+      >
+
+        <p class="admin-step-title">
+          Step 2 of 3
+        </p>
+
+        <h3>
+          Game Highlights
+        </h3>
+
+        <p class="admin-muted">
+          These fields are optional. You can
+          leave either one blank.
+        </p>
+
+
+        <div class="admin-field">
+
+          <label for="game-highlights">
+            Key Moments
+          </label>
+
+          <textarea
+            id="game-highlights"
+            placeholder="Example: Trojans scored three touchdowns in the second quarter."
+          ></textarea>
+
+        </div>
+
+
+        <div class="admin-field">
+
+          <label for="player-highlights">
+            Players to Highlight
+          </label>
+
+          <textarea
+            id="player-highlights"
+            placeholder="Example: #4 — 2 TDs, #26 — 100 rushing yards."
+          ></textarea>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="admin-button"
+          id="notes-continue"
+        >
+          Review Update
+        </button>
+
+
+        <button
+          type="button"
+          class="admin-button admin-button-light"
+          id="notes-back"
+        >
+          Back
+        </button>
+
+      </section>
+
+
+      <!-- STEP 3: REVIEW -->
+
+      <section
+        class="admin-card"
+        id="review-step"
+        hidden
+      >
+
+        <p class="admin-step-title">
+          Step 3 of 3
+        </p>
+
+        <h3>
+          Review Result
+        </h3>
+
+        <p class="admin-muted">
+          Confirm everything below before
+          publishing the update.
+        </p>
+
+
+        <div class="admin-review-score">
+
+          <strong id="review-score">
+            Tunstall 0 — Opponent 0
+          </strong>
+
+          <div
+            class="admin-review-result"
+            id="review-result"
+          >
+            RESULT
+          </div>
+
+        </div>
+
+
+        <div class="admin-review-section">
+
+          <strong>
+            New Overall Record
+          </strong>
+
+          <p id="review-record">
+            --
+          </p>
+
+        </div>
+
+
+        <div class="admin-review-section">
+
+          <strong>
+            Key Moments
+          </strong>
+
+          <p id="review-highlights">
+            None entered
+          </p>
+
+        </div>
+
+
+        <div class="admin-review-section">
+
+          <strong>
+            Players to Highlight
+          </strong>
+
+          <p id="review-players">
+            None entered
+          </p>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="admin-button"
+          id="publish-result"
+        >
+          Publish Result
+        </button>
+
+
+        <button
+          type="button"
+          class="admin-button admin-button-light"
+          id="review-back"
+        >
+          Back
+        </button>
+
+      </section>
+
+
+      <!-- SUCCESS -->
+
+      <section
+        class="admin-card"
+        id="success-step"
+        hidden
+      >
+
+        <p class="admin-card-label">
+          Update Submitted
+        </p>
+
+        <h3>
+          Postgame result ready for publishing.
+        </h3>
+
+        <p class="admin-muted">
+          GitHub will handle the website update
+          after the result submission is completed.
+        </p>
+
+      </section>
+
+
+      <!-- GENERAL ERROR -->
+
+      <section
+        class="admin-card"
+        id="admin-error-card"
+        hidden
+      >
+
+        <p class="admin-card-label">
+          Unable to Load
+        </p>
+
+        <h3>
+          The admin page could not read the schedule.
+        </h3>
+
+        <p class="admin-muted">
+          Refresh the page and try again.
+        </p>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <footer class="site-footer">
+
+    <div class="footer-motto">
+      <span></span>
+
+      <p>
+        One Team. One Town. All Trojan.
+      </p>
+
+      <span></span>
+    </div>
+
+    <p class="footer-copyright">
+      &copy; 2026 Tunstall High School Football
+    </p>
+
+  </footer>
+
+
+  <script src="../js/app.js"></script>
+  <script src="./admin.js"></script>
+
+</body>
+</html>
