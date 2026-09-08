@@ -1,4 +1,5 @@
 (() => {
+  const BUILD_ID = "2026-09-08c";
   const PDF_URL = "../assets/program/current-program.pdf";
   const PDFJS_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs";
   const PDFJS_WORKER_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
@@ -22,30 +23,34 @@
   let totalPages = 0;
 
   const showStatus = (message) => {
-    statusText.textContent = message;
-    status.hidden = false;
+    if (statusText) statusText.textContent = message;
+    if (status) status.hidden = false;
   };
 
   const hideStatus = () => {
-    status.hidden = true;
+    if (status) status.hidden = true;
   };
 
   const showError = (message) => {
-    errorBox.textContent = message;
-    errorBox.classList.add("is-visible");
+    if (errorBox) {
+      errorBox.textContent = message;
+      errorBox.classList.add("is-visible");
+    }
     hideStatus();
   };
 
   const loadScript = (src) => new Promise((resolve, reject) => {
     const script = document.createElement("script");
-    script.src = src;
+    script.src = `${src}?v=${encodeURIComponent(BUILD_ID)}`;
     script.async = true;
     script.onload = resolve;
-    script.onerror = () => reject(new Error(`Unable to load ${src}`));
+    script.onerror = () => reject(new Error(`Unable to load StPageFlip from ${src}`));
     document.head.appendChild(script);
   });
 
   const updateCounter = (pageIndex = 0) => {
+    if (!counter || !prevButton || !nextButton) return;
+
     if (!totalPages) {
       counter.textContent = "0 / 0";
       return;
@@ -148,6 +153,7 @@
       canvas.style.height = "100%";
 
       const context = canvas.getContext("2d", { alpha: false });
+      if (!context) throw new Error(`Canvas context unavailable for page ${pageNumber}`);
 
       const linkLayer = document.createElement("div");
       linkLayer.className = "pdf-link-layer";
@@ -155,11 +161,7 @@
       page.append(canvas, linkLayer);
       book.appendChild(page);
 
-      const renderContext = {
-        canvasContext: context,
-        viewport
-      };
-
+      const renderContext = { canvasContext: context, viewport };
       if (outputScale !== 1) {
         renderContext.transform = [outputScale, 0, 0, outputScale, 0, 0];
       }
@@ -178,8 +180,8 @@
       await loadScript(PAGEFLIP_URL);
     }
 
-    if (!window.St || !window.St.PageFlip) {
-      throw new Error("StPageFlip did not initialize after loading the browser bundle.");
+    if (!window.St || typeof window.St.PageFlip !== "function") {
+      throw new Error("StPageFlip browser bundle loaded, but St.PageFlip is unavailable");
     }
 
     pageFlip = new window.St.PageFlip(book, {
@@ -199,12 +201,21 @@
       flippingTime: 700
     });
 
-    pageFlip.loadFromHTML(document.querySelectorAll(".flip-page"));
+    const htmlLoader =
+      (typeof pageFlip.loadFromHTML === "function" && pageFlip.loadFromHTML) ||
+      (typeof pageFlip.loadFromHtml === "function" && pageFlip.loadFromHtml);
+
+    if (!htmlLoader) {
+      const methods = Object.getOwnPropertyNames(Object.getPrototypeOf(pageFlip)).sort().join(", ");
+      throw new Error(`No HTML page loader found on StPageFlip. Available methods: ${methods}`);
+    }
+
+    htmlLoader.call(pageFlip, document.querySelectorAll(".flip-page"));
     pageFlip.on("flip", (event) => updateCounter(event.data));
     updateCounter(0);
 
-    prevButton.addEventListener("click", () => pageFlip.flipPrev());
-    nextButton.addEventListener("click", () => pageFlip.flipNext());
+    if (prevButton) prevButton.addEventListener("click", () => pageFlip.flipPrev());
+    if (nextButton) nextButton.addEventListener("click", () => pageFlip.flipNext());
 
     document.addEventListener("keydown", (event) => {
       if (event.key === "ArrowLeft") pageFlip.flipPrev();
@@ -214,38 +225,43 @@
     hideStatus();
   };
 
-  fullscreenButton.addEventListener("click", async () => {
-    try {
-      if (!document.fullscreenElement) {
-        await shell.requestFullscreen();
-      } else {
-        await document.exitFullscreen();
+  if (fullscreenButton) {
+    fullscreenButton.addEventListener("click", async () => {
+      try {
+        if (!document.fullscreenElement) {
+          await shell.requestFullscreen();
+        } else {
+          await document.exitFullscreen();
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
+    });
+  }
+
+  document.addEventListener("fullscreenchange", () => {
+    if (fullscreenButton) {
+      fullscreenButton.setAttribute(
+        "aria-pressed",
+        document.fullscreenElement ? "true" : "false"
+      );
     }
   });
 
-  document.addEventListener("fullscreenchange", () => {
-    fullscreenButton.setAttribute(
-      "aria-pressed",
-      document.fullscreenElement ? "true" : "false"
-    );
-  });
-
-  downloadLink.href = PDF_URL;
-  downloadLink.download = "Tunstall-2026-Digital-Program.pdf";
+  if (downloadLink) {
+    downloadLink.href = PDF_URL;
+    downloadLink.download = "Tunstall-2026-Digital-Program.pdf";
+  }
 
   (async () => {
     try {
-      const pdfjsLib = await import(PDFJS_URL);
+      const pdfjsLib = await import(`${PDFJS_URL}?v=${encodeURIComponent(BUILD_ID)}`);
       const dimensions = await renderPdfPages(pdfjsLib);
       await initializePageFlip(dimensions);
     } catch (error) {
       console.error(error);
-      showError(
-        "The digital program could not be loaded. Please refresh the page and try again."
-      );
+      const detail = error && error.message ? error.message : String(error);
+      showError(`Flipbook build ${BUILD_ID} error: ${detail}`);
     }
   })();
 })();
