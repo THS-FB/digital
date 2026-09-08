@@ -1,5 +1,5 @@
 (() => {
-  const BUILD_ID = "2026-09-08c";
+  const BUILD_ID = "2026-09-08d";
   const PDF_URL = "../assets/program/current-program.pdf";
   const PDFJS_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs";
   const PDFJS_WORKER_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
@@ -192,7 +192,7 @@
       maxWidth: dimensions.pageWidth,
       minHeight: 320,
       maxHeight: dimensions.pageHeight,
-      maxShadowOpacity: 0.45,
+      maxShadowOpacity: 0.55,
       showCover: true,
       mobileScrollSupport: true,
       usePortrait: true,
