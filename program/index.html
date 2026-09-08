@@ -18,6 +18,7 @@
   >
 
   <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="./flipbook.css">
 </head>
 
 
@@ -109,7 +110,7 @@
     </div>
 
 
-       <div class="nav-links" id="site-menu">
+    <div class="nav-links" id="site-menu">
 
       <a href="../">
         Home
@@ -144,7 +145,6 @@
 
   <main class="program-page">
 
-
     <section class="program-intro">
 
       <p class="eyebrow">
@@ -168,23 +168,85 @@
       aria-label="2026 Tunstall Football Digital Program"
     >
 
-      <div class="program-embed-shell">
+      <div class="flipbook-shell">
 
-        <iframe
-          class="flipsnack-player"
-          src="https://player.flipsnack.com/index.html?hash=N0Y1RDY1OUJEQzkraG0wMXc2MG04eQ=="
-          width="100%"
-          height="480"
-          seamless="seamless"
-          scrolling="no"
-          frameborder="0"
-          allowfullscreen
-          allow="fullscreen; autoplay; clipboard-read; clipboard-write"
-          loading="lazy"
-          title="2026 Tunstall Trojan Football Digital Program"
-        ></iframe>
+        <div
+          class="flipbook-status"
+          id="flipbook-status"
+          role="status"
+          aria-live="polite"
+        >
+          <span class="flipbook-spinner" aria-hidden="true"></span>
+          <span id="flipbook-status-text">Loading digital program...</span>
+        </div>
+
+        <p class="flipbook-error" id="flipbook-error"></p>
+
+        <div class="flipbook-stage" id="flipbook-stage">
+          <div id="flipbook" aria-label="Digital program pages"></div>
+        </div>
+
+        <div class="flipbook-toolbar" aria-label="Digital program controls">
+
+          <div class="flipbook-toolbar-group">
+            <button
+              type="button"
+              class="flipbook-button"
+              id="flipbook-prev"
+              aria-label="Previous page"
+            >
+              <span aria-hidden="true">&#8592;</span>
+              <span class="flipbook-button-label">Previous</span>
+            </button>
+          </div>
+
+          <div
+            class="flipbook-page-counter"
+            id="flipbook-page-counter"
+            aria-live="polite"
+          >
+            0 / 0
+          </div>
+
+          <div class="flipbook-toolbar-group">
+            <button
+              type="button"
+              class="flipbook-button"
+              id="flipbook-next"
+              aria-label="Next page"
+            >
+              <span class="flipbook-button-label">Next</span>
+              <span aria-hidden="true">&#8594;</span>
+            </button>
+
+            <button
+              type="button"
+              class="flipbook-button"
+              id="flipbook-fullscreen"
+              aria-label="View full screen"
+              aria-pressed="false"
+            >
+              <span aria-hidden="true">&#x26F6;</span>
+              <span class="flipbook-button-label">Full screen</span>
+            </button>
+
+            <a
+              class="flipbook-download"
+              id="flipbook-download"
+              href="../assets/program/current-program.pdf"
+            >
+              <span aria-hidden="true">&#8595;</span>
+              <span class="flipbook-download-label">PDF</span>
+            </a>
+          </div>
+
+        </div>
 
       </div>
+
+      <p class="flipbook-help">
+        On desktop, use the arrows or drag the page edge. On mobile, swipe left or right.
+      </p>
 
     </section>
 
@@ -214,6 +276,7 @@
 
 
   <script src="../js/app.js"></script>
+  <script src="./flipbook.js"></script>
 
 </body>
 </html>
