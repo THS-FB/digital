@@ -110,7 +110,16 @@
     showStatus("Loading digital program...");
 
     pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER_URL;
-    const pdf = await pdfjsLib.getDocument(PDF_URL).promise;
+
+    const loadingTask = pdfjsLib.getDocument(PDF_URL);
+    loadingTask.onProgress = ({ loaded, total }) => {
+      if (total > 0) {
+        const percent = Math.min(100, Math.round((loaded / total) * 100));
+        showStatus(`Loading digital program... ${percent}%`);
+      }
+    };
+
+    const pdf = await loadingTask.promise;
     totalPages = pdf.numPages;
 
     const firstPage = await pdf.getPage(1);
@@ -139,7 +148,6 @@
       canvas.style.height = "100%";
 
       const context = canvas.getContext("2d", { alpha: false });
-      context.setTransform(outputScale, 0, 0, outputScale, 0, 0);
 
       const linkLayer = document.createElement("div");
       linkLayer.className = "pdf-link-layer";
@@ -147,11 +155,16 @@
       page.append(canvas, linkLayer);
       book.appendChild(page);
 
-      await pdfPage.render({
+      const renderContext = {
         canvasContext: context,
         viewport
-      }).promise;
+      };
 
+      if (outputScale !== 1) {
+        renderContext.transform = [outputScale, 0, 0, outputScale, 0, 0];
+      }
+
+      await pdfPage.render(renderContext).promise;
       await renderLinkLayer(pdfPage, viewport, linkLayer);
     }
 
@@ -182,7 +195,7 @@
       flippingTime: 700
     });
 
-    pageFlip.loadFromHTML(document.querySelectorAll(".flip-page"));
+    pageFlip.loadFromHtml(document.querySelectorAll(".flip-page"));
     pageFlip.on("flip", (event) => updateCounter(event.data));
     updateCounter(0);
 
@@ -227,7 +240,7 @@
     } catch (error) {
       console.error(error);
       showError(
-        "The digital program could not be loaded. Make sure current-program.pdf has been uploaded to assets/program/."
+        "The digital program could not be loaded. Please refresh the page and try again."
       );
     }
   })();
