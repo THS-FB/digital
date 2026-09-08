@@ -2,7 +2,7 @@
   const PDF_URL = "../assets/program/current-program.pdf";
   const PDFJS_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs";
   const PDFJS_WORKER_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
-  const PAGEFLIP_URL = "https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.min.js";
+  const PAGEFLIP_URL = "https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js";
 
   const shell = document.querySelector(".flipbook-shell");
   const stage = document.getElementById("flipbook-stage");
@@ -176,6 +176,10 @@
 
     if (!window.St || !window.St.PageFlip) {
       await loadScript(PAGEFLIP_URL);
+    }
+
+    if (!window.St || !window.St.PageFlip) {
+      throw new Error("StPageFlip did not initialize after loading the browser bundle.");
     }
 
     pageFlip = new window.St.PageFlip(book, {
