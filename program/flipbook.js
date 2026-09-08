@@ -199,7 +199,7 @@
       flippingTime: 700
     });
 
-    pageFlip.loadFromHtml(document.querySelectorAll(".flip-page"));
+    pageFlip.loadFromHTML(document.querySelectorAll(".flip-page"));
     pageFlip.on("flip", (event) => updateCounter(event.data));
     updateCounter(0);
 
