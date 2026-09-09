@@ -1,9 +1,9 @@
 (() => {
-  const BUILD_ID = "2026-09-08d";
+  const BUILD_ID = "2026-09-09a";
   const PDF_URL = "../assets/program/current-program.pdf";
   const PDFJS_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs";
   const PDFJS_WORKER_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
-  const PAGEFLIP_URL = "https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js";
+  const PAGEFLIP_URL = "https://cdn.jsdelivr.net/gh/SAILgaosai/StPageFlip@d4ed7d4/dist/js/page-flip.browser.js";
 
   const shell = document.querySelector(".flipbook-shell");
   const stage = document.getElementById("flipbook-stage");
@@ -49,17 +49,19 @@
   });
 
   const updateCounter = (pageIndex = 0) => {
-    if (!counter || !prevButton || !nextButton) return;
-
     if (!totalPages) {
-      counter.textContent = "0 / 0";
+      if (counter) counter.textContent = "0 / 0";
+      book.classList.remove("is-front-cover");
       return;
     }
 
     const pageNumber = Math.min(pageIndex + 1, totalPages);
-    counter.textContent = `${pageNumber} / ${totalPages}`;
-    prevButton.disabled = pageIndex <= 0;
-    nextButton.disabled = pageIndex >= totalPages - 1;
+
+    if (counter) counter.textContent = `${pageNumber} / ${totalPages}`;
+    if (prevButton) prevButton.disabled = pageIndex <= 0;
+    if (nextButton) nextButton.disabled = pageIndex >= totalPages - 1;
+
+    book.classList.toggle("is-front-cover", pageIndex === 0);
   };
 
   const getBookDimensions = (firstViewport) => {
@@ -142,7 +144,7 @@
 
       const page = document.createElement("div");
       page.className = "flip-page";
-      page.dataset.density = (pageNumber === 1 || pageNumber === totalPages) ? "hard" : "soft";
+      page.dataset.density = "soft";
       page.style.width = `${dimensions.pageWidth}px`;
       page.style.height = `${dimensions.pageHeight}px`;
 
@@ -194,6 +196,8 @@
       maxHeight: dimensions.pageHeight,
       maxShadowOpacity: 0.55,
       showCover: true,
+      disableHardPages: true,
+      firstCoverStartLeft: false,
       mobileScrollSupport: true,
       usePortrait: true,
       autoSize: true,
