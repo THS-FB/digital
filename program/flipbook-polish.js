@@ -18,6 +18,7 @@
   }
 
   const book = document.getElementById("flipbook");
+  const counter = document.getElementById("flipbook-page-counter");
   if (!book) return;
 
   const softenPages = () => {
@@ -26,14 +27,31 @@
     });
   };
 
-  softenPages();
+  const updateClosedCoverState = () => {
+    if (!counter) return;
+    const text = counter.textContent.trim();
+    const onFrontCover = /^1\s*\/\s*\d+$/.test(text);
+    book.classList.toggle("is-front-cover", onFrontCover);
+  };
 
-  const observer = new MutationObserver(() => {
+  softenPages();
+  updateClosedCoverState();
+
+  const pageObserver = new MutationObserver(() => {
     softenPages();
   });
 
-  observer.observe(book, {
+  pageObserver.observe(book, {
     childList: true,
     subtree: false
   });
+
+  if (counter) {
+    const counterObserver = new MutationObserver(updateClosedCoverState);
+    counterObserver.observe(counter, {
+      childList: true,
+      characterData: true,
+      subtree: true
+    });
+  }
 })();
