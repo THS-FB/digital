@@ -87,6 +87,7 @@
 }
 
 .flipbook-stage {
+  position: relative;
   width: 100%;
   min-height: 500px;
   display: flex;
@@ -95,6 +96,42 @@
   padding: 26px 18px;
   overflow: hidden;
   touch-action: pan-y;
+}
+
+.flipbook-cover-preview {
+  position: absolute;
+  inset: 26px 18px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 180ms ease;
+}
+
+.flipbook-cover-preview.is-hidden {
+  opacity: 0;
+}
+
+.flipbook-cover-preview[hidden] {
+  display: none;
+}
+
+.flipbook-cover-preview img {
+  display: block;
+  width: min(560px, calc(50% - 8px));
+  max-height: 100%;
+  object-fit: contain;
+  background: #ffffff;
+  box-shadow:
+    -1px 0 0 rgba(252,252,252,1),
+    -2px 0 0 rgba(205,205,205,0.95),
+    -3px 0 0 rgba(248,248,248,0.98),
+    1px 0 0 rgba(252,252,252,1),
+    2px 0 0 rgba(205,205,205,0.95),
+    3px 0 0 rgba(248,248,248,0.98),
+    0 14px 26px rgba(0,0,0,0.30);
 }
 
 #flipbook {
@@ -119,6 +156,11 @@
   box-shadow:
     inset 0 0 0 1px rgba(0, 0, 0, 0.07),
     0 0 1px rgba(0, 0, 0, 0.25);
+}
+
+.flip-page:not(.is-rendered) {
+  background:
+    linear-gradient(110deg, #f4f4f4 25%, #fafafa 45%, #f4f4f4 65%);
 }
 
 /*
@@ -320,6 +362,14 @@
   .flipbook-stage {
     min-height: 430px;
     padding: 14px 4px;
+  }
+
+  .flipbook-cover-preview {
+    inset: 14px 4px;
+  }
+
+  .flipbook-cover-preview img {
+    width: min(560px, calc(100% - 8px));
   }
 
   #flipbook .stf__wrapper.flipbook-cover-centered {
