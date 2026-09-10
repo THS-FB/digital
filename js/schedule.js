@@ -18,14 +18,25 @@
       .replaceAll("'", "&#039;");
   }
 
-  function installScheduleResultAlignment() {
-    if (document.getElementById("ths-schedule-result-alignment")) return;
+  function installScheduleLayout() {
+    if (document.getElementById("ths-schedule-layout-fix")) return;
 
     const style = document.createElement("style");
-    style.id = "ths-schedule-result-alignment";
+    style.id = "ths-schedule-layout-fix";
     style.textContent = `
       .schedule-row {
-        grid-template-columns: 120px minmax(0, 1fr) auto 100px;
+        grid-template-columns: 120px minmax(0, 1fr) 100px;
+      }
+
+      .schedule-game-details {
+        min-width: 0;
+      }
+
+      .schedule-game-top {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
       }
 
       .schedule-opponent {
@@ -33,31 +44,52 @@
       }
 
       .schedule-result {
+        flex: 0 0 auto;
         margin-left: 0 !important;
         white-space: nowrap;
-        justify-self: start;
       }
 
       @media (max-width: 760px) {
         .schedule-row {
-          grid-template-columns: 88px minmax(0, 1fr) 94px;
+          grid-template-columns: 88px minmax(0, 1fr);
           gap: 8px 14px;
+          align-items: start;
+        }
+
+        .schedule-date {
+          padding-top: 2px;
+        }
+
+        .schedule-game-details {
+          grid-column: 2;
+          min-width: 0;
+        }
+
+        .schedule-game-top.has-result {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) 94px;
+          column-gap: 14px;
+          align-items: center;
+        }
+
+        .schedule-game-top:not(.has-result) {
+          display: block;
         }
 
         .schedule-opponent {
-          grid-column: 2;
-          white-space: nowrap;
+          white-space: normal;
+          overflow-wrap: normal;
+          word-break: normal;
         }
 
         .schedule-result {
-          grid-column: 3;
           width: 94px;
           text-align: left;
-          align-self: center;
+          justify-self: start;
         }
 
         .schedule-location {
-          grid-column: 2;
+          margin-top: 10px;
           justify-self: start;
         }
       }
@@ -145,12 +177,18 @@
         ? "Home"
         : "Away";
 
+    const hasResult = Boolean(game.result);
+
     return `
       <div class="schedule-row${isBye ? " bye-row" : ""}" data-game-id="${escapeHtml(game.id)}">
         <div class="schedule-date">${formatDate(game.date)}</div>
-        <div class="schedule-opponent">${escapeHtml(game.opponent)}</div>
-        ${createResultMarkup(game)}
-        <div class="schedule-location ${locationClass}">${locationLabel}</div>
+        <div class="schedule-game-details">
+          <div class="schedule-game-top${hasResult ? " has-result" : ""}">
+            <div class="schedule-opponent">${escapeHtml(game.opponent)}</div>
+            ${createResultMarkup(game)}
+          </div>
+          <div class="schedule-location ${locationClass}">${locationLabel}</div>
+        </div>
       </div>
     `;
   }
@@ -171,7 +209,7 @@
 
   async function loadSchedule() {
     try {
-      installScheduleResultAlignment();
+      installScheduleLayout();
 
       const response = await fetch(DATA_URL, { cache: "no-store" });
 
