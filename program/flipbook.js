@@ -1,5 +1,5 @@
 (() => {
-  const BUILD_ID = "2026-09-09a";
+  const BUILD_ID = "2026-09-10-perf2";
   const PDF_URL = "../assets/program/current-program.pdf";
   const PDFJS_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs";
   const PDFJS_WORKER_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
@@ -8,6 +8,7 @@
   const shell = document.querySelector(".flipbook-shell");
   const stage = document.getElementById("flipbook-stage");
   const book = document.getElementById("flipbook");
+  const coverPreview = document.getElementById("flipbook-cover-preview");
   const status = document.getElementById("flipbook-status");
   const statusText = document.getElementById("flipbook-status-text");
   const errorBox = document.getElementById("flipbook-error");
@@ -21,6 +22,21 @@
 
   let pageFlip = null;
   let totalPages = 0;
+  let dimensions = null;
+  const renderedPages = new Set();
+  const renderingPages = new Map();
+
+  book.classList.add("is-initializing");
+
+  const nextFrame = () => new Promise((resolve) => {
+    window.requestAnimationFrame(() => resolve());
+  });
+
+  const settleInitialLayout = async () => {
+    await nextFrame();
+    await nextFrame();
+    await new Promise((resolve) => window.setTimeout(resolve, 40));
+  };
 
   const showStatus = (message) => {
     if (statusText) statusText.textContent = message;
@@ -31,11 +47,29 @@
     if (status) status.hidden = true;
   };
 
+  const revealInteractiveBook = async () => {
+    await settleInitialLayout();
+
+    const wrapper = book.querySelector(".stf__wrapper");
+    if (wrapper && book.classList.contains("is-front-cover")) {
+      wrapper.classList.add("flipbook-cover-centered");
+    }
+
+    await settleInitialLayout();
+
+    // The real book becomes visible only after all startup geometry is final.
+    // Removing the static cover in the same frame avoids exposing any setup.
+    book.classList.remove("is-initializing");
+    if (coverPreview) coverPreview.hidden = true;
+  };
+
   const showError = (message) => {
     if (errorBox) {
       errorBox.textContent = message;
       errorBox.classList.add("is-visible");
     }
+    book.classList.remove("is-initializing");
+    if (coverPreview) coverPreview.hidden = true;
     hideStatus();
   };
 
@@ -113,42 +147,50 @@
     });
   };
 
-  const renderPdfPages = async (pdfjsLib) => {
-    showStatus("Loading digital program...");
-
-    pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER_URL;
-
-    const loadingTask = pdfjsLib.getDocument(PDF_URL);
-    loadingTask.onProgress = ({ loaded, total }) => {
-      if (total > 0) {
-        const percent = Math.min(100, Math.round((loaded / total) * 100));
-        showStatus(`Loading digital program... ${percent}%`);
-      }
-    };
-
-    const pdf = await loadingTask.promise;
-    totalPages = pdf.numPages;
-
-    const firstPage = await pdf.getPage(1);
-    const firstViewport = firstPage.getViewport({ scale: 1 });
-    const dimensions = getBookDimensions(firstViewport);
+  const createPageShells = () => {
+    const fragment = document.createDocumentFragment();
 
     for (let pageNumber = 1; pageNumber <= totalPages; pageNumber += 1) {
-      showStatus(`Preparing page ${pageNumber} of ${totalPages}...`);
+      const page = document.createElement("div");
+      page.className = "flip-page";
+      page.dataset.density = "soft";
+      page.dataset.pageNumber = String(pageNumber);
+      page.style.width = `${dimensions.pageWidth}px`;
+      page.style.height = `${dimensions.pageHeight}px`;
+      page.setAttribute("aria-label", `Program page ${pageNumber}`);
 
-      const pdfPage = pageNumber === 1 ? firstPage : await pdf.getPage(pageNumber);
+      const canvas = document.createElement("canvas");
+      canvas.className = "flip-page-canvas";
+      canvas.setAttribute("aria-hidden", "true");
+
+      const linkLayer = document.createElement("div");
+      linkLayer.className = "pdf-link-layer";
+
+      page.append(canvas, linkLayer);
+      fragment.appendChild(page);
+    }
+
+    book.replaceChildren(fragment);
+  };
+
+  const renderPage = (pdf, pageNumber) => {
+    if (renderedPages.has(pageNumber)) return Promise.resolve();
+    if (renderingPages.has(pageNumber)) return renderingPages.get(pageNumber);
+
+    const task = (async () => {
+      const pdfPage = await pdf.getPage(pageNumber);
+      const page = book.querySelector(`[data-page-number="${pageNumber}"]`);
+      if (!page) throw new Error(`Page shell unavailable for page ${pageNumber}`);
+
+      const canvas = page.querySelector("canvas");
+      const linkLayer = page.querySelector(".pdf-link-layer");
+      if (!canvas || !linkLayer) throw new Error(`Page elements unavailable for page ${pageNumber}`);
+
       const baseViewport = pdfPage.getViewport({ scale: 1 });
       const scale = dimensions.pageWidth / baseViewport.width;
       const viewport = pdfPage.getViewport({ scale });
       const outputScale = Math.min(window.devicePixelRatio || 1, 2);
 
-      const page = document.createElement("div");
-      page.className = "flip-page";
-      page.dataset.density = "soft";
-      page.style.width = `${dimensions.pageWidth}px`;
-      page.style.height = `${dimensions.pageHeight}px`;
-
-      const canvas = document.createElement("canvas");
       canvas.width = Math.floor(viewport.width * outputScale);
       canvas.height = Math.floor(viewport.height * outputScale);
       canvas.style.width = "100%";
@@ -157,27 +199,65 @@
       const context = canvas.getContext("2d", { alpha: false });
       if (!context) throw new Error(`Canvas context unavailable for page ${pageNumber}`);
 
-      const linkLayer = document.createElement("div");
-      linkLayer.className = "pdf-link-layer";
-
-      page.append(canvas, linkLayer);
-      book.appendChild(page);
-
       const renderContext = { canvasContext: context, viewport };
       if (outputScale !== 1) {
         renderContext.transform = [outputScale, 0, 0, outputScale, 0, 0];
       }
 
       await pdfPage.render(renderContext).promise;
+      linkLayer.replaceChildren();
       await renderLinkLayer(pdfPage, viewport, linkLayer);
-    }
+      page.classList.add("is-rendered");
+      renderedPages.add(pageNumber);
+    })().finally(() => {
+      renderingPages.delete(pageNumber);
+    });
 
-    return dimensions;
+    renderingPages.set(pageNumber, task);
+    return task;
   };
 
-  const initializePageFlip = async (dimensions) => {
-    showStatus("Starting flipbook...");
+  const renderRemainingPages = async (pdf) => {
+    for (let pageNumber = 4; pageNumber <= totalPages; pageNumber += 1) {
+      try {
+        await renderPage(pdf, pageNumber);
+        await nextFrame();
+      } catch (error) {
+        console.error(`Background render failed for page ${pageNumber}`, error);
+      }
+    }
+  };
 
+  const preparePdf = async (pdfjsLib) => {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER_URL;
+
+    const loadingTask = pdfjsLib.getDocument({
+      url: PDF_URL,
+      rangeChunkSize: 131072
+    });
+
+    const pdf = await loadingTask.promise;
+    totalPages = pdf.numPages;
+
+    const firstPage = await pdf.getPage(1);
+    const firstViewport = firstPage.getViewport({ scale: 1 });
+    dimensions = getBookDimensions(firstViewport);
+    createPageShells();
+
+    // Prepare only what is needed for the first interaction. All remaining
+    // canvases already exist at their final size, so later rendering cannot
+    // change book geometry.
+    await renderPage(pdf, 1);
+
+    const firstSpread = [];
+    if (totalPages >= 2) firstSpread.push(renderPage(pdf, 2));
+    if (totalPages >= 3) firstSpread.push(renderPage(pdf, 3));
+    await Promise.all(firstSpread);
+
+    return pdf;
+  };
+
+  const initializePageFlip = async () => {
     if (!window.St || !window.St.PageFlip) {
       await loadScript(PAGEFLIP_URL);
     }
@@ -227,7 +307,15 @@
     });
 
     hideStatus();
+    await revealInteractiveBook();
   };
+
+  if (coverPreview) {
+    coverPreview.addEventListener("error", () => {
+      coverPreview.hidden = true;
+      showStatus("Preparing digital program...");
+    }, { once: true });
+  }
 
   if (fullscreenButton) {
     fullscreenButton.addEventListener("click", async () => {
@@ -259,9 +347,11 @@
 
   (async () => {
     try {
+      hideStatus();
       const pdfjsLib = await import(`${PDFJS_URL}?v=${encodeURIComponent(BUILD_ID)}`);
-      const dimensions = await renderPdfPages(pdfjsLib);
-      await initializePageFlip(dimensions);
+      const pdf = await preparePdf(pdfjsLib);
+      await initializePageFlip();
+      void renderRemainingPages(pdf);
     } catch (error) {
       console.error(error);
       const detail = error && error.message ? error.message : String(error);
