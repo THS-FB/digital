@@ -18,6 +18,37 @@
       .replaceAll("'", "&#039;");
   }
 
+  function installMobileResultAlignment() {
+    if (document.getElementById("ths-schedule-result-alignment")) return;
+
+    const style = document.createElement("style");
+    style.id = "ths-schedule-result-alignment";
+    style.textContent = `
+      @media (max-width: 760px) {
+        .schedule-opponent {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) 94px;
+          align-items: center;
+          column-gap: 10px;
+        }
+
+        .schedule-opponent-name {
+          min-width: 0;
+        }
+
+        .schedule-result {
+          display: block !important;
+          width: 94px;
+          margin-left: 0 !important;
+          text-align: left;
+          justify-self: start;
+          white-space: nowrap;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
   function getOutcome(result) {
     if (!result) return null;
     if (result.tunstall > result.opponent) return "W";
@@ -102,7 +133,7 @@
       <div class="schedule-row${isBye ? " bye-row" : ""}" data-game-id="${escapeHtml(game.id)}">
         <div class="schedule-date">${formatDate(game.date)}</div>
         <div class="schedule-opponent">
-          ${escapeHtml(game.opponent)}
+          <span class="schedule-opponent-name">${escapeHtml(game.opponent)}</span>
           ${createResultMarkup(game)}
         </div>
         <div class="schedule-location ${locationClass}">${locationLabel}</div>
@@ -126,6 +157,8 @@
 
   async function loadSchedule() {
     try {
+      installMobileResultAlignment();
+
       const response = await fetch(DATA_URL, { cache: "no-store" });
 
       if (!response.ok) {
