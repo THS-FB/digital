@@ -98,6 +98,11 @@
   touch-action: pan-y;
 }
 
+/*
+  The lightweight cover stays on top until StPageFlip has completed its
+  initial geometry. There is intentionally no fade: exposing the underlying
+  book during its setup is what caused the visible multi-stage loading jump.
+*/
 .flipbook-cover-preview {
   position: absolute;
   inset: 26px 18px;
@@ -106,12 +111,6 @@
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  opacity: 1;
-  transition: opacity 180ms ease;
-}
-
-.flipbook-cover-preview.is-hidden {
-  opacity: 0;
 }
 
 .flipbook-cover-preview[hidden] {
@@ -120,7 +119,7 @@
 
 .flipbook-cover-preview img {
   display: block;
-  width: min(560px, calc(50% - 8px));
+  width: min(560px, calc((100% - 16px) / 2));
   max-height: 100%;
   object-fit: contain;
   background: #ffffff;
@@ -145,6 +144,11 @@
   will-change: transform;
 }
 
+/* Never animate the initial centering operation behind the cover preview. */
+#flipbook.is-initializing .stf__wrapper {
+  transition: none !important;
+}
+
 #flipbook .stf__wrapper.flipbook-cover-centered {
   transform: translateX(-25%);
 }
@@ -159,8 +163,7 @@
 }
 
 .flip-page:not(.is-rendered) {
-  background:
-    linear-gradient(110deg, #f4f4f4 25%, #fafafa 45%, #f4f4f4 65%);
+  background: #ffffff;
 }
 
 /*
