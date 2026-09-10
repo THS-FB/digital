@@ -18,31 +18,47 @@
       .replaceAll("'", "&#039;");
   }
 
-  function installMobileResultAlignment() {
+  function installScheduleResultAlignment() {
     if (document.getElementById("ths-schedule-result-alignment")) return;
 
     const style = document.createElement("style");
     style.id = "ths-schedule-result-alignment";
     style.textContent = `
+      .schedule-row {
+        grid-template-columns: 120px minmax(0, 1fr) auto 100px;
+      }
+
+      .schedule-opponent {
+        min-width: 0;
+      }
+
+      .schedule-result {
+        margin-left: 0 !important;
+        white-space: nowrap;
+        justify-self: start;
+      }
+
       @media (max-width: 760px) {
-        .schedule-opponent {
-          display: grid;
-          grid-template-columns: minmax(0, 1fr) 94px;
-          align-items: center;
-          column-gap: 10px;
+        .schedule-row {
+          grid-template-columns: 88px minmax(0, 1fr) 94px;
+          gap: 8px 14px;
         }
 
-        .schedule-opponent-name {
-          min-width: 0;
+        .schedule-opponent {
+          grid-column: 2;
+          white-space: nowrap;
         }
 
         .schedule-result {
-          display: block !important;
+          grid-column: 3;
           width: 94px;
-          margin-left: 0 !important;
           text-align: left;
+          align-self: center;
+        }
+
+        .schedule-location {
+          grid-column: 2;
           justify-self: start;
-          white-space: nowrap;
         }
       }
     `;
@@ -132,10 +148,8 @@
     return `
       <div class="schedule-row${isBye ? " bye-row" : ""}" data-game-id="${escapeHtml(game.id)}">
         <div class="schedule-date">${formatDate(game.date)}</div>
-        <div class="schedule-opponent">
-          <span class="schedule-opponent-name">${escapeHtml(game.opponent)}</span>
-          ${createResultMarkup(game)}
-        </div>
+        <div class="schedule-opponent">${escapeHtml(game.opponent)}</div>
+        ${createResultMarkup(game)}
         <div class="schedule-location ${locationClass}">${locationLabel}</div>
       </div>
     `;
@@ -157,7 +171,7 @@
 
   async function loadSchedule() {
     try {
-      installMobileResultAlignment();
+      installScheduleResultAlignment();
 
       const response = await fetch(DATA_URL, { cache: "no-store" });
 
