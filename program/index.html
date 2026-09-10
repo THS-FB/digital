@@ -17,8 +17,9 @@
     content="View the official 2026 Tunstall Trojan Football Digital Program."
   >
 
+  <link rel="preload" as="image" href="../assets/program/current-cover.jpg">
   <link rel="stylesheet" href="../css/styles.css">
-  <link rel="stylesheet" href="./flipbook.css?v=2026-09-09e">
+  <link rel="stylesheet" href="./flipbook.css?v=2026-09-10-perf1">
 
   <style>
     /* Critical preview-safe overrides: keep these inline so CDN caching cannot
@@ -178,14 +179,23 @@
           id="flipbook-status"
           role="status"
           aria-live="polite"
+          hidden
         >
           <span class="flipbook-spinner" aria-hidden="true"></span>
-          <span id="flipbook-status-text">Loading digital program...</span>
+          <span id="flipbook-status-text">Preparing digital program...</span>
         </div>
 
         <p class="flipbook-error" id="flipbook-error"></p>
 
         <div class="flipbook-stage" id="flipbook-stage">
+          <div class="flipbook-cover-preview" id="flipbook-cover-preview" aria-hidden="true">
+            <img
+              src="../assets/program/current-cover.jpg"
+              alt=""
+              decoding="async"
+              fetchpriority="high"
+            >
+          </div>
           <div id="flipbook" aria-label="Digital program pages"></div>
         </div>
 
@@ -197,6 +207,7 @@
               class="flipbook-button"
               id="flipbook-prev"
               aria-label="Previous page"
+              disabled
             >
               <span aria-hidden="true">&#8592;</span>
               <span class="flipbook-button-label">Previous</span>
@@ -207,7 +218,7 @@
             class="flipbook-page-counter"
             id="flipbook-page-counter"
             aria-live="polite"
-          >0 / 0</div>
+          >1 / 8</div>
 
           <div class="flipbook-toolbar-group">
             <button
@@ -215,6 +226,7 @@
               class="flipbook-button"
               id="flipbook-next"
               aria-label="Next page"
+              disabled
             >
               <span class="flipbook-button-label">Next</span>
               <span aria-hidden="true">&#8594;</span>
@@ -261,8 +273,8 @@
 
   <script src="../js/app.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/SAILgaosai/StPageFlip@d4ed7d4/dist/js/page-flip.browser.js"></script>
-  <script src="./flipbook-polish.js?v=2026-09-09e"></script>
-  <script src="./flipbook.js?v=2026-09-09e"></script>
+  <script src="./flipbook-polish.js?v=2026-09-10-perf1"></script>
+  <script src="./flipbook.js?v=2026-09-10-perf1"></script>
 
 </body>
 </html>
