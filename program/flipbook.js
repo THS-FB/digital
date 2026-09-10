@@ -1,5 +1,5 @@
 (() => {
-  const BUILD_ID = "2026-09-10-perf1";
+  const BUILD_ID = "2026-09-10-perf2";
   const PDF_URL = "../assets/program/current-program.pdf";
   const PDFJS_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs";
   const PDFJS_WORKER_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
@@ -26,6 +26,18 @@
   const renderedPages = new Set();
   const renderingPages = new Map();
 
+  book.classList.add("is-initializing");
+
+  const nextFrame = () => new Promise((resolve) => {
+    window.requestAnimationFrame(() => resolve());
+  });
+
+  const settleInitialLayout = async () => {
+    await nextFrame();
+    await nextFrame();
+    await new Promise((resolve) => window.setTimeout(resolve, 40));
+  };
+
   const showStatus = (message) => {
     if (statusText) statusText.textContent = message;
     if (status) status.hidden = false;
@@ -35,12 +47,20 @@
     if (status) status.hidden = true;
   };
 
-  const hideCoverPreview = () => {
-    if (!coverPreview) return;
-    coverPreview.classList.add("is-hidden");
-    window.setTimeout(() => {
-      coverPreview.hidden = true;
-    }, 220);
+  const revealInteractiveBook = async () => {
+    await settleInitialLayout();
+
+    const wrapper = book.querySelector(".stf__wrapper");
+    if (wrapper && book.classList.contains("is-front-cover")) {
+      wrapper.classList.add("flipbook-cover-centered");
+    }
+
+    await settleInitialLayout();
+
+    // The real book becomes visible only after all startup geometry is final.
+    // Removing the static cover in the same frame avoids exposing any setup.
+    book.classList.remove("is-initializing");
+    if (coverPreview) coverPreview.hidden = true;
   };
 
   const showError = (message) => {
@@ -48,6 +68,7 @@
       errorBox.textContent = message;
       errorBox.classList.add("is-visible");
     }
+    book.classList.remove("is-initializing");
     if (coverPreview) coverPreview.hidden = true;
     hideStatus();
   };
@@ -200,7 +221,7 @@
     for (let pageNumber = 4; pageNumber <= totalPages; pageNumber += 1) {
       try {
         await renderPage(pdf, pageNumber);
-        await new Promise((resolve) => window.setTimeout(resolve, 0));
+        await nextFrame();
       } catch (error) {
         console.error(`Background render failed for page ${pageNumber}`, error);
       }
@@ -223,6 +244,9 @@
     dimensions = getBookDimensions(firstViewport);
     createPageShells();
 
+    // Prepare only what is needed for the first interaction. All remaining
+    // canvases already exist at their final size, so later rendering cannot
+    // change book geometry.
     await renderPage(pdf, 1);
 
     const firstSpread = [];
@@ -283,7 +307,7 @@
     });
 
     hideStatus();
-    hideCoverPreview();
+    await revealInteractiveBook();
   };
 
   if (coverPreview) {
