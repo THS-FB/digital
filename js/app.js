@@ -1,5 +1,12 @@
-const menuToggle = document.getElementById("menu-toggle");
 const siteMenu = document.getElementById("site-menu");
+
+if (siteMenu) {
+  siteMenu.querySelectorAll('a[href*="media/"]').forEach((link) => {
+    link.remove();
+  });
+}
+
+const menuToggle = document.getElementById("menu-toggle");
 
 if (menuToggle && siteMenu) {
   menuToggle.addEventListener("click", () => {
