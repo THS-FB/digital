@@ -18,85 +18,6 @@
       .replaceAll("'", "&#039;");
   }
 
-  function installScheduleLayout() {
-    if (document.getElementById("ths-schedule-layout-fix")) return;
-
-    const style = document.createElement("style");
-    style.id = "ths-schedule-layout-fix";
-    style.textContent = `
-      .schedule-row {
-        grid-template-columns: 120px minmax(0, 1fr) 100px;
-      }
-
-      .schedule-game-details {
-        min-width: 0;
-      }
-
-      .schedule-game-top {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        min-width: 0;
-      }
-
-      .schedule-opponent {
-        min-width: 0;
-      }
-
-      .schedule-result {
-        flex: 0 0 auto;
-        margin-left: 0 !important;
-        white-space: nowrap;
-      }
-
-      @media (max-width: 760px) {
-        .schedule-row {
-          grid-template-columns: 88px minmax(0, 1fr);
-          gap: 8px 14px;
-          align-items: start;
-        }
-
-        .schedule-date {
-          padding-top: 2px;
-        }
-
-        .schedule-game-details {
-          grid-column: 2;
-          min-width: 0;
-        }
-
-        .schedule-game-top.has-result {
-          display: grid;
-          grid-template-columns: minmax(0, 1fr) 94px;
-          column-gap: 14px;
-          align-items: center;
-        }
-
-        .schedule-game-top:not(.has-result) {
-          display: block;
-        }
-
-        .schedule-opponent {
-          white-space: normal;
-          overflow-wrap: normal;
-          word-break: normal;
-        }
-
-        .schedule-result {
-          width: 94px;
-          text-align: left;
-          justify-self: start;
-        }
-
-        .schedule-location {
-          margin-top: 10px;
-          justify-self: start;
-        }
-      }
-    `;
-    document.head.appendChild(style);
-  }
-
   function getOutcome(result) {
     if (!result) return null;
     if (result.tunstall > result.opponent) return "W";
@@ -177,18 +98,14 @@
         ? "Home"
         : "Away";
 
-    const hasResult = Boolean(game.result);
-
     return `
       <div class="schedule-row${isBye ? " bye-row" : ""}" data-game-id="${escapeHtml(game.id)}">
         <div class="schedule-date">${formatDate(game.date)}</div>
-        <div class="schedule-game-details">
-          <div class="schedule-game-top${hasResult ? " has-result" : ""}">
-            <div class="schedule-opponent">${escapeHtml(game.opponent)}</div>
-            ${createResultMarkup(game)}
-          </div>
-          <div class="schedule-location ${locationClass}">${locationLabel}</div>
+        <div class="schedule-opponent">
+          ${escapeHtml(game.opponent)}
+          ${createResultMarkup(game)}
         </div>
+        <div class="schedule-location ${locationClass}">${locationLabel}</div>
       </div>
     `;
   }
@@ -209,8 +126,6 @@
 
   async function loadSchedule() {
     try {
-      installScheduleLayout();
-
       const response = await fetch(DATA_URL, { cache: "no-store" });
 
       if (!response.ok) {
