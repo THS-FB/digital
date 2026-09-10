@@ -12,7 +12,10 @@
       "location": "away",
       "district": false,
       "status": "final",
-      "result": {"tunstall": 42, "opponent": 28}
+      "result": {
+        "tunstall": 42,
+        "opponent": 28
+      }
     },
     {
       "id": "varsity-2026-09-04-chatham",
@@ -22,8 +25,11 @@
       "opponent": "Chatham",
       "location": "home",
       "district": false,
-      "status": "scheduled",
-      "result": null
+      "status": "final",
+      "result": {
+        "tunstall": 36,
+        "opponent": 3
+      }
     },
     {
       "id": "varsity-2026-09-11-gretna",
@@ -133,7 +139,10 @@
       "location": "home",
       "district": false,
       "status": "final",
-      "result": {"tunstall": 34, "opponent": 0}
+      "result": {
+        "tunstall": 34,
+        "opponent": 0
+      }
     },
     {
       "id": "jv-2026-09-03-chatham",
@@ -144,7 +153,10 @@
       "location": "away",
       "district": false,
       "status": "final",
-      "result": {"tunstall": 50, "opponent": 0}
+      "result": {
+        "tunstall": 50,
+        "opponent": 0
+      }
     },
     {
       "id": "jv-2026-09-10-altavista",
