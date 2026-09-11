@@ -116,7 +116,6 @@
         </button>
       </div>
 
-
       <!-- VARSITY RECORD -->
 
       <div
@@ -146,7 +145,6 @@
         </p>
       </div>
 
-
       <!-- JV RECORD -->
 
       <div
@@ -161,7 +159,7 @@
         >
           <div class="season-record-item">
             <span class="season-record-label">Overall</span>
-            <strong>2–0</strong>
+            <strong>3–0</strong>
           </div>
 
           <div class="season-record-divider"></div>
@@ -179,9 +177,7 @@
 
     </section>
 
-
     <section class="schedule-layout">
-
 
       <!-- VARSITY SCHEDULE -->
 
@@ -264,7 +260,6 @@
 
       </div>
 
-
       <!-- JV SCHEDULE -->
 
       <div
@@ -298,7 +293,10 @@
 
         <div class="schedule-row">
           <div class="schedule-date">9/10/26</div>
-          <div class="schedule-opponent">Altavista</div>
+          <div class="schedule-opponent">
+            Altavista
+            <span class="schedule-result-win">W 56–0</span>
+          </div>
           <div class="schedule-location home">Home</div>
         </div>
 
@@ -351,7 +349,6 @@
         </div>
 
       </div>
-
 
       <!-- SHARED SCHEDULE GRAPHIC -->
 
@@ -406,7 +403,6 @@
     </section>
   </main>
 
-
   <footer class="site-footer">
     <div class="footer-motto">
       <span></span>
@@ -418,7 +414,6 @@
       &copy; 2026 Tunstall High School Football
     </p>
   </footer>
-
 
   <script src="../js/app.js"></script>
   <script src="../js/schedule.js"></script>
@@ -451,12 +446,10 @@
           );
         });
 
-
         summaries.forEach((summary) => {
           summary.hidden =
             summary.dataset.scheduleSummary !== team;
         });
-
 
         schedulePanels.forEach((panel) => {
           panel.hidden =
@@ -464,7 +457,6 @@
         });
 
       }
-
 
       teamButtons.forEach((button) => {
         button.addEventListener("click", () => {
