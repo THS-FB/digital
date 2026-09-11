@@ -19,36 +19,36 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Rebuild program files
+      - name: Download staged program files from Google Drive
         shell: bash
         run: |
           set -euo pipefail
           python3 - <<'PY'
-          import base64, json, pathlib
+          import json, pathlib, subprocess
 
           root = pathlib.Path('.')
           manifest = json.loads((root / 'publish-staging/manifest.json').read_text())
 
-          def rebuild(spec):
-              source = root / spec['source_dir']
-              count = int(spec['parts'])
-              encoded = ''.join((source / f'{i:03d}.txt').read_text().strip() for i in range(count))
-              data = base64.b64decode(encoded, validate=True)
-              if len(data) != int(spec['bytes']):
-                  raise SystemExit(f"Byte-size mismatch for {spec['output']}: {len(data)} != {spec['bytes']}")
-              out = root / spec['output']
-              out.parent.mkdir(parents=True, exist_ok=True)
-              out.write_bytes(data)
-              return data
+          def download(spec):
+              file_id = spec['drive_file_id']
+              output = root / spec['output']
+              output.parent.mkdir(parents=True, exist_ok=True)
+              url = f'https://drive.usercontent.google.com/download?id={file_id}&export=download&confirm=t'
+              subprocess.run(['curl', '-L', '--fail', '--silent', '--show-error', url, '-o', str(output)], check=True)
+              expected = int(spec['bytes'])
+              actual = output.stat().st_size
+              if actual != expected:
+                  raise SystemExit(f'Byte-size mismatch for {output}: {actual} != {expected}')
+              return output
 
-          program = rebuild(manifest['program'])
-          rebuild(manifest['cover'])
+          program = download(manifest['program'])
+          download(manifest['cover'])
 
           archive = manifest.get('archive_program')
           if archive:
               archive_path = root / archive
               archive_path.parent.mkdir(parents=True, exist_ok=True)
-              archive_path.write_bytes(program)
+              archive_path.write_bytes(program.read_bytes())
           PY
 
       - name: Commit published binaries
@@ -62,6 +62,6 @@ jobs:
             echo "No binary changes to publish."
             exit 0
           fi
-          WEEK=$(python3 -c "import json; print(json.load(open('publish-staging/manifest.json')).get('label','Digital Program'))")
-          git commit -m "Publish ${WEEK}"
+          LABEL=$(python3 -c "import json; print(json.load(open('publish-staging/manifest.json')).get('label','Digital Program'))")
+          git commit -m "Publish ${LABEL}"
           git push
