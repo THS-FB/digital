@@ -166,8 +166,11 @@
       "opponent": "Altavista",
       "location": "home",
       "district": false,
-      "status": "scheduled",
-      "result": null
+      "status": "final",
+      "result": {
+        "tunstall": 56,
+        "opponent": 0
+      }
     },
     {
       "id": "jv-2026-09-17-cave-spring",
