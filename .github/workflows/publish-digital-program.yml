@@ -1,0 +1,67 @@
+name: Publish Digital Program
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'publish-staging/manifest.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Rebuild program files
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import base64, json, pathlib
+
+          root = pathlib.Path('.')
+          manifest = json.loads((root / 'publish-staging/manifest.json').read_text())
+
+          def rebuild(spec):
+              source = root / spec['source_dir']
+              count = int(spec['parts'])
+              encoded = ''.join((source / f'{i:03d}.txt').read_text().strip() for i in range(count))
+              data = base64.b64decode(encoded, validate=True)
+              if len(data) != int(spec['bytes']):
+                  raise SystemExit(f"Byte-size mismatch for {spec['output']}: {len(data)} != {spec['bytes']}")
+              out = root / spec['output']
+              out.parent.mkdir(parents=True, exist_ok=True)
+              out.write_bytes(data)
+              return data
+
+          program = rebuild(manifest['program'])
+          rebuild(manifest['cover'])
+
+          archive = manifest.get('archive_program')
+          if archive:
+              archive_path = root / archive
+              archive_path.parent.mkdir(parents=True, exist_ok=True)
+              archive_path.write_bytes(program)
+          PY
+
+      - name: Commit published binaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "THS Digital Program Publisher"
+          git config user.email "actions@users.noreply.github.com"
+          git add assets/program/current-program.pdf assets/program/current-cover.jpg assets/program/archive/
+          if git diff --cached --quiet; then
+            echo "No binary changes to publish."
+            exit 0
+          fi
+          WEEK=$(python3 -c "import json; print(json.load(open('publish-staging/manifest.json')).get('label','Digital Program'))")
+          git commit -m "Publish ${WEEK}"
+          git push
