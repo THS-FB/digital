@@ -39,8 +39,11 @@
       "opponent": "Gretna",
       "location": "away",
       "district": false,
-      "status": "scheduled",
-      "result": null
+      "status": "final",
+      "result": {
+        "tunstall": 36,
+        "opponent": 26
+      }
     },
     {
       "id": "varsity-2026-09-18-cave-spring",
