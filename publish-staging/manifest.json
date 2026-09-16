@@ -1,14 +1,14 @@
 {
-  "label": "Week 3 digital program revised cover",
+  "label": "Week 4 concession volunteer update",
   "program": {
-    "drive_file_id": "1om4GONLg7rq0UDiSyoXheqXubRuE7X3k",
+    "drive_file_id": "1bCKKv3WBfrx2WZi5xiZ6Y-hj1xGYtpNE",
     "output": "assets/program/current-program.pdf",
-    "bytes": 4430011
+    "bytes": 4406917
   },
   "cover": {
     "drive_file_id": "13RUfC4Z4b2JlEfBY1H93Ejc7Db7RnRE8",
     "output": "assets/program/current-cover.jpg",
     "bytes": 356644
   },
-  "archive_program": "assets/program/archive/THS_2026_Digital_Program_WK3.pdf"
+  "archive_program": "assets/program/archive/THS_2026_Digital_Program_WK4.pdf"
 }
