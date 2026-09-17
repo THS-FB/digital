@@ -95,7 +95,15 @@
   justify-content: center;
   padding: 26px 18px;
   overflow: hidden;
-  touch-action: pan-y;
+  touch-action: pan-y pinch-zoom;
+}
+
+/* Allow the browser to own two-finger pinch gestures while StPageFlip keeps
+   handling normal one-finger page turns. */
+#flipbook,
+#flipbook .stf__wrapper,
+.flip-page {
+  touch-action: pan-y pinch-zoom;
 }
 
 /*
