@@ -1,5 +1,5 @@
 (() => {
-  const BUILD_ID = "2026-09-17-zoom1";
+  const BUILD_ID = "2026-09-17-crisp3";
   const PDF_URL = "../assets/program/current-program.pdf";
   const PDFJS_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs";
   const PDFJS_WORKER_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
@@ -20,9 +20,6 @@
 
   if (!shell || !stage || !book) return;
 
-  // StPageFlip owns normal one-finger gestures. Two-finger gestures are
-  // intercepted in capture phase without preventDefault so the browser can
-  // perform native pinch zoom instead of the flipbook consuming the gesture.
   const preserveNativePinch = (event) => {
     if (event.touches && event.touches.length > 1) {
       event.stopImmediatePropagation();
@@ -74,9 +71,6 @@
     }
 
     await settleInitialLayout();
-
-    // The real book becomes visible only after all startup geometry is final.
-    // Removing the static cover in the same frame avoids exposing any setup.
     book.classList.remove("is-initializing");
     if (coverPreview) coverPreview.hidden = true;
   };
@@ -207,7 +201,11 @@
       const baseViewport = pdfPage.getViewport({ scale: 1 });
       const scale = dimensions.pageWidth / baseViewport.width;
       const viewport = pdfPage.getViewport({ scale });
-      const outputScale = Math.min(window.devicePixelRatio || 1, 2);
+
+      // Render at the device's native pixel density up to 3x. On modern
+      // iPhones this keeps PDF text/logos sharp under normal pinch zoom without
+      // replacing the live canvas after the page is already displayed.
+      const outputScale = Math.min(window.devicePixelRatio || 1, 3);
 
       canvas.width = Math.floor(viewport.width * outputScale);
       canvas.height = Math.floor(viewport.height * outputScale);
@@ -262,9 +260,6 @@
     dimensions = getBookDimensions(firstViewport);
     createPageShells();
 
-    // Prepare only what is needed for the first interaction. All remaining
-    // canvases already exist at their final size, so later rendering cannot
-    // change book geometry.
     await renderPage(pdf, 1);
 
     const firstSpread = [];
