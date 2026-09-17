@@ -1,5 +1,5 @@
 (() => {
-  const BUILD_ID = "2026-09-17-hdzoom1";
+  const BUILD_ID = "2026-09-17-hdzoom2";
   const PDF_URL = "../assets/program/current-program.pdf";
   const PDFJS_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs";
   const PDFJS_WORKER_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
@@ -39,28 +39,21 @@
   const zoomPixelRatio = () => {
     const dpr = window.devicePixelRatio || 1;
     const viewportScale = window.visualViewport ? window.visualViewport.scale || 1 : 1;
-    return Math.min(5, Math.max(basePixelRatio(), dpr * viewportScale));
+    return Math.min(4.25, Math.max(basePixelRatio(), dpr * viewportScale));
   };
 
   const renderHdPage = async (pageNumber, requestedRatio) => {
     const pageElement = book.querySelector(`[data-page-number="${pageNumber}"]`);
     if (!pageElement || !pageElement.classList.contains("is-rendered")) return;
 
-    const canvas = pageElement.querySelector("canvas");
-    if (!canvas) return;
+    const liveCanvas = pageElement.querySelector("canvas");
+    if (!liveCanvas || !liveCanvas.width || !liveCanvas.height) return;
 
-    const currentRatio = Number(canvas.dataset.hdPixelRatio || 0);
+    const currentRatio = Number(liveCanvas.dataset.hdPixelRatio || 0);
     if (currentRatio >= requestedRatio * 0.94) return;
 
     const priorTask = renderTasks.get(pageNumber);
-    if (priorTask) {
-      try {
-        priorTask.cancel();
-      } catch (error) {
-        // No-op: an already completed render cannot be cancelled.
-      }
-      renderTasks.delete(pageNumber);
-    }
+    if (priorTask) return;
 
     const pdf = await loadPdf();
     const pdfPage = await pdf.getPage(pageNumber);
@@ -68,18 +61,22 @@
     const cssWidth = Math.max(pageElement.offsetWidth, 1);
     const cssScale = cssWidth / baseViewport.width;
     const viewport = pdfPage.getViewport({ scale: cssScale });
-    const pixelRatio = Math.min(5, Math.max(1, requestedRatio));
+    const pixelRatio = Math.min(4.25, Math.max(1, requestedRatio));
 
-    canvas.width = Math.max(1, Math.floor(viewport.width * pixelRatio));
-    canvas.height = Math.max(1, Math.floor(viewport.height * pixelRatio));
-    canvas.style.width = "100%";
-    canvas.style.height = "100%";
+    // Render into an offscreen canvas first. This is intentionally different
+    // from the original HD pass: resizing the live canvas before rendering
+    // clears the visible page on iPhone and can leave a blank sheet if a PDF
+    // render is interrupted. The live page is not touched until the HD image
+    // is fully finished and ready to swap in synchronously.
+    const offscreen = document.createElement("canvas");
+    offscreen.width = Math.max(1, Math.floor(viewport.width * pixelRatio));
+    offscreen.height = Math.max(1, Math.floor(viewport.height * pixelRatio));
 
-    const context = canvas.getContext("2d", { alpha: false });
-    if (!context) return;
+    const offscreenContext = offscreen.getContext("2d", { alpha: false });
+    if (!offscreenContext) return;
 
     const renderTask = pdfPage.render({
-      canvasContext: context,
+      canvasContext: offscreenContext,
       viewport,
       transform: [pixelRatio, 0, 0, pixelRatio, 0, 0]
     });
@@ -88,7 +85,22 @@
 
     try {
       await renderTask.promise;
-      canvas.dataset.hdPixelRatio = pixelRatio.toFixed(3);
+
+      // If StPageFlip replaced this page while the HD render was running,
+      // abandon the swap instead of drawing into a stale canvas.
+      const currentCanvas = pageElement.querySelector("canvas");
+      if (currentCanvas !== liveCanvas || !pageElement.classList.contains("is-rendered")) return;
+
+      liveCanvas.width = offscreen.width;
+      liveCanvas.height = offscreen.height;
+      liveCanvas.style.width = "100%";
+      liveCanvas.style.height = "100%";
+
+      const liveContext = liveCanvas.getContext("2d", { alpha: false });
+      if (!liveContext) return;
+
+      liveContext.drawImage(offscreen, 0, 0);
+      liveCanvas.dataset.hdPixelRatio = pixelRatio.toFixed(3);
     } catch (error) {
       if (!error || error.name !== "RenderingCancelledException") {
         console.warn(`HD re-render failed for page ${pageNumber}`, error);
@@ -103,51 +115,50 @@
   const sharpenCurrentView = async (useZoomRatio = false) => {
     const current = currentPageNumber();
     const ratio = useZoomRatio ? zoomPixelRatio() : basePixelRatio();
-    const maxPage = Math.max(
-      ...Array.from(book.querySelectorAll("[data-page-number]"), (node) => Number(node.dataset.pageNumber || 0))
-    );
+    const allPages = Array.from(
+      book.querySelectorAll("[data-page-number]"),
+      (node) => Number(node.dataset.pageNumber || 0)
+    ).filter(Boolean);
 
-    const pageNumbers = new Set([current]);
-    if (current > 1) pageNumbers.add(current - 1);
-    if (current < maxPage) pageNumbers.add(current + 1);
+    if (!allPages.length) return;
+    const maxPage = Math.max(...allPages);
 
-    for (const pageNumber of pageNumbers) {
-      await renderHdPage(pageNumber, ratio);
+    // Keep memory use conservative on iPhone. Sharpen the visible page first,
+    // then the adjacent page so a normal swipe remains crisp.
+    await renderHdPage(current, ratio);
+
+    const adjacent = current < maxPage ? current + 1 : current - 1;
+    if (adjacent >= 1) {
+      await renderHdPage(adjacent, basePixelRatio());
     }
   };
 
-  const scheduleSharpen = (useZoomRatio = false) => {
+  const scheduleSharpen = (useZoomRatio = false, delay = 180) => {
     window.clearTimeout(debounceTimer);
     debounceTimer = window.setTimeout(() => {
       void sharpenCurrentView(useZoomRatio);
-    }, 120);
+    }, delay);
   };
 
-  const counterObserver = new MutationObserver(() => scheduleSharpen(false));
+  const counterObserver = new MutationObserver(() => scheduleSharpen(false, 220));
   counterObserver.observe(counter, {
     childList: true,
     characterData: true,
     subtree: true
   });
 
-  const bookObserver = new MutationObserver(() => scheduleSharpen(false));
-  bookObserver.observe(book, {
-    subtree: true,
-    attributes: true,
-    attributeFilter: ["class"]
-  });
-
   if (window.visualViewport) {
-    window.visualViewport.addEventListener("resize", () => scheduleSharpen(true), { passive: true });
+    window.visualViewport.addEventListener("resize", () => scheduleSharpen(true, 260), { passive: true });
   }
 
-  window.addEventListener("resize", () => scheduleSharpen(true), { passive: true });
-  window.addEventListener("orientationchange", () => scheduleSharpen(true), { passive: true });
+  window.addEventListener("resize", () => scheduleSharpen(true, 260), { passive: true });
+  window.addEventListener("orientationchange", () => scheduleSharpen(true, 300), { passive: true });
 
-  document.addEventListener("fullscreenchange", () => scheduleSharpen(true));
-  document.addEventListener("webkitfullscreenchange", () => scheduleSharpen(true));
+  document.addEventListener("fullscreenchange", () => scheduleSharpen(true, 260));
+  document.addEventListener("webkitfullscreenchange", () => scheduleSharpen(true, 260));
 
-  // Upgrade the initial visible pages once the standard flipbook render settles.
-  window.setTimeout(() => scheduleSharpen(false), 500);
-  window.setTimeout(() => scheduleSharpen(false), 1400);
+  // Allow the standard flipbook renderer to finish completely before the HD
+  // pass begins. The normal rendered page always remains visible underneath.
+  window.setTimeout(() => scheduleSharpen(false, 0), 1200);
+  window.setTimeout(() => scheduleSharpen(false, 0), 2400);
 })();
