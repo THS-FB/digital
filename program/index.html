@@ -24,22 +24,43 @@
   <style>
     .flipbook-swipe-hint {
       display: flex !important;
+      flex-direction: column !important;
       align-items: center !important;
       justify-content: center !important;
-      gap: 10px !important;
+      gap: 3px !important;
       margin: 0 0 12px !important;
-      padding: 11px 16px !important;
+      padding: 10px 14px !important;
       border: 1px solid rgba(200, 16, 46, 0.30) !important;
       border-radius: 7px !important;
       background: rgba(200, 16, 46, 0.10) !important;
       color: #c8102e !important;
-      font-weight: 900 !important;
       text-align: center !important;
     }
 
-    .flipbook-swipe-hint span {
+    .flipbook-swipe-line {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 9px !important;
       color: #c8102e !important;
-      font-weight: 900 !important;
+      font-size: clamp(15px, 2.6vw, 19px) !important;
+      font-weight: 800 !important;
+      line-height: 1.2 !important;
+    }
+
+    .flipbook-swipe-icon {
+      flex: 0 0 auto !important;
+      color: #c8102e !important;
+      font-size: 21px !important;
+      font-weight: 700 !important;
+      line-height: 1 !important;
+    }
+
+    .flipbook-zoom-line {
+      color: #c8102e !important;
+      font-size: clamp(13px, 2.2vw, 16px) !important;
+      font-weight: 600 !important;
+      line-height: 1.2 !important;
     }
 
     #flipbook::before,
@@ -149,6 +170,18 @@
         filter: none !important;
       }
 
+      .flipbook-swipe-hint {
+        padding: 9px 10px !important;
+      }
+
+      .flipbook-swipe-line {
+        font-size: 15px !important;
+      }
+
+      .flipbook-zoom-line {
+        font-size: 13px !important;
+      }
+
       .flipbook-shell.is-faux-fullscreen .flipbook-toolbar,
       .flipbook-shell:fullscreen .flipbook-toolbar,
       .flipbook-shell:-webkit-full-screen .flipbook-toolbar {
@@ -237,8 +270,11 @@
     >
 
       <p class="flipbook-swipe-hint">
-        <span class="flipbook-swipe-icon" aria-hidden="true">&#8596;</span>
-        <span>Swipe to turn pages &bull; Pinch to zoom</span>
+        <span class="flipbook-swipe-line">
+          <span class="flipbook-swipe-icon" aria-hidden="true">&#8596;</span>
+          <span>Swipe left / right to turn pages</span>
+        </span>
+        <span class="flipbook-zoom-line">Pinch to zoom</span>
       </p>
 
       <div class="flipbook-shell">
@@ -343,7 +379,7 @@
   <script src="../js/app.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/SAILgaosai/StPageFlip@d4ed7d4/dist/js/page-flip.browser.js"></script>
   <script src="./flipbook-polish.js?v=2026-09-10-perf2"></script>
-  <script src="./flipbook.js?v=2026-09-17-crisp3"></script>
+  <script src="./flipbook.js?v=2026-09-17-touchfix1"></script>
 
   <script>
     (() => {
