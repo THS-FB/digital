@@ -79,6 +79,56 @@
         drop-shadow(0 2px 4px rgba(0,0,0,0.18)) !important;
     }
 
+    /*
+      Fullscreen fallback for iPhone/iPad and in-app browsers that do not
+      expose the standard Element.requestFullscreen() API. Native fullscreen
+      uses the same layout rules so both paths look identical.
+    */
+    body.flipbook-faux-fullscreen-active {
+      overflow: hidden !important;
+    }
+
+    .flipbook-shell.is-faux-fullscreen,
+    .flipbook-shell:fullscreen,
+    .flipbook-shell:-webkit-full-screen {
+      width: 100vw !important;
+      height: 100vh !important;
+      height: 100dvh !important;
+      max-width: none !important;
+      margin: 0 !important;
+      border-radius: 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      background: #3f3f3f !important;
+      box-sizing: border-box !important;
+    }
+
+    .flipbook-shell.is-faux-fullscreen {
+      position: fixed !important;
+      inset: 0 !important;
+      z-index: 2147483647 !important;
+      padding-top: env(safe-area-inset-top) !important;
+      padding-left: env(safe-area-inset-left) !important;
+      padding-right: env(safe-area-inset-right) !important;
+    }
+
+    .flipbook-shell.is-faux-fullscreen .flipbook-stage,
+    .flipbook-shell:fullscreen .flipbook-stage,
+    .flipbook-shell:-webkit-full-screen .flipbook-stage {
+      flex: 1 1 auto !important;
+      min-height: 0 !important;
+      height: auto !important;
+      padding-top: 8px !important;
+      padding-bottom: 8px !important;
+    }
+
+    .flipbook-shell.is-faux-fullscreen .flipbook-toolbar,
+    .flipbook-shell:fullscreen .flipbook-toolbar,
+    .flipbook-shell:-webkit-full-screen .flipbook-toolbar {
+      flex: 0 0 auto !important;
+      padding-bottom: calc(10px + env(safe-area-inset-bottom)) !important;
+    }
+
     @media (max-width: 760px) {
       #flipbook .flip-page.--left.--simple,
       #flipbook .flip-page.--right.--simple,
@@ -275,6 +325,90 @@
   <script src="https://cdn.jsdelivr.net/gh/SAILgaosai/StPageFlip@d4ed7d4/dist/js/page-flip.browser.js"></script>
   <script src="./flipbook-polish.js?v=2026-09-10-perf2"></script>
   <script src="./flipbook.js?v=2026-09-10-perf2"></script>
+
+  <script>
+    (() => {
+      const shell = document.querySelector('.flipbook-shell');
+      const button = document.getElementById('flipbook-fullscreen');
+      if (!shell || !button) return;
+
+      const label = button.querySelector('.flipbook-button-label');
+      const nativeElement = () =>
+        document.fullscreenElement || document.webkitFullscreenElement || null;
+
+      const setButtonState = () => {
+        const active = Boolean(nativeElement()) || shell.classList.contains('is-faux-fullscreen');
+        button.setAttribute('aria-pressed', active ? 'true' : 'false');
+        button.setAttribute('aria-label', active ? 'Exit full screen' : 'View full screen');
+        if (label) label.textContent = active ? 'Exit' : 'Full screen';
+      };
+
+      const enterFauxFullscreen = () => {
+        shell.classList.add('is-faux-fullscreen');
+        document.body.classList.add('flipbook-faux-fullscreen-active');
+        setButtonState();
+      };
+
+      const exitFauxFullscreen = () => {
+        shell.classList.remove('is-faux-fullscreen');
+        document.body.classList.remove('flipbook-faux-fullscreen-active');
+        setButtonState();
+      };
+
+      const requestNativeFullscreen =
+        shell.requestFullscreen || shell.webkitRequestFullscreen;
+      const exitNativeFullscreen =
+        document.exitFullscreen || document.webkitExitFullscreen;
+
+      const toggleFullscreen = async (event) => {
+        /* Run before flipbook.js's older bubble listener and replace it. */
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        if (shell.classList.contains('is-faux-fullscreen')) {
+          exitFauxFullscreen();
+          return;
+        }
+
+        if (nativeElement()) {
+          if (typeof exitNativeFullscreen === 'function') {
+            try {
+              await exitNativeFullscreen.call(document);
+            } catch (error) {
+              console.warn('Native fullscreen exit failed.', error);
+            }
+          }
+          setButtonState();
+          return;
+        }
+
+        if (typeof requestNativeFullscreen === 'function') {
+          try {
+            await requestNativeFullscreen.call(shell);
+            setButtonState();
+            return;
+          } catch (error) {
+            console.warn('Native fullscreen unavailable; using fallback.', error);
+          }
+        }
+
+        enterFauxFullscreen();
+      };
+
+      button.addEventListener('click', toggleFullscreen, true);
+
+      document.addEventListener('fullscreenchange', setButtonState);
+      document.addEventListener('webkitfullscreenchange', setButtonState);
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && shell.classList.contains('is-faux-fullscreen')) {
+          exitFauxFullscreen();
+        }
+      });
+
+      setButtonState();
+    })();
+  </script>
 
 </body>
 </html>
