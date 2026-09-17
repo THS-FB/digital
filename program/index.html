@@ -8,9 +8,7 @@
     content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"
   >
 
-  <title>
-    2026 Digital Program | Tunstall Trojan Football
-  </title>
+  <title>2026 Digital Program | Tunstall Trojan Football</title>
 
   <meta
     name="description"
@@ -98,71 +96,6 @@
         drop-shadow(0 2px 4px rgba(0,0,0,0.18)) !important;
     }
 
-    html.flipbook-faux-fullscreen-active,
-    body.flipbook-faux-fullscreen-active {
-      overscroll-behavior: none !important;
-    }
-
-    body.flipbook-faux-fullscreen-active {
-      overflow: hidden !important;
-    }
-
-    .flipbook-shell.is-faux-fullscreen,
-    .flipbook-shell:fullscreen,
-    .flipbook-shell:-webkit-full-screen {
-      width: 100vw !important;
-      height: 100vh !important;
-      height: 100dvh !important;
-      max-width: none !important;
-      margin: 0 !important;
-      border-radius: 0 !important;
-      display: flex !important;
-      flex-direction: column !important;
-      background: #3f3f3f !important;
-      box-sizing: border-box !important;
-    }
-
-    .flipbook-shell.is-faux-fullscreen {
-      position: fixed !important;
-      inset: 0 !important;
-      z-index: 2147483647 !important;
-      padding-top: env(safe-area-inset-top) !important;
-      padding-left: env(safe-area-inset-left) !important;
-      padding-right: env(safe-area-inset-right) !important;
-    }
-
-    .flipbook-shell.is-faux-fullscreen .flipbook-stage,
-    .flipbook-shell:fullscreen .flipbook-stage,
-    .flipbook-shell:-webkit-full-screen .flipbook-stage {
-      flex: 1 1 auto !important;
-      min-height: 0 !important;
-      height: auto !important;
-      padding: 6px 2px !important;
-      overflow: hidden !important;
-    }
-
-    .flipbook-shell.is-faux-fullscreen #flipbook,
-    .flipbook-shell:fullscreen #flipbook,
-    .flipbook-shell:-webkit-full-screen #flipbook {
-      transform: scale(var(--flipbook-fullscreen-scale, 1));
-      transform-origin: center center;
-      transition: transform 160ms ease;
-    }
-
-    .flipbook-shell.is-faux-fullscreen .flipbook-toolbar,
-    .flipbook-shell:fullscreen .flipbook-toolbar,
-    .flipbook-shell:-webkit-full-screen .flipbook-toolbar {
-      flex: 0 0 auto !important;
-      padding-bottom: calc(10px + env(safe-area-inset-bottom)) !important;
-    }
-
-    .flipbook-shell.is-faux-fullscreen #flipbook-fullscreen,
-    .flipbook-shell:fullscreen #flipbook-fullscreen,
-    .flipbook-shell:-webkit-full-screen #flipbook-fullscreen {
-      border-color: #c8102e !important;
-      color: #c8102e !important;
-    }
-
     @media (max-width: 760px) {
       #flipbook .flip-page.--left.--simple,
       #flipbook .flip-page.--right.--simple,
@@ -181,12 +114,6 @@
       .flipbook-zoom-line {
         font-size: 13px !important;
       }
-
-      .flipbook-shell.is-faux-fullscreen .flipbook-toolbar,
-      .flipbook-shell:fullscreen .flipbook-toolbar,
-      .flipbook-shell:-webkit-full-screen .flipbook-toolbar {
-        padding-top: 8px !important;
-      }
     }
   </style>
 </head>
@@ -194,7 +121,6 @@
 <body>
 
   <header class="site-header">
-
     <img
       src="../assets/logos/ths-trojan-head.png"
       alt="Tunstall Trojan"
@@ -202,7 +128,6 @@
     >
 
     <h1>Tunstall Trojan Football</h1>
-
     <p class="team-motto">One Team. One Town. All Trojan.</p>
 
     <div class="brand-divider">
@@ -214,11 +139,9 @@
       >
       <span></span>
     </div>
-
   </header>
 
   <nav class="site-nav" aria-label="Primary navigation">
-
     <div class="mobile-nav-row">
       <button
         type="button"
@@ -255,7 +178,6 @@
   </nav>
 
   <main class="program-page">
-
     <section class="program-intro">
       <p class="eyebrow">Tunstall Trojan Football</p>
       <h2>2026 Digital Program</h2>
@@ -268,7 +190,6 @@
       class="program-viewer-card"
       aria-label="2026 Tunstall Football Digital Program"
     >
-
       <p class="flipbook-swipe-hint">
         <span class="flipbook-swipe-line">
           <span class="flipbook-swipe-icon" aria-hidden="true">&#8596;</span>
@@ -278,7 +199,6 @@
       </p>
 
       <div class="flipbook-shell">
-
         <div
           class="flipbook-status"
           id="flipbook-status"
@@ -305,7 +225,6 @@
         </div>
 
         <div class="flipbook-toolbar" aria-label="Digital program controls">
-
           <div class="flipbook-toolbar-group">
             <button
               type="button"
@@ -337,17 +256,6 @@
               <span aria-hidden="true">&#8594;</span>
             </button>
 
-            <button
-              type="button"
-              class="flipbook-button"
-              id="flipbook-fullscreen"
-              aria-label="View full screen"
-              aria-pressed="false"
-            >
-              <span class="flipbook-fullscreen-icon" aria-hidden="true">&#x26F6;</span>
-              <span class="flipbook-button-label">Full screen</span>
-            </button>
-
             <a
               class="flipbook-download"
               id="flipbook-download"
@@ -357,13 +265,9 @@
               <span class="flipbook-download-label">PDF</span>
             </a>
           </div>
-
         </div>
-
       </div>
-
     </section>
-
   </main>
 
   <footer class="site-footer">
@@ -379,162 +283,7 @@
   <script src="../js/app.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/SAILgaosai/StPageFlip@d4ed7d4/dist/js/page-flip.browser.js"></script>
   <script src="./flipbook-polish.js?v=2026-09-10-perf2"></script>
-  <script src="./flipbook.js?v=2026-09-17-touchpan2"></script>
-
-  <script>
-    (() => {
-      const shell = document.querySelector('.flipbook-shell');
-      const stage = document.getElementById('flipbook-stage');
-      const book = document.getElementById('flipbook');
-      const button = document.getElementById('flipbook-fullscreen');
-      if (!shell || !stage || !book || !button) return;
-
-      const label = button.querySelector('.flipbook-button-label');
-      const icon = button.querySelector('.flipbook-fullscreen-icon');
-      const nativeElement = () =>
-        document.fullscreenElement || document.webkitFullscreenElement || null;
-      const isActive = () =>
-        Boolean(nativeElement()) || shell.classList.contains('is-faux-fullscreen');
-
-      let scaleFrame = 0;
-
-      const updateBookScale = () => {
-        window.cancelAnimationFrame(scaleFrame);
-        scaleFrame = window.requestAnimationFrame(() => {
-          if (!isActive()) {
-            book.style.removeProperty('--flipbook-fullscreen-scale');
-            return;
-          }
-
-          const page = book.querySelector('.flip-page.--right.--simple, .flip-page.--left.--simple, .flip-page');
-          if (!page) return;
-
-          const styles = window.getComputedStyle(stage);
-          const availableWidth = Math.max(
-            1,
-            stage.clientWidth - parseFloat(styles.paddingLeft || '0') - parseFloat(styles.paddingRight || '0')
-          );
-          const availableHeight = Math.max(
-            1,
-            stage.clientHeight - parseFloat(styles.paddingTop || '0') - parseFloat(styles.paddingBottom || '0')
-          );
-          const pageWidth = Math.max(page.offsetWidth, 1);
-          const pageHeight = Math.max(page.offsetHeight, 1);
-          const portraitMode = window.matchMedia('(max-width: 760px)').matches;
-          const contentWidth = portraitMode ? pageWidth : pageWidth * 2;
-          const nextScale = Math.min(
-            availableWidth / contentWidth,
-            availableHeight / pageHeight
-          );
-          const safeScale = Math.min(1.35, Math.max(0.72, nextScale));
-
-          book.style.setProperty('--flipbook-fullscreen-scale', safeScale.toFixed(4));
-        });
-      };
-
-      const refreshFullscreenLayout = () => {
-        updateBookScale();
-        window.setTimeout(updateBookScale, 80);
-        window.setTimeout(updateBookScale, 240);
-      };
-
-      const setButtonState = () => {
-        const active = isActive();
-        button.setAttribute('aria-pressed', active ? 'true' : 'false');
-        button.setAttribute('aria-label', active ? 'Exit full screen' : 'View full screen');
-        button.title = active ? 'Exit full screen' : 'View full screen';
-        if (label) label.textContent = active ? 'Exit' : 'Full screen';
-        if (icon) icon.textContent = active ? '\u00d7' : '\u26f6';
-        if (!active) book.style.removeProperty('--flipbook-fullscreen-scale');
-      };
-
-      const enterFauxFullscreen = () => {
-        shell.classList.add('is-faux-fullscreen');
-        document.documentElement.classList.add('flipbook-faux-fullscreen-active');
-        document.body.classList.add('flipbook-faux-fullscreen-active');
-        setButtonState();
-        refreshFullscreenLayout();
-      };
-
-      const exitFauxFullscreen = () => {
-        shell.classList.remove('is-faux-fullscreen');
-        document.documentElement.classList.remove('flipbook-faux-fullscreen-active');
-        document.body.classList.remove('flipbook-faux-fullscreen-active');
-        setButtonState();
-      };
-
-      const requestNativeFullscreen =
-        shell.requestFullscreen || shell.webkitRequestFullscreen;
-      const exitNativeFullscreen =
-        document.exitFullscreen || document.webkitExitFullscreen;
-
-      const toggleFullscreen = async (event) => {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-
-        if (shell.classList.contains('is-faux-fullscreen')) {
-          exitFauxFullscreen();
-          return;
-        }
-
-        if (nativeElement()) {
-          if (typeof exitNativeFullscreen === 'function') {
-            try {
-              await exitNativeFullscreen.call(document);
-            } catch (error) {
-              console.warn('Native fullscreen exit failed.', error);
-            }
-          }
-          setButtonState();
-          return;
-        }
-
-        if (typeof requestNativeFullscreen === 'function') {
-          try {
-            await requestNativeFullscreen.call(shell);
-            setButtonState();
-            refreshFullscreenLayout();
-            return;
-          } catch (error) {
-            console.warn('Native fullscreen unavailable; using immersive fallback.', error);
-          }
-        }
-
-        enterFauxFullscreen();
-      };
-
-      button.addEventListener('click', toggleFullscreen, true);
-
-      const nativeFullscreenChanged = () => {
-        setButtonState();
-        if (nativeElement()) refreshFullscreenLayout();
-      };
-
-      document.addEventListener('fullscreenchange', nativeFullscreenChanged);
-      document.addEventListener('webkitfullscreenchange', nativeFullscreenChanged);
-
-      document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && shell.classList.contains('is-faux-fullscreen')) {
-          exitFauxFullscreen();
-        }
-      });
-
-      window.addEventListener('resize', () => {
-        if (isActive()) refreshFullscreenLayout();
-      });
-      window.addEventListener('orientationchange', () => {
-        if (isActive()) refreshFullscreenLayout();
-      });
-
-      if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', () => {
-          if (isActive()) refreshFullscreenLayout();
-        });
-      }
-
-      setButtonState();
-    })();
-  </script>
+  <script src="./flipbook.js?v=2026-09-17-nofullscreen1"></script>
 
 </body>
 </html>
