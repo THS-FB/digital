@@ -1,5 +1,5 @@
 (() => {
-  const BUILD_ID = "2026-09-17-touchpan2";
+  const BUILD_ID = "2026-09-17-nofullscreen1";
   const PDF_URL = "../assets/program/current-program.pdf";
   const PDFJS_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs";
   const PDFJS_WORKER_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
@@ -20,12 +20,23 @@
 
   if (!shell || !stage || !book) return;
 
+  // Fullscreen caused users to become trapped in a translated/zoomed viewer on
+  // iPhone. Remove that control and use the browser's native zoom/pan behavior
+  // instead. Also clear any faux-fullscreen state restored from page history.
+  if (fullscreenButton) {
+    fullscreenButton.hidden = true;
+    fullscreenButton.style.display = "none";
+    fullscreenButton.setAttribute("aria-hidden", "true");
+    fullscreenButton.tabIndex = -1;
+  }
+  shell.classList.remove("is-faux-fullscreen");
+  document.documentElement.classList.remove("flipbook-faux-fullscreen-active");
+  document.body.classList.remove("flipbook-faux-fullscreen-active");
+  book.style.removeProperty("transform");
+  book.style.removeProperty("--flipbook-fullscreen-scale");
+
   const touchDrivenMobile = window.matchMedia("(pointer: coarse), (max-width: 760px)").matches;
   const viewportScale = () => (window.visualViewport ? window.visualViewport.scale || 1 : 1);
-  const nativeFullscreenElement = () =>
-    document.fullscreenElement || document.webkitFullscreenElement || null;
-  const viewerIsFullscreen = () =>
-    shell.classList.contains("is-faux-fullscreen") || nativeFullscreenElement() === shell;
 
   let pageFlip = null;
   let totalPages = 0;
@@ -33,71 +44,20 @@
   const renderedPages = new Set();
   const renderingPages = new Map();
 
-  /*
-    Mobile touch model:
-      - one finger at normal zoom: horizontal swipe turns the page
-      - two fingers: native iOS pinch zoom
-      - one finger after zooming: drag/pan the PDF inside fullscreen
-
-    StPageFlip's built-in touch handling stays disabled on touch devices so a
-    second finger cannot accidentally finish a page turn during a pinch.
-  */
+  // Mobile interaction model:
+  // - one finger at 100% zoom: turn pages left/right
+  // - two fingers: native Safari pinch zoom
+  // - once zoomed: one finger is left entirely to Safari for normal panning
   let touchMode = "idle";
   let touchStartX = 0;
   let touchStartY = 0;
   let touchStartTime = 0;
-  let panX = 0;
-  let panY = 0;
-  let panStartX = 0;
-  let panStartY = 0;
-
-  const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-
-  const panLimits = () => {
-    const zoom = Math.max(1, viewportScale());
-    const extra = Math.max(0, zoom - 1);
-    return {
-      x: Math.max(0, stage.clientWidth * extra * 0.72),
-      y: Math.max(0, stage.clientHeight * extra * 0.72)
-    };
-  };
-
-  const applyPanTransform = () => {
-    if (!viewerIsFullscreen() || viewportScale() <= 1.02) {
-      book.style.removeProperty("transform");
-      return;
-    }
-
-    book.style.transform =
-      `translate3d(${panX.toFixed(1)}px, ${panY.toFixed(1)}px, 0) ` +
-      "scale(var(--flipbook-fullscreen-scale, 1))";
-  };
-
-  const resetPan = () => {
-    panX = 0;
-    panY = 0;
-    panStartX = 0;
-    panStartY = 0;
-    book.style.removeProperty("transition");
-    book.style.removeProperty("transform");
-  };
 
   const resetTouchGesture = () => {
     touchMode = "idle";
     touchStartX = 0;
     touchStartY = 0;
     touchStartTime = 0;
-    book.style.removeProperty("transition");
-  };
-
-  const beginPan = (touch) => {
-    touchMode = "pan";
-    touchStartX = touch.clientX;
-    touchStartY = touch.clientY;
-    touchStartTime = Date.now();
-    panStartX = panX;
-    panStartY = panY;
-    book.style.transition = "none";
   };
 
   const startTouchGesture = (event) => {
@@ -105,20 +65,13 @@
 
     if (event.touches && event.touches.length >= 2) {
       touchMode = "pinch";
-      book.style.removeProperty("transition");
       return;
     }
 
     if (!event.touches || event.touches.length !== 1) return;
 
     const touch = event.touches[0];
-
-    if (viewerIsFullscreen() && viewportScale() > 1.02) {
-      beginPan(touch);
-      return;
-    }
-
-    touchMode = "swipe";
+    touchMode = viewportScale() > 1.02 ? "pan" : "swipe";
     touchStartX = touch.clientX;
     touchStartY = touch.clientY;
     touchStartTime = Date.now();
@@ -129,50 +82,23 @@
 
     if (event.touches && event.touches.length >= 2) {
       touchMode = "pinch";
-      book.style.removeProperty("transition");
       return;
     }
 
-    if (!event.touches || event.touches.length !== 1) return;
-
-    const touch = event.touches[0];
-
-    // If the browser reports that the viewport has become zoomed while a
-    // one-finger gesture is still active, switch immediately into pan mode.
-    if (viewerIsFullscreen() && viewportScale() > 1.02 && touchMode !== "pan") {
-      beginPan(touch);
-      return;
+    if (viewportScale() > 1.02) {
+      touchMode = "pan";
+      // Do not preventDefault here. Native Safari panning is intentional.
     }
-
-    if (touchMode !== "pan") return;
-
-    // Native one-finger panning does not move a fixed faux-fullscreen element
-    // consistently on iPhone, so we pan the book itself after pinch zoom.
-    event.preventDefault();
-
-    const limits = panLimits();
-    panX = clamp(panStartX + (touch.clientX - touchStartX), -limits.x, limits.x);
-    panY = clamp(panStartY + (touch.clientY - touchStartY), -limits.y, limits.y);
-    applyPanTransform();
   };
 
   const finishTouchGesture = (event) => {
     if (!touchDrivenMobile) return;
 
-    // iOS sends touchend once per finger. When one finger remains after a
-    // pinch, immediately hand that remaining finger off to pan mode so the
-    // user does not have to lift both fingers and touch the screen again.
-    if (touchMode === "pinch" && event.touches && event.touches.length === 1) {
-      if (viewerIsFullscreen() && viewportScale() > 1.02) {
-        beginPan(event.touches[0]);
-      }
-      return;
-    }
-
-    if (event.touches && event.touches.length > 0) return;
-
-    if (touchMode === "pan") {
-      resetTouchGesture();
+    // During pinch zoom, touchend fires once per finger. Never interpret those
+    // partial endings as a page turn.
+    if (event.touches && event.touches.length > 0) {
+      if (touchMode === "pinch") return;
+      if (viewportScale() > 1.02) touchMode = "pan";
       return;
     }
 
@@ -206,51 +132,20 @@
     resetTouchGesture();
   };
 
-  const cancelTouchGesture = () => resetTouchGesture();
-  const markNativePinch = () => {
-    touchMode = "pinch";
-    book.style.removeProperty("transition");
-  };
-
   if (touchDrivenMobile) {
     stage.style.touchAction = "pan-x pan-y pinch-zoom";
     book.style.touchAction = "pan-x pan-y pinch-zoom";
 
     stage.addEventListener("touchstart", startTouchGesture, { passive: true });
-    stage.addEventListener("touchmove", moveTouchGesture, { passive: false });
+    stage.addEventListener("touchmove", moveTouchGesture, { passive: true });
     stage.addEventListener("touchend", finishTouchGesture, { passive: true });
-    stage.addEventListener("touchcancel", cancelTouchGesture, { passive: true });
+    stage.addEventListener("touchcancel", resetTouchGesture, { passive: true });
 
-    stage.addEventListener("gesturestart", markNativePinch, { passive: true });
-    stage.addEventListener("gesturechange", markNativePinch, { passive: true });
+    stage.addEventListener("gesturestart", () => { touchMode = "pinch"; }, { passive: true });
+    stage.addEventListener("gesturechange", () => { touchMode = "pinch"; }, { passive: true });
     stage.addEventListener("gestureend", () => {
-      if (viewportScale() <= 1.02) resetPan();
+      touchMode = viewportScale() > 1.02 ? "pan" : "idle";
     }, { passive: true });
-
-    if (window.visualViewport) {
-      window.visualViewport.addEventListener("resize", () => {
-        if (viewportScale() <= 1.02) {
-          resetPan();
-        } else if (viewerIsFullscreen()) {
-          const limits = panLimits();
-          panX = clamp(panX, -limits.x, limits.x);
-          panY = clamp(panY, -limits.y, limits.y);
-          applyPanTransform();
-        }
-      }, { passive: true });
-    }
-
-    document.addEventListener("fullscreenchange", () => {
-      if (!viewerIsFullscreen()) resetPan();
-    });
-    document.addEventListener("webkitfullscreenchange", () => {
-      if (!viewerIsFullscreen()) resetPan();
-    });
-
-    const shellClassObserver = new MutationObserver(() => {
-      if (!viewerIsFullscreen()) resetPan();
-    });
-    shellClassObserver.observe(shell, { attributes: true, attributeFilter: ["class"] });
   }
 
   book.classList.add("is-initializing");
@@ -545,29 +440,6 @@
       showStatus("Preparing digital program...");
     }, { once: true });
   }
-
-  if (fullscreenButton) {
-    fullscreenButton.addEventListener("click", async () => {
-      try {
-        if (!document.fullscreenElement) {
-          await shell.requestFullscreen();
-        } else {
-          await document.exitFullscreen();
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    });
-  }
-
-  document.addEventListener("fullscreenchange", () => {
-    if (fullscreenButton) {
-      fullscreenButton.setAttribute(
-        "aria-pressed",
-        document.fullscreenElement ? "true" : "false"
-      );
-    }
-  });
 
   if (downloadLink) {
     downloadLink.href = PDF_URL;
