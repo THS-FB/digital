@@ -1,5 +1,5 @@
 (() => {
-  const BUILD_ID = "2026-09-17-crisp3";
+  const BUILD_ID = "2026-09-17-touchfix1";
   const PDF_URL = "../assets/program/current-program.pdf";
   const PDFJS_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs";
   const PDFJS_WORKER_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
@@ -20,26 +20,120 @@
 
   if (!shell || !stage || !book) return;
 
-  const preserveNativePinch = (event) => {
-    if (event.touches && event.touches.length > 1) {
-      event.stopImmediatePropagation();
-    }
-  };
-
-  stage.addEventListener("touchstart", preserveNativePinch, {
-    capture: true,
-    passive: true
-  });
-  stage.addEventListener("touchmove", preserveNativePinch, {
-    capture: true,
-    passive: true
-  });
+  const touchDrivenMobile = window.matchMedia("(pointer: coarse), (max-width: 760px)").matches;
+  const viewportScale = () => (window.visualViewport ? window.visualViewport.scale || 1 : 1);
 
   let pageFlip = null;
   let totalPages = 0;
   let dimensions = null;
   const renderedPages = new Set();
   const renderingPages = new Map();
+
+  // On touch devices we disable StPageFlip's own touch/mouse gesture handler
+  // and provide a small one-finger swipe detector ourselves. This keeps a
+  // second finger from completing an in-progress page turn when the user is
+  // actually trying to pinch-zoom. While the viewport is zoomed, one-finger
+  // movement is reserved for panning and never turns a page.
+  let touchMode = "idle";
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchStartTime = 0;
+
+  const resetTouchGesture = () => {
+    touchMode = "idle";
+    touchStartX = 0;
+    touchStartY = 0;
+    touchStartTime = 0;
+  };
+
+  const startTouchGesture = (event) => {
+    if (!touchDrivenMobile) return;
+
+    if (event.touches && event.touches.length >= 2) {
+      touchMode = "pinch";
+      return;
+    }
+
+    if (!event.touches || event.touches.length !== 1) return;
+
+    const touch = event.touches[0];
+    touchMode = viewportScale() > 1.02 ? "pan" : "swipe";
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+    touchStartTime = Date.now();
+  };
+
+  const moveTouchGesture = (event) => {
+    if (!touchDrivenMobile) return;
+
+    if (event.touches && event.touches.length >= 2) {
+      touchMode = "pinch";
+      return;
+    }
+
+    if (viewportScale() > 1.02 && touchMode === "swipe") {
+      touchMode = "pan";
+    }
+  };
+
+  const finishTouchGesture = (event) => {
+    if (!touchDrivenMobile) return;
+
+    // Do not evaluate a swipe until every finger is off the screen. This is
+    // important on iOS because touchend fires once for each finger in a pinch.
+    if (event.touches && event.touches.length > 0) {
+      if (event.touches.length >= 2 || touchMode === "pinch") touchMode = "pinch";
+      return;
+    }
+
+    if (touchMode !== "swipe" || viewportScale() > 1.02 || !pageFlip) {
+      resetTouchGesture();
+      return;
+    }
+
+    const touch = event.changedTouches && event.changedTouches[0];
+    if (!touch) {
+      resetTouchGesture();
+      return;
+    }
+
+    const deltaX = touch.clientX - touchStartX;
+    const deltaY = touch.clientY - touchStartY;
+    const elapsed = Date.now() - touchStartTime;
+    const horizontalDistance = Math.abs(deltaX);
+    const verticalDistance = Math.abs(deltaY);
+
+    const isIntentionalSwipe =
+      horizontalDistance >= 52 &&
+      horizontalDistance > verticalDistance * 1.35 &&
+      elapsed <= 900;
+
+    if (isIntentionalSwipe) {
+      if (deltaX < 0) pageFlip.flipNext();
+      else pageFlip.flipPrev();
+    }
+
+    resetTouchGesture();
+  };
+
+  const cancelTouchGesture = () => resetTouchGesture();
+  const markNativePinch = () => { touchMode = "pinch"; };
+
+  if (touchDrivenMobile) {
+    stage.style.touchAction = "pan-x pan-y pinch-zoom";
+    book.style.touchAction = "pan-x pan-y pinch-zoom";
+
+    stage.addEventListener("touchstart", startTouchGesture, { passive: true });
+    stage.addEventListener("touchmove", moveTouchGesture, { passive: true });
+    stage.addEventListener("touchend", finishTouchGesture, { passive: true });
+    stage.addEventListener("touchcancel", cancelTouchGesture, { passive: true });
+
+    // Safari still exposes gesture events during native pinch zoom. Marking
+    // these as pinch gestures provides an extra guard against accidental turns.
+    stage.addEventListener("gesturestart", markNativePinch, { passive: true });
+    stage.addEventListener("gesturechange", markNativePinch, { passive: true });
+    stage.addEventListener("gestureend", resetTouchGesture, { passive: true });
+  }
 
   book.classList.add("is-initializing");
 
@@ -66,8 +160,15 @@
     await settleInitialLayout();
 
     const wrapper = book.querySelector(".stf__wrapper");
+    const parent = book.querySelector(".stf__parent");
+
     if (wrapper && book.classList.contains("is-front-cover")) {
       wrapper.classList.add("flipbook-cover-centered");
+    }
+
+    if (touchDrivenMobile) {
+      if (wrapper) wrapper.style.touchAction = "pan-x pan-y pinch-zoom";
+      if (parent) parent.style.touchAction = "pan-x pan-y pinch-zoom";
     }
 
     await settleInitialLayout();
@@ -201,10 +302,6 @@
       const baseViewport = pdfPage.getViewport({ scale: 1 });
       const scale = dimensions.pageWidth / baseViewport.width;
       const viewport = pdfPage.getViewport({ scale });
-
-      // Render at the device's native pixel density up to 3x. On modern
-      // iPhones this keeps PDF text/logos sharp under normal pinch zoom without
-      // replacing the live canvas after the page is already displayed.
       const outputScale = Math.min(window.devicePixelRatio || 1, 3);
 
       canvas.width = Math.floor(viewport.width * outputScale);
@@ -295,7 +392,8 @@
       usePortrait: true,
       autoSize: true,
       drawShadow: true,
-      flippingTime: 700
+      flippingTime: 700,
+      useMouseEvents: !touchDrivenMobile
     });
 
     const htmlLoader =
