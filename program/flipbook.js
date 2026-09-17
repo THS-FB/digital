@@ -1,5 +1,5 @@
 (() => {
-  const BUILD_ID = "2026-09-10-perf2";
+  const BUILD_ID = "2026-09-17-zoom1";
   const PDF_URL = "../assets/program/current-program.pdf";
   const PDFJS_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs";
   const PDFJS_WORKER_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
@@ -19,6 +19,24 @@
   const downloadLink = document.getElementById("flipbook-download");
 
   if (!shell || !stage || !book) return;
+
+  // StPageFlip owns normal one-finger gestures. Two-finger gestures are
+  // intercepted in capture phase without preventDefault so the browser can
+  // perform native pinch zoom instead of the flipbook consuming the gesture.
+  const preserveNativePinch = (event) => {
+    if (event.touches && event.touches.length > 1) {
+      event.stopImmediatePropagation();
+    }
+  };
+
+  stage.addEventListener("touchstart", preserveNativePinch, {
+    capture: true,
+    passive: true
+  });
+  stage.addEventListener("touchmove", preserveNativePinch, {
+    capture: true,
+    passive: true
+  });
 
   let pageFlip = null;
   let totalPages = 0;
