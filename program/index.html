@@ -22,8 +22,6 @@
   <link rel="stylesheet" href="./flipbook.css?v=2026-09-17-fullscreen2">
 
   <style>
-    /* Critical preview-safe overrides: keep these inline so CDN caching cannot
-       reintroduce the old swipe styling or detached container-edge stacks. */
     .flipbook-swipe-hint {
       display: flex !important;
       align-items: center !important;
@@ -79,13 +77,6 @@
         drop-shadow(0 2px 4px rgba(0,0,0,0.18)) !important;
     }
 
-    /*
-      Immersive program mode. Native Fullscreen is preferred where the browser
-      supports it. iPhone Safari and in-app browsers can fall back to a fixed
-      viewport mode that removes the normal site container and uses all of the
-      webpage viewport. The book is scaled again after entry so it grows to the
-      available screen instead of retaining its smaller embedded size.
-    */
     html.flipbook-faux-fullscreen-active,
     body.flipbook-faux-fullscreen-active {
       overscroll-behavior: none !important;
@@ -353,6 +344,7 @@
   <script src="https://cdn.jsdelivr.net/gh/SAILgaosai/StPageFlip@d4ed7d4/dist/js/page-flip.browser.js"></script>
   <script src="./flipbook-polish.js?v=2026-09-10-perf2"></script>
   <script src="./flipbook.js?v=2026-09-17-fullscreen2"></script>
+  <script src="./flipbook-hd.js?v=2026-09-17-hdzoom1"></script>
 
   <script>
     (() => {
@@ -442,7 +434,6 @@
         document.exitFullscreen || document.webkitExitFullscreen;
 
       const toggleFullscreen = async (event) => {
-        /* Run before flipbook.js's older bubble listener and replace it. */
         event.preventDefault();
         event.stopImmediatePropagation();
 
