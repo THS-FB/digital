@@ -53,8 +53,11 @@
       "opponent": "Cave Spring",
       "location": "home",
       "district": false,
-      "status": "scheduled",
-      "result": null
+      "status": "final",
+      "result": {
+        "tunstall": 20,
+        "opponent": 42
+      }
     },
     {
       "id": "varsity-2026-09-25-halifax",
@@ -183,8 +186,11 @@
       "opponent": "Cave Spring",
       "location": "away",
       "district": false,
-      "status": "scheduled",
-      "result": null
+      "status": "final",
+      "result": {
+        "tunstall": 20,
+        "opponent": 22
+      }
     },
     {
       "id": "jv-2026-09-24-halifax",
