@@ -1,0 +1,124 @@
+name: Update Week 4 Program Results
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/update-week4-program-results.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update-program:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install PDF editor
+        run: python3 -m pip install --quiet pymupdf
+
+      - name: Update Week 4 scores on schedule page
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import fitz
+          from pathlib import Path
+
+          path = Path("assets/program/current-program.pdf")
+          tmp = path.with_name("current-program.updated.pdf")
+
+          doc = fitz.open(path)
+          if doc.page_count != 8:
+              raise SystemExit(f"Expected 8 pages, found {doc.page_count}")
+
+          page = doc[3]
+
+          DARK = (0x55/255, 0x5B/255, 0x60/255)
+          RED = (0xC8/255, 0x10/255, 0x2E/255)
+          WHITE = (1, 1, 1)
+          ROW_GRAY = (0xF3/255, 0xF5/255, 0xF6/255)
+
+          # Update both season record cards from 3-0 to 3-1.
+          page.draw_rect(fitz.Rect(245, 232, 286, 264), color=None, fill=WHITE, overlay=True)
+          page.draw_rect(fitz.Rect(518, 232, 560, 264), color=None, fill=WHITE, overlay=True)
+          page.insert_text((252.545, 256.5), "3-1", fontname="hebo", fontsize=19, color=DARK, overlay=True)
+          page.insert_text((525.545, 256.5), "3-1", fontname="hebo", fontsize=19, color=DARK, overlay=True)
+
+          # Replace the Cave Spring kickoff-time cells with Week 4 final results.
+          page.draw_rect(fitz.Rect(248, 429.5, 287, 449.5), color=None, fill=ROW_GRAY, overlay=True)
+          page.draw_rect(fitz.Rect(518, 429.5, 560, 449.5), color=None, fill=ROW_GRAY, overlay=True)
+
+          # Varsity: L 20-42
+          fs = 7.7
+          right = 284.0
+          full = "L 20-42"
+          start = right - fitz.get_text_length(full, fontname="hebo", fontsize=fs)
+          page.insert_text((start, 443.8), "L", fontname="hebo", fontsize=fs, color=RED, overlay=True)
+          page.insert_text(
+              (start + fitz.get_text_length("L", fontname="hebo", fontsize=fs), 443.8),
+              " 20-42",
+              fontname="hebo",
+              fontsize=fs,
+              color=DARK,
+              overlay=True,
+          )
+
+          # JV: L 20-22 OT
+          fs = 7.2
+          right = 557.0
+          full = "L 20-22 OT"
+          start = right - fitz.get_text_length(full, fontname="hebo", fontsize=fs)
+          page.insert_text((start, 443.8), "L", fontname="hebo", fontsize=fs, color=RED, overlay=True)
+          page.insert_text(
+              (start + fitz.get_text_length("L", fontname="hebo", fontsize=fs), 443.8),
+              " 20-22 OT",
+              fontname="hebo",
+              fontsize=fs,
+              color=DARK,
+              overlay=True,
+          )
+
+          doc.save(tmp, garbage=4, deflate=True, clean=True)
+          doc.close()
+          tmp.replace(path)
+
+          # Re-open for structural and content verification.
+          check = fitz.open(path)
+          if check.page_count != 8:
+              raise SystemExit("Page count changed unexpectedly.")
+          p4 = check[3]
+          if len(p4.search_for("3-1")) < 2:
+              raise SystemExit("Both 3-1 record values were not found after update.")
+          if not p4.search_for("20-42"):
+              raise SystemExit("Varsity Cave Spring score not found after update.")
+          if not p4.search_for("20-22 OT"):
+              raise SystemExit("JV Cave Spring OT score not found after update.")
+
+          pix = p4.get_pixmap(matrix=fitz.Matrix(1.25, 1.25), alpha=False)
+          pix.save("/tmp/week4-page4-proof.png")
+          print("Verified 8-page PDF.")
+          print("Verified records: Varsity 3-1, JV 3-1.")
+          print("Verified Week 4 results: Varsity L 20-42; JV L 20-22 OT.")
+          print(f"Proof render: {pix.width}x{pix.height}")
+          check.close()
+          PY
+
+      - name: Commit updated website PDF
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "THS Digital Program Publisher"
+          git config user.email "actions@users.noreply.github.com"
+          git add assets/program/current-program.pdf
+          if git diff --cached --quiet; then
+            echo "No PDF changes detected."
+            exit 0
+          fi
+          git commit -m "Update Week 4 results in digital program PDF"
+          git push
