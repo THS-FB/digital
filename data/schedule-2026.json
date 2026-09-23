@@ -187,6 +187,7 @@
       "location": "away",
       "district": false,
       "status": "final",
+      "overtime": true,
       "result": {
         "tunstall": 20,
         "opponent": 22
