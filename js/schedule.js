@@ -82,9 +82,11 @@
           ? "schedule-result-loss"
           : "schedule-result-tie";
 
+    const overtimeLabel = game.overtime ? " OT" : "";
+
     return `
       <span class="schedule-result ${className}">
-        ${outcome} ${game.result.tunstall}–${game.result.opponent}
+        ${outcome} ${game.result.tunstall}–${game.result.opponent}${overtimeLabel}
       </span>
     `;
   }
