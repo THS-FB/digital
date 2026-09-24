@@ -139,6 +139,44 @@
       font-weight: 600;
     }
 
+    .roster-search-clear {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+
+      width: 38px;
+      height: 38px;
+      padding: 0;
+
+      background: transparent;
+      border: 0;
+      border-radius: 999px;
+
+      color: #666666;
+
+      font: inherit;
+      font-size: 1.45rem;
+      font-weight: 500;
+      line-height: 1;
+
+      cursor: pointer;
+    }
+
+    .roster-search-clear:hover,
+    .roster-search-clear:focus-visible {
+      background: #f0f0f0;
+      color: #333333;
+    }
+
+    .roster-search-clear[hidden] {
+      display: none;
+    }
+
+    .roster-search.searching {
+      margin-bottom: 10px;
+    }
+
     .roster-team-controls {
       display: flex;
       justify-content: center;
@@ -753,10 +791,21 @@
             id="roster-search"
             type="search"
             inputmode="search"
+            enterkeyhint="done"
             autocomplete="off"
+            autocapitalize="none"
+            spellcheck="false"
             aria-label="Search roster by player name or number"
             placeholder="Search by name or number"
           >
+
+          <button
+            class="roster-search-clear"
+            id="roster-search-clear"
+            type="button"
+            aria-label="Clear roster search"
+            hidden
+          >×</button>
         </div>
       </div>
 
@@ -1403,6 +1452,12 @@
     const rosterSearch =
       document.getElementById("roster-search");
 
+    const rosterSearchClear =
+      document.getElementById("roster-search-clear");
+
+    const rosterSearchContainer =
+      document.querySelector(".roster-search");
+
     let activeTeamId = "varsity-section";
     let activeView = "card";
 
@@ -1422,6 +1477,17 @@
 
       const isNumberSearch =
         /^\d+$/.test(query);
+
+      const hasQuery =
+        query !== "";
+
+      rosterSearchClear.hidden =
+        !hasQuery;
+
+      rosterSearchContainer.classList.toggle(
+        "searching",
+        hasQuery
+      );
 
       let visibleCount = 0;
 
@@ -1536,9 +1602,54 @@
 
     });
 
+    function dismissRosterKeyboard() {
+      if (document.activeElement === rosterSearch) {
+        rosterSearch.blur();
+      }
+    }
+
     rosterSearch.addEventListener(
       "input",
       applyRosterFilter
+    );
+
+    rosterSearch.addEventListener(
+      "keydown",
+      (event) => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          dismissRosterKeyboard();
+        }
+      }
+    );
+
+    rosterSearchClear.addEventListener(
+      "click",
+      () => {
+        rosterSearch.value = "";
+        applyRosterFilter();
+        dismissRosterKeyboard();
+      }
+    );
+
+    teamSections.forEach((section) => {
+      section.addEventListener(
+        "pointerdown",
+        (event) => {
+          const playerCard =
+            event.target.closest(".player-card");
+
+          if (playerCard && !playerCard.hidden) {
+            dismissRosterKeyboard();
+          }
+        }
+      );
+    });
+
+    window.addEventListener(
+      "scroll",
+      dismissRosterKeyboard,
+      { passive: true }
     );
 
     applyRosterView();
