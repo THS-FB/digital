@@ -1,0 +1,181 @@
+name: Update Week 5 Leadership
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/update-week5-leadership.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update-program:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install PDF editor
+        run: python3 -m pip install --quiet pymupdf
+
+      - name: Update Week 5 leadership page
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import fitz
+          import shutil
+          from pathlib import Path
+
+          path = Path("assets/program/current-program.pdf")
+          archive = Path("assets/program/archive/THS_2026_Digital_Program_WK5.pdf")
+          tmp = path.with_name("current-program.updated.pdf")
+
+          doc = fitz.open(path)
+          if doc.page_count != 8:
+              raise SystemExit(f"Expected 8 pages, found {doc.page_count}")
+
+          page = doc[6]
+
+          BG = (0.9647058824, 0.9686274510, 0.9725490196)
+          MEAL = (0x4D/255, 0x54/255, 0x5C/255)
+          BODY = (0x61/255, 0x66/255, 0x6B/255)
+          HEAD = (0x54/255, 0x59/255, 0x5E/255)
+
+          # Replace the Week 4 meal provider names while preserving the existing label.
+          page.add_redact_annot(fitz.Rect(68.5, 655.3, 250.0, 682.2), fill=BG)
+
+          # Replace the full concession-volunteer heading/text block so the old
+          # four-line list is completely removed and the approved Week 5 list
+          # can use two clean lines.
+          page.add_redact_annot(fitz.Rect(329.0, 593.6, 552.0, 666.0), fill=BG)
+          page.apply_redactions()
+
+          # Week 5 pregame meals - Fairview Church provides both JV and Varsity.
+          page.insert_text(
+              (71.0, 666.0),
+              "Fairview Church (JV)",
+              fontname="helv",
+              fontsize=9.2,
+              color=MEAL,
+              overlay=True,
+          )
+          page.insert_text(
+              (71.0, 678.0),
+              "Fairview Church (Varsity)",
+              fontname="helv",
+              fontsize=9.2,
+              color=MEAL,
+              overlay=True,
+          )
+
+          # Restore the concession heading and insert Week 5 workers.
+          page.insert_text(
+              (331.0, 607.7),
+              "Concession Volunteers",
+              fontname="hebo",
+              fontsize=12.2,
+              color=HEAD,
+              overlay=True,
+          )
+          x2 = 331.0 + fitz.get_text_length(
+              "Concession Volunteers",
+              fontname="hebo",
+              fontsize=12.2,
+          )
+          page.insert_text(
+              (x2, 607.7),
+              " (This Week)",
+              fontname="helv",
+              fontsize=11.0,
+              color=BODY,
+              overlay=True,
+          )
+          page.insert_text(
+              (331.0, 623.0),
+              "Carla Thompson, Tracey Grey",
+              fontname="helv",
+              fontsize=10.35,
+              color=BODY,
+              overlay=True,
+          )
+          page.insert_text(
+              (331.0, 634.2),
+              "Phillip Dallas, Danielle Hines",
+              fontname="helv",
+              fontsize=10.35,
+              color=BODY,
+              overlay=True,
+          )
+
+          doc.save(tmp, garbage=4, deflate=True, clean=True)
+          doc.close()
+          tmp.replace(path)
+          shutil.copy2(path, archive)
+
+          # Structural/content verification and proof render.
+          check = fitz.open(path)
+          if check.page_count != 8:
+              raise SystemExit("Page count changed unexpectedly.")
+
+          p7 = check[6]
+          required = [
+              "Fairview Church (JV)",
+              "Fairview Church (Varsity)",
+              "Carla Thompson, Tracey Grey",
+              "Phillip Dallas, Danielle Hines",
+          ]
+          for value in required:
+              if not p7.search_for(value):
+                  raise SystemExit(f"Week 5 leadership value not found after update: {value}")
+
+          old_weekly = [
+              "Brittany Francis (JV)",
+              "StarLett Gatewood (Varsity)",
+              "Devin Van Allen",
+              "Brandy Eastwood",
+              "Jennifer Moore",
+              "Amie Davis",
+              "Jeff Buchanan",
+              "Lee Eanes",
+              "Jamaica Joyce",
+          ]
+          remaining = [value for value in old_weekly if p7.search_for(value)]
+          if remaining:
+              raise SystemExit(f"Old weekly leadership text remains: {remaining}")
+
+          pix = p7.get_pixmap(matrix=fitz.Matrix(1.6, 1.6), alpha=False)
+          pix.save("/tmp/week5-page7-proof.png")
+          print("Verified 8-page PDF.")
+          print("Verified Week 5 meals: Fairview Church for JV and Varsity.")
+          print("Verified Week 5 concessions: Carla Thompson, Tracey Grey, Phillip Dallas, Danielle Hines.")
+          print(f"Proof render: {pix.width}x{pix.height}")
+          check.close()
+
+          # Bump cache keys so the site viewer and PDF link request the new file.
+          cache_old = "2026-09-24-wk5"
+          cache_new = "2026-09-24-wk5-leadership1"
+          for filename in [Path("program/index.html"), Path("program/flipbook.js")]:
+              data = filename.read_text()
+              if cache_old not in data and cache_new not in data:
+                  raise SystemExit(f"Expected cache token not found in {filename}")
+              filename.write_text(data.replace(cache_old, cache_new))
+          PY
+
+      - name: Commit updated website PDF
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "THS Digital Program Publisher"
+          git config user.email "actions@users.noreply.github.com"
+          git add             assets/program/current-program.pdf             assets/program/archive/THS_2026_Digital_Program_WK5.pdf             program/index.html             program/flipbook.js
+          if git diff --cached --quiet; then
+            echo "No Week 5 leadership changes detected."
+            exit 0
+          fi
+          git commit -m "Update Week 5 meals and concession volunteers"
+          git push
