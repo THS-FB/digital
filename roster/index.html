@@ -87,29 +87,71 @@
     }
 
     /* =====================================================
-       ROSTER / VIEW CONTROLS
+       ROSTER SEARCH / TEAM / VIEW CONTROLS
        ===================================================== */
 
-    .roster-team-controls,
-    .roster-view-controls {
+    .roster-search {
+      width: 100%;
+      max-width: 620px;
+      margin: 0 auto 16px;
+    }
+
+    .roster-search-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      min-height: 46px;
+      padding: 0 14px;
+
+      background: #ffffff;
+      border: 1px solid #cfcfcf;
+      border-radius: 10px;
+
+      box-shadow: 0 2px 7px rgba(0, 0, 0, 0.04);
+    }
+
+    .roster-search-icon {
+      flex: 0 0 auto;
+      width: 20px;
+      height: 20px;
+      color: #c8102e;
+    }
+
+    .roster-search-input {
+      width: 100%;
+      min-width: 0;
+      padding: 11px 0;
+
+      background: transparent;
+      border: 0;
+      outline: 0;
+
+      color: #333333;
+
+      font: inherit;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .roster-search-input::placeholder {
+      color: #7a7a7a;
+      font-weight: 600;
+    }
+
+    .roster-team-controls {
       display: flex;
       justify-content: center;
       margin: 0 auto 12px;
     }
 
-    .roster-view-controls {
-      margin-bottom: 0;
-    }
-
-    .team-button,
-    .view-button {
+    .team-button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 7px;
 
       min-height: 42px;
-      min-width: 118px;
+      min-width: 132px;
       padding: 9px 13px;
 
       background: #ffffff;
@@ -118,39 +160,105 @@
       color: #666666;
 
       font: inherit;
-      font-size: 0.78rem;
+      font-size: 0.84rem;
       font-weight: 800;
 
+      text-transform: uppercase;
       cursor: pointer;
     }
 
-    .team-button {
-      min-width: 132px;
-      font-size: 0.84rem;
-      text-transform: uppercase;
-    }
-
-    .team-button:first-child,
-    .view-button:first-child {
+    .team-button:first-child {
       border-radius: 7px 0 0 7px;
     }
 
-    .team-button:last-child,
-    .view-button:last-child {
+    .team-button:last-child {
       border-left: 0;
       border-radius: 0 7px 7px 0;
     }
 
-    .team-button.active,
-    .view-button.active {
+    .team-button.active {
       background: #c8102e;
       border-color: #c8102e;
       color: #ffffff;
     }
 
+    .roster-view-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+
+      margin: 0 auto;
+    }
+
+    .view-label {
+      color: #777777;
+
+      font-size: 0.68rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+
+      text-transform: uppercase;
+    }
+
+    .roster-view-controls {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+
+      padding: 3px;
+
+      background: #e4e4e6;
+      border-radius: 999px;
+    }
+
+    .view-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+
+      min-height: 34px;
+      padding: 7px 12px;
+
+      background: transparent;
+      border: 0;
+      border-radius: 999px;
+
+      color: #666666;
+
+      font: inherit;
+      font-size: 0.74rem;
+      font-weight: 800;
+
+      cursor: pointer;
+    }
+
+    .view-button.active {
+      background: #ffffff;
+      color: #c8102e;
+
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.14);
+    }
+
     .view-icon {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       line-height: 1;
+    }
+
+    .roster-no-results {
+      margin: 18px auto 0;
+      padding: 18px;
+
+      background: #ffffff;
+      border: 1px solid #dddddd;
+      border-radius: 8px;
+
+      color: #666666;
+
+      font-size: 0.88rem;
+      font-weight: 700;
+      text-align: center;
     }
 
     /* =====================================================
@@ -616,6 +724,42 @@
       </section>
 
 
+      <div class="roster-search">
+        <div class="roster-search-box">
+          <svg
+            class="roster-search-icon"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <circle
+              cx="11"
+              cy="11"
+              r="7"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            ></circle>
+            <path
+              d="M16.5 16.5 21 21"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            ></path>
+          </svg>
+
+          <input
+            class="roster-search-input"
+            id="roster-search"
+            type="search"
+            inputmode="search"
+            autocomplete="off"
+            aria-label="Search roster by player name or number"
+            placeholder="Search by name or number"
+          >
+        </div>
+      </div>
+
       <div
         class="roster-team-controls"
         role="group"
@@ -642,30 +786,34 @@
         </button>
       </div>
 
-      <div
-        class="roster-view-controls"
-        role="group"
-        aria-label="Choose roster view"
-      >
-        <button
-          class="view-button active"
-          type="button"
-          data-view="card"
-          aria-pressed="true"
-        >
-          <span class="view-icon">▦</span>
-          Card View
-        </button>
+      <div class="roster-view-row">
+        <span class="view-label">View</span>
 
-        <button
-          class="view-button"
-          type="button"
-          data-view="list"
-          aria-pressed="false"
+        <div
+          class="roster-view-controls"
+          role="group"
+          aria-label="Choose roster view"
         >
-          <span class="view-icon">☷</span>
-          List View
-        </button>
+          <button
+            class="view-button active"
+            type="button"
+            data-view="card"
+            aria-pressed="true"
+          >
+            <span class="view-icon">▦</span>
+            Card
+          </button>
+
+          <button
+            class="view-button"
+            type="button"
+            data-view="list"
+            aria-pressed="false"
+          >
+            <span class="view-icon">☷</span>
+            List
+          </button>
+        </div>
       </div>
 
 
@@ -956,6 +1104,10 @@
 
         </div>
 
+        <p class="roster-no-results" hidden>
+          No players found in the Varsity roster.
+        </p>
+
       </section>
 
 
@@ -1204,6 +1356,10 @@
 
         </div>
 
+        <p class="roster-no-results" hidden>
+          No players found in the JV roster.
+        </p>
+
       </section>
 
 
@@ -1244,8 +1400,64 @@
     const teamSections =
       document.querySelectorAll(".team-section");
 
+    const rosterSearch =
+      document.getElementById("roster-search");
+
     let activeTeamId = "varsity-section";
     let activeView = "card";
+
+    function applyRosterFilter() {
+
+      const activeSection =
+        document.getElementById(activeTeamId);
+
+      const playerCards =
+        activeSection.querySelectorAll(".player-card");
+
+      const noResults =
+        activeSection.querySelector(".roster-no-results");
+
+      const query =
+        rosterSearch.value.trim().toLowerCase();
+
+      const isNumberSearch =
+        /^\d+$/.test(query);
+
+      let visibleCount = 0;
+
+      playerCards.forEach((card) => {
+
+        const name =
+          card.querySelector(".player-name")
+            .textContent
+            .trim()
+            .toLowerCase();
+
+        const number =
+          card.querySelector(".player-number")
+            .textContent
+            .trim();
+
+        const isMatch =
+          query === "" ||
+          (
+            isNumberSearch
+              ? number === query
+              : name.includes(query)
+          );
+
+        card.hidden = !isMatch;
+
+        if (isMatch) {
+          visibleCount += 1;
+        }
+
+      });
+
+      noResults.hidden =
+        query === "" || visibleCount > 0;
+
+    }
 
     function applyRosterView() {
 
@@ -1279,6 +1491,8 @@
         );
 
       });
+
+      applyRosterFilter();
 
     }
 
@@ -1321,6 +1535,11 @@
       });
 
     });
+
+    rosterSearch.addEventListener(
+      "input",
+      applyRosterFilter
+    );
 
     applyRosterView();
   </script>
