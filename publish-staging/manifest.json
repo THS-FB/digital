@@ -1,14 +1,14 @@
 {
-  "label": "Week 4 leadership update",
+  "label": "Week 5 vs Halifax",
   "program": {
-    "drive_file_id": "1om4GONLg7rq0UDiSyoXheqXubRuE7X3k",
+    "drive_file_id": "1pzKQL9XTGvuxBYoYVq1mDvgNrXcGsUHM",
     "output": "assets/program/current-program.pdf",
-    "bytes": 6216192
+    "bytes": 3476007
   },
   "cover": {
-    "drive_file_id": "13RUfC4Z4b2JlEfBY1H93Ejc7Db7RnRE8",
+    "drive_file_id": "1xwL6bDrBUkqsOh56OEZFhPLZsFOWO3Y7",
     "output": "assets/program/current-cover.jpg",
-    "bytes": 454527
+    "bytes": 457814
   },
-  "archive_program": "assets/program/archive/THS_2026_Digital_Program_WK4.pdf"
+  "archive_program": "assets/program/archive/THS_2026_Digital_Program_WK5.pdf"
 }
