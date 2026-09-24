@@ -87,15 +87,21 @@
     }
 
     /* =====================================================
-       CARD / LIST VIEW CONTROLS
+       ROSTER / VIEW CONTROLS
        ===================================================== */
 
+    .roster-team-controls,
     .roster-view-controls {
       display: flex;
       justify-content: center;
-      margin: 0 auto 18px;
+      margin: 0 auto 12px;
     }
 
+    .roster-view-controls {
+      margin-bottom: 0;
+    }
+
+    .team-button,
     .view-button {
       display: inline-flex;
       align-items: center;
@@ -118,15 +124,24 @@
       cursor: pointer;
     }
 
+    .team-button {
+      min-width: 132px;
+      font-size: 0.84rem;
+      text-transform: uppercase;
+    }
+
+    .team-button:first-child,
     .view-button:first-child {
       border-radius: 7px 0 0 7px;
     }
 
+    .team-button:last-child,
     .view-button:last-child {
       border-left: 0;
       border-radius: 0 7px 7px 0;
     }
 
+    .team-button.active,
     .view-button.active {
       background: #c8102e;
       border-color: #c8102e;
@@ -601,38 +616,63 @@
       </section>
 
 
-      <section class="team-section">
+      <div
+        class="roster-team-controls"
+        role="group"
+        aria-label="Choose roster"
+      >
+        <button
+          class="team-button active"
+          type="button"
+          data-team="varsity-section"
+          aria-controls="varsity-section"
+          aria-pressed="true"
+        >
+          Varsity
+        </button>
+
+        <button
+          class="team-button"
+          type="button"
+          data-team="jv-section"
+          aria-controls="jv-section"
+          aria-pressed="false"
+        >
+          JV
+        </button>
+      </div>
+
+      <div
+        class="roster-view-controls"
+        role="group"
+        aria-label="Choose roster view"
+      >
+        <button
+          class="view-button active"
+          type="button"
+          data-view="card"
+          aria-pressed="true"
+        >
+          <span class="view-icon">▦</span>
+          Card View
+        </button>
+
+        <button
+          class="view-button"
+          type="button"
+          data-view="list"
+          aria-pressed="false"
+        >
+          <span class="view-icon">☷</span>
+          List View
+        </button>
+      </div>
+
+
+      <section class="team-section" id="varsity-section">
 
         <div class="team-heading">
           <h2>Varsity</h2>
-        </div>
-
-        <div class="roster-view-controls">
-
-          <button
-            class="view-button active"
-            type="button"
-            data-target="varsity-roster"
-            data-header="varsity-list-header"
-            data-view="card"
-            aria-pressed="true"
-          >
-            <span class="view-icon">▦</span>
-            Card View
-          </button>
-
-          <button
-            class="view-button"
-            type="button"
-            data-target="varsity-roster"
-            data-header="varsity-list-header"
-            data-view="list"
-            aria-pressed="false"
-          >
-            <span class="view-icon">☷</span>
-            List View
-          </button>
-
         </div>
 
         <div
@@ -919,38 +959,10 @@
       </section>
 
 
-      <section class="team-section">
+      <section class="team-section" id="jv-section" hidden>
 
         <div class="team-heading">
           <h2>Junior Varsity</h2>
-        </div>
-
-        <div class="roster-view-controls">
-
-          <button
-            class="view-button active"
-            type="button"
-            data-target="jv-roster"
-            data-header="jv-list-header"
-            data-view="card"
-            aria-pressed="true"
-          >
-            <span class="view-icon">▦</span>
-            Card View
-          </button>
-
-          <button
-            class="view-button"
-            type="button"
-            data-target="jv-roster"
-            data-header="jv-list-header"
-            data-view="list"
-            aria-pressed="false"
-          >
-            <span class="view-icon">☷</span>
-            List View
-          </button>
-
         </div>
 
         <div
@@ -1223,55 +1235,94 @@
   <script src="../js/app.js"></script>
 
   <script>
+    const rosterTeamButtons =
+      document.querySelectorAll(".team-button");
+
     const rosterViewButtons =
       document.querySelectorAll(".view-button");
+
+    const teamSections =
+      document.querySelectorAll(".team-section");
+
+    let activeTeamId = "varsity-section";
+    let activeView = "card";
+
+    function applyRosterView() {
+
+      const activeSection =
+        document.getElementById(activeTeamId);
+
+      const roster =
+        activeSection.querySelector(".roster-grid");
+
+      const listHeader =
+        activeSection.querySelector(".roster-list-header");
+
+      const showList = activeView === "list";
+
+      roster.classList.toggle("list-view", showList);
+      listHeader.classList.toggle("show", showList);
+      listHeader.setAttribute(
+        "aria-hidden",
+        showList ? "false" : "true"
+      );
+
+      rosterViewButtons.forEach((button) => {
+
+        const isActive =
+          button.dataset.view === activeView;
+
+        button.classList.toggle("active", isActive);
+        button.setAttribute(
+          "aria-pressed",
+          isActive ? "true" : "false"
+        );
+
+      });
+
+    }
+
+    rosterTeamButtons.forEach((button) => {
+
+      button.addEventListener("click", () => {
+
+        activeTeamId = button.dataset.team;
+
+        teamSections.forEach((section) => {
+          section.hidden = section.id !== activeTeamId;
+        });
+
+        rosterTeamButtons.forEach((teamButton) => {
+
+          const isActive =
+            teamButton.dataset.team === activeTeamId;
+
+          teamButton.classList.toggle("active", isActive);
+          teamButton.setAttribute(
+            "aria-pressed",
+            isActive ? "true" : "false"
+          );
+
+        });
+
+        applyRosterView();
+
+      });
+
+    });
 
     rosterViewButtons.forEach((button) => {
 
       button.addEventListener("click", () => {
 
-        const targetId = button.dataset.target;
-        const headerId = button.dataset.header;
-        const requestedView = button.dataset.view;
-
-        const roster =
-          document.getElementById(targetId);
-
-        const listHeader =
-          document.getElementById(headerId);
-
-        const relatedButtons =
-          document.querySelectorAll(
-            `.view-button[data-target="${targetId}"]`
-          );
-
-        relatedButtons.forEach((relatedButton) => {
-          relatedButton.classList.remove("active");
-          relatedButton.setAttribute("aria-pressed", "false");
-        });
-
-        button.classList.add("active");
-        button.setAttribute("aria-pressed", "true");
-
-        if (requestedView === "list") {
-
-          roster.classList.add("list-view");
-
-          listHeader.classList.add("show");
-          listHeader.setAttribute("aria-hidden", "false");
-
-        } else {
-
-          roster.classList.remove("list-view");
-
-          listHeader.classList.remove("show");
-          listHeader.setAttribute("aria-hidden", "true");
-
-        }
+        activeView = button.dataset.view;
+        applyRosterView();
 
       });
 
     });
+
+    applyRosterView();
   </script>
 
 </body>
