@@ -67,8 +67,11 @@
       "opponent": "Halifax",
       "location": "away",
       "district": true,
-      "status": "scheduled",
-      "result": null
+      "status": "final",
+      "result": {
+        "tunstall": 39,
+        "opponent": 14
+      }
     },
     {
       "id": "varsity-2026-10-02-bassett",
@@ -201,8 +204,11 @@
       "opponent": "Halifax",
       "location": "home",
       "district": true,
-      "status": "scheduled",
-      "result": null
+      "status": "final",
+      "result": {
+        "tunstall": 44,
+        "opponent": 8
+      }
     },
     {
       "id": "jv-2026-10-01-bassett",
