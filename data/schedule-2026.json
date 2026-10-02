@@ -218,8 +218,11 @@
       "opponent": "Bassett",
       "location": "away",
       "district": true,
-      "status": "scheduled",
-      "result": null
+      "status": "final",
+      "result": {
+        "tunstall": 66,
+        "opponent": 20
+      }
     },
     {
       "id": "jv-2026-10-08-bye",
