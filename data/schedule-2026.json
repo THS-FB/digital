@@ -81,8 +81,12 @@
       "opponent": "Bassett",
       "location": "home",
       "district": true,
-      "status": "scheduled",
-      "result": null
+      "status": "final",
+      "result": {
+        "tunstall": 27,
+        "opponent": 28
+      },
+      "overtime": true
     },
     {
       "id": "varsity-2026-10-09-bye",
