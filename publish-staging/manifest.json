@@ -1,14 +1,14 @@
 {
-  "label": "Week 5 vs Halifax",
+  "label": "Week 6 vs Bassett - Trey Mills",
   "program": {
-    "drive_file_id": "1pzKQL9XTGvuxBYoYVq1mDvgNrXcGsUHM",
+    "drive_file_id": "1n2zb9S8sjbaMs-a8oAISynSVGMb-lN8-",
     "output": "assets/program/current-program.pdf",
-    "bytes": 3476007
+    "bytes": 7152585
   },
   "cover": {
-    "drive_file_id": "1xwL6bDrBUkqsOh56OEZFhPLZsFOWO3Y7",
+    "drive_file_id": "1IFk_x1JD9biJVLtjuD13I0KTOuRKDYdB",
     "output": "assets/program/current-cover.jpg",
-    "bytes": 457814
+    "bytes": 430894
   },
-  "archive_program": "assets/program/archive/THS_2026_Digital_Program_WK5.pdf"
+  "archive_program": "assets/program/archive/THS_2026_Digital_Program_WK6_Trey_Mills.pdf"
 }
