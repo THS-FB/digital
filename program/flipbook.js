@@ -1,6 +1,6 @@
 (() => {
-  const BUILD_ID = "2026-10-16-wk7-aiden-edwards1";
-  const PDF_URL = "../assets/program/current-program.pdf?v=2026-10-16-wk7-aiden-edwards1";
+  const BUILD_ID = "2026-10-30-wk9-jamison-dishman1";
+  const PDF_URL = "../assets/program/current-program.pdf?v=2026-10-30-wk9-jamison-dishman1";
   const PDFJS_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs";
   const PDFJS_WORKER_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
   const PAGEFLIP_URL = "https://cdn.jsdelivr.net/gh/SAILgaosai/StPageFlip@d4ed7d4/dist/js/page-flip.browser.js";
