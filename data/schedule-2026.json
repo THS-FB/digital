@@ -256,8 +256,11 @@
       "opponent": "Martinsville",
       "location": "home",
       "district": false,
-      "status": "scheduled",
-      "result": null
+      "status": "final",
+      "result": {
+        "tunstall": 38,
+        "opponent": 8
+      }
     },
     {
       "id": "jv-2026-10-22-magna-vista",
