@@ -107,8 +107,11 @@
       "opponent": "Martinsville",
       "location": "away",
       "district": false,
-      "status": "scheduled",
-      "result": null
+      "status": "final",
+      "result": {
+        "tunstall": 41,
+        "opponent": 59
+      }
     },
     {
       "id": "varsity-2026-10-23-magna-vista",
@@ -118,8 +121,11 @@
       "opponent": "Magna Vista",
       "location": "home",
       "district": true,
-      "status": "scheduled",
-      "result": null
+      "status": "final",
+      "result": {
+        "tunstall": 7,
+        "opponent": 49
+      }
     },
     {
       "id": "varsity-2026-10-30-gw-danville",
@@ -129,8 +135,11 @@
       "opponent": "GW Danville",
       "location": "away",
       "district": true,
-      "status": "scheduled",
-      "result": null
+      "status": "final",
+      "result": {
+        "tunstall": 20,
+        "opponent": 57
+      }
     },
     {
       "id": "varsity-2026-11-06-mecklenburg",
@@ -258,8 +267,11 @@
       "opponent": "Magna Vista",
       "location": "away",
       "district": true,
-      "status": "scheduled",
-      "result": null
+      "status": "final",
+      "result": {
+        "tunstall": 6,
+        "opponent": 42
+      }
     },
     {
       "id": "jv-2026-10-29-gw-danville",
@@ -269,8 +281,11 @@
       "opponent": "GW Danville",
       "location": "home",
       "district": true,
-      "status": "scheduled",
-      "result": null
+      "status": "final",
+      "result": {
+        "tunstall": 6,
+        "opponent": 20
+      }
     },
     {
       "id": "jv-2026-11-05-mecklenburg",
@@ -280,8 +295,11 @@
       "opponent": "Mecklenburg",
       "location": "away",
       "district": true,
-      "status": "scheduled",
-      "result": null
+      "status": "final",
+      "result": {
+        "tunstall": 16,
+        "opponent": 6
+      }
     }
   ]
 }
